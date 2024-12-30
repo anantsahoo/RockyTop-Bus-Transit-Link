@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Stop Details{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.settings') }}">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1>Stop Details</h1>
+    <h3>{{ stop['stop_name'] }}</h3>
+    <p><strong>Stop ID:</strong> {{ stop['stop_id'] }}</p>
+    <p><strong>Latitude:</strong> {{ stop['stop_lat'] }}</p>
+    <p><strong>Longitude:</strong> {{ stop['stop_lon'] }}</p>
+
+    <h4>Routes Serving This Stop</h4>
+    {% if routes %}
+    <ul class="list-group">
+        {% for route in routes %}
+        <li class="list-group-item">
+            <strong>Route ID:</strong> {{ route['route_id'] }}<br>
+            <strong>Short Name:</strong> {{ route['route_short_name'] }}<br>
+            <strong>Long Name:</strong> {{ route['route_long_name'] }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No routes available for this stop.</p>
+    {% endif %}
+
+    <a href="{{ url_for('main.map_view') }}" class="btn btn-primary mt-3">Back to Map</a>
+</div>
+{% endblock %}

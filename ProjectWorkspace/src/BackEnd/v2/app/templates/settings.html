@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.map_view') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Settings</h1>
+    <p>Manage your account settings here.</p>
+
+    <!-- Add Favorite Location Form -->
+    <h3>Add a Favorite Location</h3>
+    <form method="POST" action="{{ url_for('main.add_favorite') }}">
+        <div class="mb-3">
+            <input type="text" name="favorite_place" placeholder="Enter location name" required class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Favorite</button>
+    </form>
+
+    <!-- List of Favorite Locations -->
+    {% if favorite_places %}
+    <h3 class="mt-4">Your Favorite Locations</h3>
+    <ul class="list-group">
+        {% for place in favorite_places %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ place }}
+            <form method="POST" action="{{ url_for('main.remove_favorite') }}" class="mb-0">
+                <input type="hidden" name="place_to_remove" value="{{ place }}">
+                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Delete Account Form -->
+    <h3 class="mt-4">Account Actions</h3>
+    <form action="{{ url_for('main.delete_account') }}" method="POST">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">Delete My Account</button>
+    </form>
+</div>
+{% endblock %}

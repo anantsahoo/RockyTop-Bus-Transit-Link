@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="Efficient public transit at your fingertips with Rocky Top Transit Link."
+		/>
+		<title>Rocky Top Transit Link</title>
+		<link rel="stylesheet" href="asahooCSS.css" />
+		<link rel="icon" href="path/to/favicon.ico" />
+		<!-- Add a favicon -->
+		<script defer src="asahooscripts.js"></script>
+	</head>
+
+	<body>
+		<header>
+			<!-- Navbar -->
+			<nav id="navbar" aria-label="Main Navigation">
+				<ul>
+					<li><a href="#" aria-label="Home">Home</a></li>
+					<li><a href="#" aria-label="Routes">Routes</a></li>
+					<li><a href="#" aria-label="Schedules">Schedules</a></li>
+					<li><a href="#" aria-label="About">About</a></li>
+					<li><a href="#" aria-label="Contact">Contact</a></li>
+				</ul>
+			</nav>
+
+			<!-- Basic Header Section -->
+			<header class="hero-section">
+				<h1>Rocky Top Transit Link</h1>
+				<p>Efficient Public Transit at Your Fingertips</p>
+			</header>
+		</header>
+
+		<!-- Main content -->
+		<main>
+			<!-- Login Section -->
+			<section id="login-section">
+				<h2>Login</h2>
+				<form id="login-form">
+					<label for="username">Username/Email:</label>
+					<input
+						type="text"
+						id="username"
+						name="username"
+						placeholder="Enter your username or email"
+						required
+					/>
+
+					<label for="password">Password:</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						placeholder="Enter your password"
+						required
+					/>
+
+					<button type="submit">Login</button>
+				</form>
+			</section>
+
+			<!-- Location Input Section -->
+			<section id="location-section">
+				<h2>Plan Your Journey</h2>
+				<form id="location-form">
+					<label for="current-location">Current Location:</label>
+					<input
+						type="text"
+						id="current-location"
+						placeholder="Enter your current location"
+					/>
+
+					<label for="destination">Destination:</label>
+					<input
+						type="text"
+						id="destination"
+						placeholder="Enter your destination"
+					/>
+
+					<button type="submit">Find Routes</button>
+				</form>
+			</section>
+
+			<!-- Suggested Routes Section -->
+			<section id="routes-section">
+				<h2>Suggested Routes</h2>
+				<ul id="routes-list">
+					<!-- Routes will be dynamically inserted here via JavaScript -->
+				</ul>
+			</section>
+		</main>
+
+		<!-- Footer -->
+		<footer>
+			<p>&copy; 2024 Rocky Top Transit Link. All Rights Reserved.</p>
+		</footer>
+	</body>
+</html>

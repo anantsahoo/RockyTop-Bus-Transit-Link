@@ -1,0 +1,264 @@
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/templates
+
+base.html
+
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400  67)         {% block hero %}
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400  68) 			<!-- Hero section can be overridden in templates if needed -->
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400  69) 		{% endblock %}
+001f43db (Deep0320     2024-10-31 17:59:53 -0400  89)     <footer class="footer-banner text-center mt-4">
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 104)             <script>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 105)                 $(document).ready(function () {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 106)                     setupAutocomplete("input-box");
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 107)                 });
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 108)             </script>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 137)     <script>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 138)         const autocompleteUrl = "{{ url_for('main.autocomplete') }}";
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 139)     </script>
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/templates
+
+home.html
+
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400  3) {% block hero %}
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400  4) <!-- Hero Section -->
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400  5) <section class="hero-section">
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400  6) 	<h1>Rocky Top Transit Link</h1>
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400  7) 	<p>Efficient Public Transit at Your Fingertips</p>
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400  9) </section>
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 10) {% endblock %}
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 11) 
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 12) {% block content %}
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 13) <div class="container mt-4">
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 14)     <div id="home-map" style="height: 800px; "></div> 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 17) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 18) {% block scripts %}
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 19) {{ super() }} <!-- Ensures any scripts from base.html are included -->
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 20) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 21) <!-- Include Leaflet CSS -->
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 22) <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 23) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 24) <!-- Include Leaflet JS -->
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 25) <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 26) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 27) <script>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 28)     document.addEventListener("DOMContentLoaded", function () {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 29)         // Initialize the map centered at the given coordinates with a zoom level of 13
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 30)         var map = L.map('home-map').setView([35.958530, -83.924637], 13);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 31) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 32)         // Add a tile layer (OpenStreetMap) to display map tiles
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 33)         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 34)             attribution: '&copy; OpenStreetMap contributors'
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 35)         }).addTo(map);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 36)     });
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 37) </script>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 38) {% endblock %}
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 39) 
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/templates
+
+map.html
+
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400  59)         <div id="map-legend" class="map-legend">
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400  60)             <h4>Legend</h4>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400  61)             <ul>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400  62)                 <li><span class="legend-icon" style="background-color: green;"></span> Current Location</li>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400  63)                 <li><span class="legend-icon" style="background-color: blue;"></span> Bus Stops</li>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400  64)                 <li><span class="legend-icon" style="background-color: red;"></span> Favorites</li>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400  65)             </ul>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400  66)         </div>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 112)             {% if current_user.is_authenticated and current_user.favorite_places %}
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 113)                 {% for place in favorite_places %}
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 114)                     // Assuming you have a way to get latitude and longitude for favorite places
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 115)                     var favoriteMarker = L.marker([{{ place.latitude }}, {{ place.longitude }}], {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 116)                         icon: L.icon({
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 117)                             iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png',  // red icon for favorite
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 118)                             iconSize: [20, 20],
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 119)                             iconAnchor: [10, 10]
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 120)                         })
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 121)                     }).bindPopup(`<b>{{ place.name }}</b>`);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 122)                     map.addLayer(favoriteMarker);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 123)                 {% endfor %}
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 124)             {% endif %}
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 125) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 126)             // Initialize the current location marker
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 127)             let currentLocationMarker;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 128) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 129)             // Function to get and plot the current location
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 130)             function getCurrentLocation() {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 131)                 if (navigator.geolocation) {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 132)                     navigator.geolocation.getCurrentPosition(function (position) {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 133)                         const latitude = position.coords.latitude;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 134)                         const longitude = position.coords.longitude;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 135) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 136)                         // Send the current location to the backend
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 137)                         fetch('/send-real-time-location', {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 138)                             method: 'POST',
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 139)                             headers: { 'Content-Type': 'application/json' },
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 140)                             body: JSON.stringify({ latitude, longitude })
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 141)                         })
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 142)                         .then(response => response.json())
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 143)                         .then(data => {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 144)                             if (data.success) {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 145)                                 // Add or update the current location marker
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 146)                                 if (currentLocationMarker) {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 147)                                     currentLocationMarker.setLatLng([latitude, longitude]);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 148)                                 } else {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 149)                                     currentLocationMarker = L.marker([latitude, longitude], {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 150)                                         icon: L.icon({
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 151)                                             iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png',  // green icon for current location
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 152)                                             iconSize: [20, 20],
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 153)                                             iconAnchor: [10, 10]
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 154)                                         })
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 155)                                     }).addTo(map).bindPopup("You are here!");
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 156)                                 }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 157) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 158)                                 // Center the map to the user's location
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 159)                                 map.setView([latitude, longitude], 13);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 160)                             } else {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 161)                                 console.error('Failed to send location to server:', data.message);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 162)                             }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 163)                         })
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 164)                         .catch(error => {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 165)                             console.error('Error:', error);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 166)                         });
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 167)                     }, function (error) {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 168)                         console.error("Error getting location:", error);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 169)                         alert("Unable to retrieve your location.");
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 170)                     });
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 171)                 } else {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 172)                     alert("Geolocation is not supported by this browser.");
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 173)                 }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 174)             }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 175) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 176)             // Call the function to get the current location
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 177)             getCurrentLocation();
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 178) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 179)             L.Control.Legend = L.Control.extend({
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 180)                 onAdd: function() {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 181)                     const div = L.DomUtil.create('div', 'map-legend');
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 182)                     div.innerHTML = `
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 183)                         <h4>Legend</h4>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 184)                         <ul>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 185)                             <li><span class="legend-icon" style="background-color: green;"></span> Current Location</li>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 186)                             <li><span class="legend-icon" style="background-color: blue;"></span> Bus Stops</li>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 187)                             <li><span class="legend-icon" style="background-color: red;"></span> Favorites</li>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 188)                         </ul>
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 189)                     `;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 190)                     return div;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 191)                 }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 192)             });
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 193) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 194)             // Add the legend to the map
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 195)             map.addControl(new L.Control.Legend({ position: 'bottomleft' }));
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app
+
+routes.py
+
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 422)     data = request.get_json()
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 423)     if not data or 'latitude' not in data or 'longitude' not in data:
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 424)         return jsonify({'success': False, 'message': 'Location data missing'}), 400
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 425) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 426)     latitude = data['latitude']
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 427)     longitude = data['longitude']
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 428)     # You could log or store the current location here if needed, e.g., in the database.
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 429) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 430)     return jsonify({'success': True, 'latitude': latitude, 'longitude': longitude})
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 431)     # return jsonify({'success': True})
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/static/CSS
+
+sprint2.css
+
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 221) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 222) .map-legend {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 223)     position: absolute;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 224)     bottom: 10px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 225)     left: 10px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 226)     padding: 10px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 227)     background: white;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 228)     border-radius: 5px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 229)     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 230) }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 231) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 232) .map-legend h4 {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 233)     margin: 0 0 5px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 234)     font-size: 16px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 235) }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 236) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 237) .map-legend ul {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 238)     list-style: none;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 239)     padding: 0;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 240)     margin: 0;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 241) }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 242) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 243) .map-legend li {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 244)     display: flex;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 245)     align-items: center;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 246)     font-size: 14px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 247)     margin-bottom: 5px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 248) }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 249) 
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 250) .legend-icon {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 251)     display: inline-block;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 252)     width: 12px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 253)     height: 12px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 254)     margin-right: 8px;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 255)     border-radius: 50%;
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 256) }
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 257) /* Hero Section */
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 258) .hero-section {
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 259) 	text-align: center;
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 260) 	background-color: #007bff;
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 261) 	color: white;
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 262) 	padding: 50px 0;
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 263) }
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 264) 
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 265) .hero-section h1 {
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 266) 	font-size: 3em;
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 267) }
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 268) 
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 269) .hero-section p {
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 270) 	font-size: 1.2em;
+36ab754d (Deep0320     2024-10-31 16:54:04 -0400 271) 	margin: 10px 0;
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 272) }
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 273) .footer-banner {
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 274)     text-align: center;
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 275)     background-color: #333; /* Dark gray background */
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 276)     color: white;
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 277)     padding: 20px 0; /* Adjust padding as needed */
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 278) }
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 279) 
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 280) .footer-banner p {
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 281)     font-size: 1.1em;
+001f43db (Deep0320     2024-10-31 17:59:53 -0400 282)     margin: 0;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 283) }
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/static/js
+
+sprint2.js
+
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 206) });
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 207) function setupAutocomplete(inputId) {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 208)     $("#" + inputId).autocomplete({
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 209)         source: function(request, response) {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 210)             $.ajax({
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 211)                 url: autocompleteUrl,  // Using the variable defined in the HTML template
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 212)                 dataType: "json",
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 213)                 data: { term: request.term },
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 214)                 success: function(data) {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 215)                     console.log("Autocomplete data:", data);  // Debugging
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 216)                     response(data);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 217)                 },
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 218)                 error: function(xhr, status, error) {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 219)                     console.error("Autocomplete error:", error);  // Error handling
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 220)                 }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 221)             });
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 222)         },
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 223)         minLength: 2,
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 224)         select: function(event, ui) {
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 225)             $("#" + inputId).val(ui.item.label);
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 226)             return false;
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 227)         }
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 228)     });
+8848f869 (Deep0320     2024-10-30 21:19:06 -0400 229) }

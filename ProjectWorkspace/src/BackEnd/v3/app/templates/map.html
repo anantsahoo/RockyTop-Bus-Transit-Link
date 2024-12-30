@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Map{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.settings') }}">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+    <h1>Plan Your Trip</h1>
+    <form method="POST" action="{{ url_for('main.plan_trip') }}" class="row g-3" onsubmit="return validateForm();">
+        <div class="col-md-5">
+            <label for="start_stop" class="form-label">Start Location:</label>
+            <input type="text" id="start_stop" name="start_stop_name" class="form-control" required>
+            <input type="hidden" id="start_stop_id" name="start_stop_id">
+        </div>
+        <div class="col-md-5">
+            <label for="end_stop" class="form-label">End Location:</label>
+            <input type="text" id="end_stop" name="end_stop_name" class="form-control" required>
+            <input type="hidden" id="end_stop_id" name="end_stop_id">
+        </div>
+        <div class="col-md-2 align-self-end">
+            <button type="submit" class="btn btn-primary">Find Route</button>
+        </div>
+    </form>
+
+    {% if current_user.is_authenticated and current_user.favorite_places %}
+    <div class="mt-3">
+        <h5>Your Favorite Locations:</h5>
+        <ul class="list-inline">
+            {% for place in favorite_places %}
+            <li class="list-inline-item">
+                <button class="btn btn-outline-secondary favorite-location-btn" data-stop-name="{{ place }}">{{ place }}</button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <div class="row" style="margin-top: 20px;"></div>
+    <div id="map" style="height: 600px;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    var map = L.map('map').setView([35.958530, -83.924637], 13); 
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Add markers for each stop
+    {% for stop in stops %}
+    L.marker([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}]).addTo(map)
+        .bindPopup(
+            `<b>{{ stop['stop_name']|escape }}</b><br>
+            ID: {{ stop['stop_id']|escape }}<br>
+            <a href="{{ url_for('main.stop_detail', stop_id=stop['stop_id']|urlencode) }}">View Details</a>`
+        );
+    {% endfor %}
+
+    function validateForm() {
+        var startStopId = $("#start_stop_id").val();
+        var endStopId = $("#end_stop_id").val();
+
+        if (!startStopId || !endStopId) {
+            alert("Please select valid start and end stops from the suggestions.");
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+
+    // Setup autocomplete for start and end locations
+    function setupAutocomplete(inputId, hiddenId) {
+        $("#" + inputId).autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{{ url_for('main.autocomplete') }}",
+                    dataType: "json",
+                    data: { term: request.term },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 2,
+            select: function(event, ui) {
+                $("#" + inputId).val(ui.item.label);
+                $("#" + hiddenId).val(ui.item.value);
+                return false;
+            },
+            change: function(event, ui) {
+                if (!ui.item) {
+                    $("#" + hiddenId).val('');
+                }
+            }
+        });
+    }
+
+    setupAutocomplete("start_stop", "start_stop_id");
+    setupAutocomplete("end_stop", "end_stop_id");
+
+    // Handle favorite location buttons
+    $(".favorite-location-btn").click(function() {
+        var locationName = $(this).data('stop-name');
+        if ($("#start_stop").val() === "") {
+            $("#start_stop").val(locationName);
+        } else if ($("#end_stop").val() === "") {
+            $("#end_stop").val(locationName);
+        } else {
+            // Both fields are filled; replace the end location
+            $("#end_stop").val(locationName);
+        }
+        // Optionally trigger autocomplete to fill in hidden stop IDs
+        $("#start_stop, #end_stop").autocomplete("search");
+    });
+
+</script>
+{% endblock %}

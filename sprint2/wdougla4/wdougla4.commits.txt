@@ -1,0 +1,228 @@
+routes.py    (wdouglass078 on 10/17/2024 at 16:51): # This adds a method of finding a route between two bus stops.
+routes.py    (wdouglass078 on 10/17/2024 at 16:51): # If either of the inputs are not in KAT's system of bus stops,
+routes.py    (wdouglass078 on 10/17/2024 at 16:51): # Google Maps's API will be used to find a geocode, and then 
+routes.py    (wdouglass078 on 10/17/2024 at 16:51): # locate the nearest KAT bus stop.
+routes.py    (wdouglass078 on 10/16/2024 at 21:25): @main.route('/find_route', methods=['POST'])
+routes.py    (wdouglass078 on 10/16/2024 at 21:25): def find_route():
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     # Get the start and end stop names from the form
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     start_stop_name = request.form['start_stop']
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     end_stop_name = request.form['end_stop']
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     # Load the stops data
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     stops = pd.read_csv('gtfs/stops.txt')
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):     # setting up googlemaps api
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     import googlemaps
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     gmaps = googlemaps.Client(key='AIzaSyB9xZcHzm8QOnopWvcPuPbdcv5c1yxFcSM')
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):     # turn user input of addresses into geocodes, 
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):     # then use that as lat1, lon1
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):     # these only get used if the user inputs places not in the KAT system
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     user_start = gmaps.geocode(start_stop_name)
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     user_end = gmaps.geocode(end_stop_name)
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):     # checking if addresses are valid.
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     if user_start == []:
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         return jsonify({'error': 'Starting point could not be found.'}), 400
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     if user_end == []:
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         return jsonify({'error': 'Ending point could not be found.'}), 400
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     # gets info for start and end stops
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     import math as m
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     startdist = 2000000000
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     end_stop = pd.Series
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     start_stop = pd.Series
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     # start address's closest bus stop:
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     if not(start_stop_name in stops['stop_name'].values):
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):         # loop through the stop data, save the lowest distance's name.
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         lat1 = m.radians(user_start[0]['geometry']['location']['lat'])
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         lon1 = m.radians(user_start[0]['geometry']['location']['lng'])
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         print(lat1)
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         print(lon1)
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):         # iterate thru the stops, calculating the distance using 
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):         # a modified version of the haversine formula found here:
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):         # https://community.fabric.microsoft.com/t5/Desktop/How-to-calculate-lat-long-distance/td-p/1488227
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         for s in stops['stop_name'].values:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             # need to convert to radians
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             lon2 = m.radians(stops[stops['stop_name'] == s]['stop_lon'].iloc[0])
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             lat2 = m.radians(stops[stops['stop_name'] == s]['stop_lat'].iloc[0])
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):             # distance in miles
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             dist = m.acos(m.sin(lat1)*m.sin(lat2)+m.cos(lat1)*m.cos(lat2)*m.cos(lon2-lon1))*3958.8
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):             # compare distance against the current min, adjust variables as needed
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             if dist < startdist:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):                 startdist = dist
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):                 start_stop_name = s
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):                 start_stop = stops[stops['stop_name'] == s].iloc[0]
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         print(f"Start:{start_stop_name}")
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     else:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         start_stop = stops[stops['stop_name'] == start_stop_name].iloc[0]
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     # end address's closest bus stop:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     enddist = 2000000000
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     if not(end_stop_name in stops['stop_name'].values):
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         # loop through the stop data, save the lowest
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         # distance's name.
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         lat1 = m.radians(user_end[0]['geometry']['location']['lat'])
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         lon1 = m.radians(user_end[0]['geometry']['location']['lng'])
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         print(lat1)
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         print(lon1)
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         for s in stops['stop_name'].values:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             # need to convert to radians
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             lon2 = m.radians(stops[stops['stop_name'] == s]['stop_lon'].iloc[0])
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             lat2 = m.radians(stops[stops['stop_name'] == s]['stop_lat'].iloc[0])
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):             # distance calculation in miles, this gets compared against current minDist
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             dist = m.acos(m.sin(lat1)*m.sin(lat2)+m.cos(lat1)*m.cos(lat2)*m.cos(lon2-lon1))*3958.8
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):             # compare distance against the current min, adjust variables as needed
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             if dist < enddist:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):                 enddist = dist
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):                 end_stop_name = s
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):                 end_stop = stops[stops['stop_name'] == s].iloc[0]
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         print(f"End:{end_stop_name}")
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     else:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         end_stop = stops[stops['stop_name'] == end_stop_name].iloc[0]
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     #
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):     ## Possible Sprint 3 item:
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     ## we should add directions to moving from start to bus 
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     ## and from other bus stop to the final destination.
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):     #
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     try:
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         # no matter what happens, we end up with a bus stop.
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         # these strings of bus stops have lat and long, which
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         # can be passed into gmaps.directions()
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         startGeo = (float(stops[stops['stop_name'] == start_stop_name]['stop_lat'].iloc[0]),
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):                     float(stops[stops['stop_name'] == start_stop_name]['stop_lon'].iloc[0]))
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         endGeo =   (float(stops[stops['stop_name'] == end_stop_name]['stop_lat'].iloc[0]),
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):                     float(stops[stops['stop_name'] == end_stop_name]['stop_lon'].iloc[0]))
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         # gets the current time b/c route calc changes with time.
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         from datetime import datetime
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         now = datetime.now()
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         # directions takes parameter for travelMode and transitMode.
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         # directions can also take (latitude, longitude) tuples for arguments.
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):         # Possible Sprint 3 item:
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):         # this line will need to be adjusted to ensure that the user only takes KAT routes.
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):         # this may mean creating our own method of creating directions.
+routes.py    (wdouglass078 on 10/16/2024 at 23:17):         directions = gmaps.directions(startGeo, endGeo, departure_time=now, mode='transit')
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         if directions == []:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             return jsonify({'error': 'Could not find route'}), 400
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         route = directions[0]
+routes.py    (wdouglass078 on 10/17/2024 at 16:51):         # Grab general information
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         leg = route['legs'][0]
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         distance = leg['distance']['text']
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         duration = leg['duration']['text']
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         # need to get directions:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         ways = []
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         for steps in leg['steps']:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             ways.append(steps['html_instructions']+ '<br>')
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         # Return the route information as JSON
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         route_info = {
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             'start_stop': start_stop_name,
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             'end_stop': end_stop_name,
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             'start_id': int(start_stop['stop_id']),
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             'end_id': int(end_stop['stop_id']),
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             'distance': distance,
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             'time': duration,
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):             'directions': '\n'.join(ways)
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         }
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         return jsonify(route_info)
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     except IndexError:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         return jsonify({'error': 'One or both stops not found.'}), 400
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):     except Exception as e:
+routes.py    (wdouglass078 on 10/16/2024 at 21:25):         return jsonify({'error': str(e)}), 500
+
+map.html     (wdouglass078 on 10/16/2024 at 21:23):     <form id="find-route-form" class="row g-3">
+map.html     (wdouglass078 on 10/16/2024 at 21:23):     <div id="route-info" class="mt-3"></div>
+map.html     (wdouglass078 on 10/16/2024 at 21:23):     $(document).ready(function() {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         // Initialize the map
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         var map = L.map('map').setView([35.958530, -83.924637], 13); 
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             attribution: '&copy; OpenStreetMap contributors'
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         }).addTo(map);
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         // Add markers for each stop
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         {% for stop in stops %}
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         L.marker([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}]).addTo(map)
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             .bindPopup("<b>{{ stop['stop_name'] }}</b><br>ID: {{ stop['stop_id'] }}");
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         {% endfor %}
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         // Setup autocomplete for start and end locations
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         function setupAutocomplete(inputId, hiddenId) {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             $("#" + inputId).autocomplete({
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 source: function(request, response) {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     $.ajax({
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                         url: "{{ url_for('main.autocomplete') }}",
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                         dataType: "json",
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                         data: { term: request.term },
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                         success: function(data) {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                             response(data);
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                         }
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     });
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 },
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 minLength: 2,
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 select: function(event, ui) {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     $("#" + inputId).val(ui.item.label);
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     $("#" + hiddenId).val(ui.item.value);
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     return false;
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 }
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             });
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         }
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         setupAutocomplete("start_stop", "start_stop_id");
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         setupAutocomplete("end_stop", "end_stop_id");
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         // Handle favorite location buttons
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         $(".favorite-location-btn").click(function() {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             var locationName = $(this).data('stop-name');
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             if ($("#start_stop").val() === "") {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 $("#start_stop").val(locationName);
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             } else if ($("#end_stop").val() === "") {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 $("#end_stop").val(locationName);
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             } else {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 $("#end_stop").val(locationName);  // Replace the end location if both are filled
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             $("#start_stop, #end_stop").autocomplete("search");
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         // Handle form submission for finding a route
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         $("#find-route-form").on("submit", function(event) {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             event.preventDefault();  // Prevent page reload
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             const startStop = $("#start_stop").val();
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             const endStop = $("#end_stop").val();
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             $.ajax({
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 url: "{{ url_for('main.find_route') }}",
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 method: "POST",
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 data: {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     start_stop: startStop,
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     end_stop: endStop
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 },
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 success: function(response) {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     if (response.error) {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                         $("#route-info").html(`<div class="alert alert-danger">${response.error}</div>`);
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     } else {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                         $("#route-info").html(`
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                             <div class="alert alert-success">
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                                 <h5>Route Found:</h5>
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                                 <p><strong>Start Stop:</strong> ${response.start_stop} (ID: ${response.start_id})</p>
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                                 <p><strong>End Stop:</strong> ${response.end_stop} (ID: ${response.end_id})</p>
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                                 <p><strong>Distance:</strong> ${response.distance} </p>
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                                 <p><strong>Time:</strong> ${response.time} </p>
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                                 <p><strong>Directions:<br></strong> ${response.directions}</p>
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                             </div>
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                         `);
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     }
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 },
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 error: function(xhr) {
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                     $("#route-info").html(`<div class="alert alert-danger">An error occurred. Please try again.</div>`);
+map.html     (wdouglass078 on 10/16/2024 at 21:23):                 }
+map.html     (wdouglass078 on 10/16/2024 at 21:23):             });
+map.html     (wdouglass078 on 10/16/2024 at 21:23):         });
+
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 10216280,2915,"South Haven Rd SB before McClung Ave","",35.952116579233355,-83.8878465534709,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7007884,1223,"Walmart on Walbrook Dr.","",35.925264,-84.061414,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7010406,1116,"Family Justice Center S","",35.972826,-83.906986,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7010948,2661,"Family Justice Center N","",35.973018,-83.90725,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7012415,2469,"Parkwest Medical Center S","",35.917575,-84.101955,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7012750,2547,"Parkwest Medical Center N","",35.918323,-84.101949,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7016477,1009,"Guy B. Love Towers S","",35.985142,-83.925172,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7016480,2674,"Broadway Shopping Center near Kroger","",35.992505,-83.921418,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7016782,1015,"Guy B. Love Towers N","",35.985323,-83.925157,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7017172,1076,"Broadway Shopping Center on McCroskey Ave","",35.992305,-83.920106,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7017180,1078,"Northgate Shopping Center E","",36.012974,-83.923814,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7018082,1082,"Northgate Shopping Center W","",36.013081,-83.924022,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7018089,1083,"Broadway Shopping Center E","",35.992795,-83.920501,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7018763,1088,"Walmart on Kinzel Way","",36.03034,-83.867516,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7022220,1221,"Kirkwood St. Superstop E","",35.997909,-83.877499,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7022360,1219,"Kirkwood St. Superstop W","",35.998083,-83.877543,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7025170,2713,"River's Edge Apartments W","",35.960088,-83.890706,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7025385,2714,"River's Edge Apartments E","",35.960132,-83.8905,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7025983,1136,"Walmart on Chapman Hwy","",35.910713,-83.846367,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7026904,1062,"Ft. Sanders Regional Medical Center E","",35.956738,-83.937458,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7027162,1138,"Ft. Sanders Regional Medical Center W","",35.956524,-83.937793,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7027902,1126,"Montgomery Village W","",35.921383,-83.922026,,,0,,,0,,
+stops.txt    (wdouglass078 on 10/16/2024 at 21:26): 7028112,1461,"Montgomery Village E","",35.921348,-83.921774,,,0,,,0,,

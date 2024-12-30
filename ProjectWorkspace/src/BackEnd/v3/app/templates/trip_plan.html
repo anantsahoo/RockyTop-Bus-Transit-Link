@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Trip Plan{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.settings') }}">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1>Trip Plan</h1>
+    <p><strong>Total Estimated Travel Time:</strong> {{ total_travel_time }}</p>
+
+    <h4>Trip Segments:</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>From Stop</th>
+                <th>To Stop</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for segment in trip_segments %}
+            <tr>
+                <td>{{ segment.from_stop_name }}</td>
+                <td>{{ segment.to_stop_name }}</td>
+                <td>{{ segment.departure_time_str }}</td>
+                <td>{{ segment.arrival_time_str }}</td>
+                <td>{{ segment.duration | int }} seconds</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div id="map" style="height: 600px;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var map = L.map('map').setView([{{ trip_segments[0].from_stop_lat }}, {{ trip_segments[0].from_stop_lon }}], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var latlngs = [
+        {% for segment in trip_segments %}
+        [{{ segment.from_stop_lat }}, {{ segment.from_stop_lon }}],
+        {% endfor %}
+        [{{ trip_segments[-1].to_stop_lat }}, {{ trip_segments[-1].to_stop_lon }}]
+    ];
+
+    // Draw the route polyline
+    var polyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+
+    // Fit the map to the polyline
+    map.fitBounds(polyline.getBounds());
+
+    // Add markers for each stop
+    {% for segment in trip_segments %}
+    L.marker([{{ segment.from_stop_lat }}, {{ segment.from_stop_lon }}]).addTo(map)
+        .bindPopup("<b>{{ segment.from_stop_name }}</b><br>Departure: {{ segment.departure_time_str }}");
+    {% endfor %}
+    L.marker([{{ trip_segments[-1].to_stop_lat }}, {{ trip_segments[-1].to_stop_lon }}]).addTo(map)
+        .bindPopup("<b>{{ trip_segments[-1].to_stop_name }}</b><br>Arrival: {{ trip_segments[-1].arrival_time_str }}");
+</script>
+{% endblock %}

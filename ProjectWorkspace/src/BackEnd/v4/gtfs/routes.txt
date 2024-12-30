@@ -1,0 +1,21 @@
+route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color
+5558,224,"10","10 Sequoyah Hills",10 Sequoyah Hills Archived 8-29-22,3,,002673,FFFFFF
+5559,224,"11","11 Sutherland/Kingston Pike ",11 Kingston Pike,3,,FF0000,FFFFFF
+5560,224,"12","12 Western Avenue",12 Western Avenue,3,,339900,FFFFFF
+5562,224,"16 ","16 Middlebrook/Cedar Bluff ",16 Cedar Bluff Connector,3,,002673,FFFFFF
+5563,224,"17","17 Sutherland/Bearden",17 Sutherland/Bearden,3,,73B2FF,000000
+5565,224,"20","20 Central/Clinton Hwy",20 Central Street,3,,FF0000,FFFFFF
+5567,224,"22","22 Broadway",22 Broadway,3,,FF0000,FFFFFF
+5568,224,"23","23 Millertown",23 Millertown,3,,339900,FFFFFF
+5569,224,"24","24 Lincoln Park/Inskip",24 Inskip/Breda,3,,002673,FFFFFF
+5571,224,"31","31 Magnolia Avenue",31 Magnolia Avenue,3,,FF0000,FFFFFF
+5572,224,"32","32 Dandridge Avenue",32 Dandridge Avenue,3,,339900,FFFFFF
+5574,224,"34","34 Burlington Shopper",34 Burlington,3,,002673,FFFFFF
+5575,224,"40","40 South Knoxville",40 South Knoxville,3,,002673,FFFFFF
+5576,224,"41","41 Chapman Highway",41 Chapman Highway,3,,FF0000,FFFFFF
+5577,224,"42","42 Fort Sanders/UT Medical Centers",42 Fort Sanders/UT Medical Centers,3,,339900,FFFFFF
+5578,224,"44","44 University Park Apts.",44 University Park,3,,FF5809,FFFFFF
+5579,224,"45","45 Vestal",45 Vestal,3,,FFBB33,000000
+6320,224,"37","37 Morningside/Riverside ",37-FULL OUTBD,3,,FFA50A,FFFFFF
+6346,224,"1","1-Downtown Connector",1 Downtown Connector,3,,73B2FF,FFFFFF
+6347,224,"15","15 - Woodland Crosstown",15 Woodland Crosstown,3,,FFA50A,FFFFFF

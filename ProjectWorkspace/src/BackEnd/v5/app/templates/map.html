@@ -1,0 +1,265 @@
+{% extends "base.html" %} {% block title %}Map{% endblock %} {% block styles %}
+<!-- Include Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{% endblock %} {% block content %}
+<div class="container-fluid mt-3">
+	<h1 class="page-title display-4 text-center mb-4">Plan Your Trip</h1>
+
+	<!-- Toggle Switches for Pins -->
+	<div class="mb-3 toggle-container text-center">
+		<div class="form-check form-switch d-inline-block">
+			<input
+				class="form-check-input"
+				type="checkbox"
+				id="toggle-bus-stops"
+				checked
+			/>
+			<label class="form-check-label" for="toggle-bus-stops">
+				Show Bus Stops
+			</label>
+		</div>
+		<!-- Add more toggles if needed -->
+	</div>
+
+	<!-- Find Route Form -->
+	<div class="card mb-4">
+		<div class="card-body">
+			<form
+				id="find-route-form"
+				class="row g-3 find-route-form"
+				method="POST"
+				action="{{ url_for('main.find_route') }}"
+			>
+				<div class="col-md-5">
+					<label for="start_stop" class="form-label">Start Location:</label>
+					<input
+						type="text"
+						id="start_stop"
+						name="start_stop"
+						class="form-control"
+						required
+					/>
+				</div>
+				<div class="col-md-5">
+					<label for="end_stop" class="form-label">End Location:</label>
+					<input
+						type="text"
+						id="end_stop"
+						name="end_stop"
+						class="form-control"
+						required
+					/>
+				</div>
+
+				<!-- Time Input Field -->
+				<div class="col-md-5">
+					<label for="time_input" class="form-label">Departure Time:</label>
+					<input
+						type="time"
+						id="time_input"
+						name="time_input"
+						class="form-control"
+					/>
+				</div>
+
+
+				<div class="col-md-2 align-self-end">
+					<button type="submit" class="btn btn-primary btn-lg w-100">
+						Find Route
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div id="route-info" class="mt-3"></div>
+
+	{% if current_user.is_authenticated and favorite_places %}
+	<!-- Favorite Locations -->
+	<div class="card mt-4" id="favorite-locations-container">
+		<div class="card-body">
+			<h5 class="card-title">Your Favorite Locations:</h5>
+			<ul class="list-inline">
+				{% for place in favorite_places %}
+				<li class="list-inline-item">
+					<button
+						type="button"
+						class="btn btn-outline-secondary favorite-location-btn"
+						data-stop-name="{{ place }}"
+					>
+						{{ place }}
+					</button>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	{% endif %}
+
+	<!-- Map Container -->
+	<div id="map-container">
+		<div id="map"></div>
+	</div>
+</div>
+{% endblock %} {% block scripts %} {{ super() }}
+<!-- Include scripts from base.html -->
+<!-- Include Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+	var stops = {{ stops | tojson | safe }};
+	console.log("Stops data:", stops);
+	var addFavoriteUrl = "{{ url_for('main.add_favorite') }}";
+	var removeFavoriteUrl = "{{ url_for('main.remove_favorite') }}";
+	var favoritePlaces = {{ favorite_places | default([]) | tojson | safe }};
+</script>
+
+<script>
+	$(document).ready(function () {
+	    // Your map initialization code here
+	    var map = L.map('map').setView([35.958530, -83.924637], 13);
+
+	    // Add a tile layer
+	    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	        attribution: '&copy; OpenStreetMap contributors'
+	    }).addTo(map);
+
+	    // Check if 'stops' is defined and not empty
+	    if (stops && stops.length > 0) {
+	        // Create a layer group for bus stop markers
+	        var busStopMarkers = L.layerGroup().addTo(map);
+
+	        stops.forEach(function (stop) {
+	            var lat = parseFloat(stop.stop_lat);
+	            var lon = parseFloat(stop.stop_lon);
+
+	            if (!isNaN(lat) && !isNaN(lon)) {
+	                var marker = L.marker([lat, lon])
+	                    .bindPopup(`<b><a href="/stop/${stop.stop_id}">${stop.stop_name}</a></b><br>ID: ${stop.stop_id}`);
+	                busStopMarkers.addLayer(marker);
+	            } else {
+	                console.warn(`Invalid coordinates for stop ID: ${stop.stop_id}`);
+	            }
+	        });
+	    } else {
+	        console.error("Stops data is undefined or empty.");
+	    }
+
+			/*
+	        {% if current_user.is_authenticated and current_user.favorite_places %}
+	            {% for place in favorite_places %}
+	                // Assuming you have a way to get latitude and longitude for favorite places
+	                var favoriteMarker = L.marker([{{ place.latitude }}, {{ place.longitude }}], {
+	                    icon: L.icon({
+	                        iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png',  // red icon for favorite
+	                        iconSize: [20, 20],
+	                        iconAnchor: [10, 10]
+	                    })
+	                }).bindPopup(`<b>{{ place.name }}</b>`);
+	                map.addLayer(favoriteMarker);
+	            {% endfor %}
+	        {% endif %}
+			*/
+	        // Initialize the current location marker
+	        let currentLocationMarker;
+
+	        // Function to get and plot the current location
+	        function getCurrentLocation() {
+	            if (navigator.geolocation) {
+	                navigator.geolocation.getCurrentPosition(function (position) {
+	                    const latitude = position.coords.latitude;
+	                    const longitude = position.coords.longitude;
+
+	                    // Send the current location to the backend
+	                    fetch('/send-real-time-location', {
+	                        method: 'POST',
+	                        headers: { 'Content-Type': 'application/json' },
+	                        body: JSON.stringify({ latitude, longitude })
+	                    })
+	                    .then(response => response.json())
+	                    .then(data => {
+	                        if (data.success) {
+	                            // Add or update the current location marker
+	                            if (currentLocationMarker) {
+	                                currentLocationMarker.setLatLng([latitude, longitude]);
+	                            } else {
+	                                currentLocationMarker = L.marker([latitude, longitude], {
+	                                    icon: L.icon({
+	                                        iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png',  // green icon for current location
+	                                        iconSize: [40, 40],
+	                                        iconAnchor: [10, 10]
+	                                    })
+	                                }).addTo(map).bindPopup("You are here!");
+	                            }
+
+	                            // Center the map to the user's location
+	                            map.setView([latitude, longitude], 13);
+	                        } else {
+	                            console.error('Failed to send location to server:', data.message);
+	                        }
+	                    })
+	                    .catch(error => {
+	                        console.error('Error:', error);
+	                    });
+	                }, function (error) {
+	                    console.error("Error getting location:", error);
+	                    alert("Unable to retrieve your location.");
+	                }, {
+						enableHighAccuracy: true,
+						timeout: 10000,
+						maximumAge: 0
+					});
+	            } else {
+	                alert("Geolocation is not supported by this browser.");
+	            }
+	        }
+
+	        // Call the function to get the current location
+	        getCurrentLocation();
+
+	        // Define a custom legend control
+	        var legend = L.control({position: 'bottomleft'});
+
+	        legend.onAdd = function (map) {
+	            var div = L.DomUtil.create('div', 'info legend');
+	            div.innerHTML = `
+	                <h4>Legend</h4>
+	                <ul>
+	                    <li><span class="legend-icon" style="background-color: green;"></span> Current Location</li>
+	                    <li><span class="legend-icon" style="background-color: blue;"></span> Bus Stops</li>
+	                </ul>
+	            `;
+	            return div;
+	        };
+
+	        legend.addTo(map);
+
+	        // Toggle visibility of bus stops
+	        $('#toggle-bus-stops').change(function() {
+	            if (this.checked) {
+	                map.addLayer(busStopMarkers);
+	            } else {
+	                map.removeLayer(busStopMarkers);
+	            }
+	        });
+
+	        var routeLayerGroup = L.layerGroup().addTo(map); // To hold the route polyline and markers
+
+	        function formatTime(secondsSinceMidnight) {
+	            var hours = Math.floor(secondsSinceMidnight / 3600) % 24;
+	            var minutes = Math.floor((secondsSinceMidnight % 3600) / 60);
+	            var seconds = secondsSinceMidnight % 60;
+
+	            return [hours, minutes, seconds]
+	                .map(v => v < 10 ? "0" + v : v)
+	                .join(":");
+	        }
+
+	        function formatDuration(durationInSeconds) {
+	            const minutes = Math.floor(durationInSeconds / 60);
+	            const seconds = durationInSeconds % 60;
+	            return `${minutes} min ${seconds} sec`;
+	        }
+	    });
+</script>
+{% endblock %}

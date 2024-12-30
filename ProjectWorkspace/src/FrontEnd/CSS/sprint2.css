@@ -1,0 +1,295 @@
+/* Reset */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Arial, sans-serif;
+}
+
+/* Body Structure */
+html,
+body {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: #f9f9f9;
+}
+
+body {
+	min-height: 100vh;
+}
+
+/* Main content takes full available space */
+main {
+	flex-grow: 1;
+}
+
+/* Navbar */
+#navbar {
+	background-color: #333;
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+}
+
+#navbar ul {
+	display: flex;
+	justify-content: space-around;
+	list-style-type: none;
+}
+
+#navbar ul li a {
+	color: white;
+	text-decoration: none;
+	padding: 10px 20px;
+	transition: background-color 0.3s ease;
+}
+
+#navbar ul li a:hover {
+	background-color: #00e600;
+}
+
+/* Add Favorites and History buttons to navbar with differentiated color */
+#navbar ul li .nav-button {
+	color: white;
+	text-decoration: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	background-color: #ff9800; /* Orange color for differentiation */
+	border: none;
+	border-radius: 5px;
+	transition: background-color 0.3s ease;
+}
+
+#navbar ul li .nav-button:hover {
+	background-color: #e68a00; /* Darker orange on hover */
+}
+
+/* Login Dropdown */
+#login-container {
+	position: relative;
+}
+
+#login-button {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	border-radius: 6px;
+}
+
+#login-dropdown {
+	display: none;
+	position: absolute;
+	right: 0;
+	width: 500px;
+	background-color: white;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	border-radius: 20px;
+	z-index: 1000;
+}
+
+#login-container:hover #login-dropdown {
+	display: block;
+}
+
+#login-dropdown form {
+	display: flex;
+	flex-direction: column;
+}
+
+#login-dropdown input {
+	margin-bottom: 10px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+#login-dropdown button {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 10px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+/* Hero Section */
+.hero-section {
+	text-align: center;
+	background-color: #007bff;
+	color: white;
+	padding: 50px 0;
+}
+
+.hero-section h1 {
+	font-size: 3em;
+}
+
+.hero-section p {
+	font-size: 1.2em;
+	margin: 10px 0;
+}
+
+/* Location Form Section */
+#location-section {
+	padding: 20px;
+	background-color: #f1f1f1;
+	margin: 20px auto;
+	border-radius: 8px;
+	max-width: 800px;
+}
+
+#location-section h2 {
+	margin-bottom: 10px;
+}
+
+#location-form {
+	display: flex;
+	flex-direction: column;
+}
+
+#location-form label {
+	margin-bottom: 8px;
+}
+
+#location-form input {
+	padding: 10px;
+	margin-bottom: 15px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 1em;
+}
+
+#location-form button {
+	padding: 10px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 1em;
+}
+
+#location-form button:hover {
+	background-color: #0056b3;
+}
+
+/* Button Styling */
+button {
+	padding: 10px 15px;
+	margin: 10px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+/* Slide-In Section */
+.slide-in-container {
+	position: fixed;
+	top: 0;
+	width: 0;
+	height: 100%;
+	overflow-x: hidden;
+	transition: width 0.4s;
+	z-index: 999;
+}
+
+/* Favorites List on the Right */
+#slide-out-favorite {
+	right: 0;
+	background-color: rgba(0, 123, 255, 0.8);
+	box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* History List on the Left */
+#slide-out-history {
+	left: 0;
+	width: 0; /* Start with 0 width */
+	transition: width 0.4s ease; /* Smooth transition */
+	background-color: rgba(0, 123, 255, 0.8);
+	box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure width is set properly when active */
+#slide-out-history.active {
+	width: 300px; /* Set the width when sliding in */
+}
+#list-container li{
+	position: relative;
+	/* color: #ccc1cc;   */
+    border-bottom: 1px dashed #ccc; 
+    padding: 10px;
+    margin: 5px 0;
+}
+#history-list li {
+    /* color: #ccc1cc;  */
+    border-bottom: 1px dashed #ccc; 
+    padding: 10px;
+    margin: 5px 0;
+}
+#list-container li span{
+    position: absolute;
+    right: 0;
+    top: -10%;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    color: #555;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+ul li span:hover{
+    background: #edeef0;
+}
+
+.favorites-list,
+.history {
+	background-color: white;
+	padding: 20px;
+	margin: 20px;
+	border-radius: 10px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	width: 100%;
+}
+
+/* Routes Section */
+#routes-section {
+	margin: 20px auto;
+	max-width: 800px;
+}
+
+#routes-list {
+	list-style-type: none;
+	padding: 0;
+}
+
+#routes-list li {
+	background-color: #f1f1f1;
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+}
+
+footer {
+	background-color: #333;
+	color: white;
+	text-align: center;
+	padding: 15px 0;
+	position: relative;
+	width: 100%;
+}
+
+footer p {
+	margin: 0;
+}

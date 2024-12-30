@@ -1,0 +1,726 @@
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v5/app/templates
+
+base.html
+
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   3) 	<head>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   4) 		<!-- Include Bootstrap CSS -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   5) 		<link
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   6) 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   7) 			rel="stylesheet"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   8) 		/>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   9) 		<!-- Include jQuery -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  10) 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  12) 		<!-- Include jQuery UI CSS -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  13) 		<link
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  14) 			rel="stylesheet"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  15) 			href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  16) 		/>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  18) 		<!-- Include jQuery UI JS -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  19) 		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  21) 		<!-- Include Bootstrap JS -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  22) 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  24) 		<!-- Include custom CSS -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  25) 		<link
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  26) 			rel="stylesheet"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  27) 			href="{{ url_for('static', filename='CSS/sprint2.css') }}"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  28) 		/>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  30) 		{% block styles %}{% endblock %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  31) 	</head>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  32) 	<body>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  33) 		{% block navbar %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  34) 		<header>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  35) 			<!-- Navbar -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  36) 			<nav
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  37) 				class="navbar navbar-expand-lg navbar-dark bg-dark"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  38) 				aria-label="Main Navigation"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  39) 			>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  40) 				<div class="container-fluid">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  41) 					<a class="navbar-brand" href="{{ url_for('main.home') }}"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  42) 						>Rocky Top Transit Link</a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  43) 					>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  44) 					<button
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  45) 						class="navbar-toggler"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  46) 						type="button"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  47) 						data-bs-toggle="collapse"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  48) 						data-bs-target="#navbarContent"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  49) 						aria-controls="navbarContent"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  50) 						aria-expanded="false"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  51) 						aria-label="Toggle navigation"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  52) 					>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  53) 						<span class="navbar-toggler-icon"></span>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  54) 					</button>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  56) 					<div class="collapse navbar-collapse" id="navbarContent">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  57) 						<!-- Left side navbar items -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  58) 						<ul class="navbar-nav me-auto">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  59) 							<li class="nav-item">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  60) 								<a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  61) 									class="nav-link"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  62) 									href="{{ url_for('main.home') }}"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  63) 									aria-label="Home"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  64) 									>Home</a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  65) 								>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  66) 							</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  67) 							<li class="nav-item">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  68) 								<a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  69) 									class="nav-link"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  70) 									href="{{ url_for('main.map_view') }}"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  71) 									aria-label="Map"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  72) 									>Map</a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  73) 								>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  74) 							</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  75) 							{% if current_user.is_authenticated %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  76) 							<li class="nav-item">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  77) 								<a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  78) 									class="nav-link"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  79) 									href="#"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  80) 									id="history-link"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  81) 									aria-label="History"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  82) 									>History</a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  83) 								>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  84) 							</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  85) 							<li class="nav-item">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  86) 								<a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  87) 									class="nav-link"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  88) 									href="#"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  89) 									id="favorites-link"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  90) 									aria-label="Favorites"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  91) 									>Favorites</a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  92) 								>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  93) 							</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  94) 							<li class="nav-item">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  95) 								<a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  96) 									class="nav-link"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  97) 									href="{{ url_for('main.settings') }}"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  98) 									aria-label="Settings"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  99) 									>Settings</a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 100) 								>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 101) 							</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 102) 							{% endif %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 103) 						</ul>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 105) 						<!-- Right side navbar items -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 106) 						<ul class="navbar-nav ms-auto">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 107) 							{% if current_user.is_authenticated %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 108) 							<li class="nav-item">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 109) 								<a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 110) 									class="btn btn-danger nav-link text-white"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 111) 									href="{{ url_for('main.logout') }}"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 112) 									aria-label="Logout"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 113) 									>Logout</a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 114) 								>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 115) 							</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 116) 							{% else %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 117) 							<li class="nav-item">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 118) 								<a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 119) 									class="nav-link"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 120) 									href="{{ url_for('main.register') }}"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 121) 									aria-label="Register Account"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 122) 									>Register Account</a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 123) 								>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 124) 							</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 125) 							<li class="nav-item dropdown">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 126) 								<a
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 127) 									class="nav-link dropdown-toggle"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 128) 									href="#"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 129) 									id="login-button"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 130) 									role="button"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 131) 									data-bs-toggle="dropdown"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 132) 									aria-expanded="false"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 133) 								>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 134) 									Login
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 135) 								</a>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 136) 								<div
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 137) 									class="dropdown-menu dropdown-menu-end p-3 dropdown-login-form"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 138) 								>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 139) 									<form
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 140) 										id="login-form"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 141) 										method="POST"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 142) 										action="{{ url_for('main.login') }}"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 143) 									>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 144) 										<div class="mb-3">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 145) 											<label for="username" class="form-label"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 146) 												>Username/Email:</label
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 147) 											>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 148) 											<input
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 149) 												type="text"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 150) 												id="username"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 151) 												name="username_or_email"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 152) 												placeholder="Enter your username or email"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 153) 												required
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 154) 												class="form-control"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 155) 											/>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 156) 										</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 157) 										<div class="mb-3">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 158) 											<label for="password" class="form-label">Password:</label>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 159) 											<input
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 160) 												type="password"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 161) 												id="password"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 162) 												name="password"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 163) 												placeholder="Enter your password"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 164) 												required
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 165) 												class="form-control"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 166) 											/>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 167) 										</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 168) 										<button type="submit" class="btn btn-primary w-100">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 169) 											Login
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 170) 										</button>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 171) 									</form>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 172) 								</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 173) 							</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 174) 							{% endif %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 175) 						</ul>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 176) 					</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 177) 				</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 178) 			</nav>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 179) 			{% block hero %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 181) 			{% endblock %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 182) 		</header>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 185) 		<!-- Flash Messages -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 186) 		{% with messages = get_flashed_messages(with_categories=true) %} {% if
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 187) 		messages %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 188) 		<div class="container mt-2">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 189) 			{% for category, message in messages %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 190) 			<div class="alert alert-{{ category }}">{{ message }}</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 191) 			{% endfor %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 192) 		</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 193) 		{% endif %} {% endwith %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 194) 		<main class="flex-grow-1">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 195) 			{% block content %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 196) 			<!-- Page content will be injected here -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 197) 			{% endblock %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 198) 		</main>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 200) 		{% block footer %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 201) 		<footer class="footer-banner text-center mt-4">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 202) 			<div class="container p-4">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 203) 				<p>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 204) 					&copy; {{ current_year }} Rocky Top Transit Link. All Rights Reserved.
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 205) 				</p>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 206) 			</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 207) 		</footer>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 209) 		{% if current_user.is_authenticated %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 210) 		<!-- Favorites Slide-In Section -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 211) 		<div class="slide-in-container" id="slide-out-favorite">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 212) 			<div class="favorites-list">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 213) 				<h2>Favorites List</h2>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 214) 				<div class="row">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 215) 					<input
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 216) 						type="text"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 217) 						id="input-box"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 218) 						placeholder="Enter a bus stop name"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 219) 					/>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 220) 					<button id="add-bus-stop">Add</button>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 221) 				</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 222) 				<script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 223) 					$(document).ready(function () {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 224) 						setupAutocomplete("input-box");
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 225) 					});
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 226) 				</script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 227) 				<ul id="list-container"></ul>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 228) 			</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 229) 		</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 230) 		<!-- History Slide-In Section -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 231) 		<div class="slide-in-container" id="slide-out-history">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 232) 			<div class="history">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 233) 				<h2>History</h2>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 234) 				<ul id="history-list"></ul>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 235) 			</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 236) 		</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 237) 		{% endif %} {% endblock %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 239) 		<!-- Define JavaScript variables before including scripts -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 240) 		{% block script_variables %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 241) 		<script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 242) 			var addFavoriteUrl = "{{ url_for('main.add_favorite') }}";
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 243) 			var removeFavoriteUrl = "{{ url_for('main.remove_favorite') }}";
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 244) 			var favoritePlaces = {{ favorite_places | default([]) | tojson | safe }};
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 245) 			const autocompleteUrl = "{{ url_for('main.autocomplete') }}";
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 246) 		</script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 247) 		{% endblock %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 249) 		<!-- Include custom JS (without defer) -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 250) 		<script src="{{ url_for('static', filename='js/sprint2.js') }}"></script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 252) 		{% block scripts %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 253) 		<script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 254) 			$(document).ready(function () {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 255) 				// Toggle login dropdown on button click
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 256) 				$("#login-button").on("click", function (event) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 257) 					event.stopPropagation();
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 258) 					$("#login-dropdown").toggle();
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 259) 				});
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 261) 				// Close the dropdown when clicking outside of it
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 262) 				$(document).on("click", function (event) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 263) 					if (!$(event.target).closest("#login-container").length) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 264) 						$("#login-dropdown").hide();
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 265) 					}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 266) 				});
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 267) 			});
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 268) 		</script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 269) 		{% endblock %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 270) 	</body>
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v5/app/templates
+
+map.html
+
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   1) {% extends "base.html" %} {% block title %}Map{% endblock %} {% block styles %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   4) {% endblock %} {% block content %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   6) 	<h1 class="page-title display-4 text-center mb-4">Plan Your Trip</h1>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   8) 	<!-- Toggle Switches for Pins -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   9) 	<div class="mb-3 toggle-container text-center">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  10) 		<div class="form-check form-switch d-inline-block">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  11) 			<input
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  12) 				class="form-check-input"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  13) 				type="checkbox"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  14) 				id="toggle-bus-stops"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  15) 				checked
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  16) 			/>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  17) 			<label class="form-check-label" for="toggle-bus-stops">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  18) 				Show Bus Stops
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  19) 			</label>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  20) 		</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  21) 		<!-- Add more toggles if needed -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  22) 	</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  23) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  24) 	<!-- Find Route Form -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  25) 	<div class="card mb-4">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  26) 		<div class="card-body">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  27) 			<form
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  28) 				id="find-route-form"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  29) 				class="row g-3 find-route-form"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  30) 				method="POST"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  31) 				action="{{ url_for('main.find_route') }}"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  32) 			>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  33) 				<div class="col-md-5">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  34) 					<label for="start_stop" class="form-label">Start Location:</label>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  35) 					<input
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  36) 						type="text"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  37) 						id="start_stop"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  38) 						name="start_stop"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  39) 						class="form-control"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  40) 						required
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  41) 					/>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  42) 				</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  43) 				<div class="col-md-5">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  44) 					<label for="end_stop" class="form-label">End Location:</label>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  45) 					<input
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  46) 						type="text"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  47) 						id="end_stop"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  48) 						name="end_stop"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  49) 						class="form-control"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  50) 						required
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  51) 					/>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  52) 				</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  53) 				<div class="col-md-2 align-self-end">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  54) 					<button type="submit" class="btn btn-primary btn-lg w-100">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  55) 						Find Route
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  56) 					</button>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  57) 				</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  58) 			</form>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  59) 		</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  60) 	</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  62) 	<div id="route-info" class="mt-3"></div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  63) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  64) 	{% if current_user.is_authenticated and favorite_places %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  65) 	<!-- Favorite Locations -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  66) 	<div class="card mt-4" id="favorite-locations-container">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  67) 		<div class="card-body">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  68) 			<h5 class="card-title">Your Favorite Locations:</h5>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  69) 			<ul class="list-inline">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  70) 				{% for place in favorite_places %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  71) 				<li class="list-inline-item">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  72) 					<button
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  73) 						type="button"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  74) 						class="btn btn-outline-secondary favorite-location-btn"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  75) 						data-stop-name="{{ place }}"
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  76) 					>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  77) 						{{ place }}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  78) 					</button>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  79) 				</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  80) 				{% endfor %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  81) 			</ul>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  82) 		</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  83) 	</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  84) 	{% endif %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  85) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  86) 	<!-- Map Container -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  87) 	<div id="map-container">
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  88) 		<div id="map"></div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  89) 	</div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  90) </div>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  91) {% endblock %} {% block scripts %} {{ super() }}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  92) <!-- Include scripts from base.html -->
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  97) 	var stops = {{ stops | tojson | safe }};
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  98) 	console.log("Stops data:", stops);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  99) 	var addFavoriteUrl = "{{ url_for('main.add_favorite') }}";
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 100) 	var removeFavoriteUrl = "{{ url_for('main.remove_favorite') }}";
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 101) 	var favoritePlaces = {{ favorite_places | default([]) | tojson | safe }};
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 102) </script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 103) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 104) <script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 105) 	$(document).ready(function () {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 106) 	    // Your map initialization code here
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 107) 	    var map = L.map('map').setView([35.958530, -83.924637], 13);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 108) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 109) 	    // Add a tile layer
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 110) 	    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 111) 	        attribution: '&copy; OpenStreetMap contributors'
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 112) 	    }).addTo(map);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 113) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 114) 	    // Check if 'stops' is defined and not empty
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 115) 	    if (stops && stops.length > 0) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 116) 	        // Create a layer group for bus stop markers
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 117) 	        var busStopMarkers = L.layerGroup().addTo(map);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 118) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 119) 	        stops.forEach(function (stop) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 120) 	            var lat = parseFloat(stop.stop_lat);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 121) 	            var lon = parseFloat(stop.stop_lon);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 122) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 123) 	            if (!isNaN(lat) && !isNaN(lon)) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 124) 	                var marker = L.marker([lat, lon])
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 125) 	                    .bindPopup(`<b><a href="/stop/${stop.stop_id}">${stop.stop_name}</a></b><br>ID: ${stop.stop_id}`);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 126) 	                busStopMarkers.addLayer(marker);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 127) 	            } else {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 128) 	                console.warn(`Invalid coordinates for stop ID: ${stop.stop_id}`);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 129) 	            }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 130) 	        });
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 131) 	    } else {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 132) 	        console.error("Stops data is undefined or empty.");
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 133) 	    }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 134) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 135) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 136) 	        /* THIS WILL BE USED WHEN WE GET FAV LOCATION LAT AND LON
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 137) 	        // Add markers for favorite locations (if any)
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 138) 	        {% if current_user.is_authenticated and current_user.favorite_places %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 139) 	            {% for place in favorite_places %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 140) 	                // Assuming you have a way to get latitude and longitude for favorite places
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 141) 	                var favoriteMarker = L.marker([{{ place.latitude }}, {{ place.longitude }}])
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 142) 	                    .bindPopup(`<b>{{ place.name }}</b>`);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 143) 	                favoriteMarkers.addLayer(favoriteMarker);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 144) 	            {% endfor %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 145) 	        {% endif %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 146) 	        */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 147) 	        {% if current_user.is_authenticated and current_user.favorite_places %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 148) 	            {% for place in favorite_places %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 149) 	                // Assuming you have a way to get latitude and longitude for favorite places
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 150) 	                var favoriteMarker = L.marker([{{ place.latitude }}, {{ place.longitude }}], {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 151) 	                    icon: L.icon({
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 152) 	                        iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png',  // red icon for favorite
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 153) 	                        iconSize: [20, 20],
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 154) 	                        iconAnchor: [10, 10]
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 155) 	                    })
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 156) 	                }).bindPopup(`<b>{{ place.name }}</b>`);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 157) 	                map.addLayer(favoriteMarker);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 158) 	            {% endfor %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 159) 	        {% endif %}
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 160) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 161) 	        // Initialize the current location marker
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 162) 	        let currentLocationMarker;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 163) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 164) 	        // Function to get and plot the current location
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 165) 	        function getCurrentLocation() {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 166) 	            if (navigator.geolocation) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 167) 	                navigator.geolocation.getCurrentPosition(function (position) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 168) 	                    const latitude = position.coords.latitude;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 169) 	                    const longitude = position.coords.longitude;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 170) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 171) 	                    // Send the current location to the backend
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 172) 	                    fetch('/send-real-time-location', {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 173) 	                        method: 'POST',
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 174) 	                        headers: { 'Content-Type': 'application/json' },
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 175) 	                        body: JSON.stringify({ latitude, longitude })
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 176) 	                    })
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 177) 	                    .then(response => response.json())
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 178) 	                    .then(data => {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 179) 	                        if (data.success) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 180) 	                            // Add or update the current location marker
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 181) 	                            if (currentLocationMarker) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 182) 	                                currentLocationMarker.setLatLng([latitude, longitude]);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 183) 	                            } else {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 184) 	                                currentLocationMarker = L.marker([latitude, longitude], {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 185) 	                                    icon: L.icon({
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 186) 	                                        iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png',  // green icon for current location
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 187) 	                                        iconSize: [20, 20],
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 188) 	                                        iconAnchor: [10, 10]
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 189) 	                                    })
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 190) 	                                }).addTo(map).bindPopup("You are here!");
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 191) 	                            }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 192) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 193) 	                            // Center the map to the user's location
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 194) 	                            map.setView([latitude, longitude], 13);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 195) 	                        } else {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 196) 	                            console.error('Failed to send location to server:', data.message);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 197) 	                        }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 198) 	                    })
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 199) 	                    .catch(error => {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 200) 	                        console.error('Error:', error);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 201) 	                    });
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 202) 	                }, function (error) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 203) 	                    console.error("Error getting location:", error);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 204) 	                    alert("Unable to retrieve your location.");
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 205) 	                });
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 206) 	            } else {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 207) 	                alert("Geolocation is not supported by this browser.");
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 208) 	            }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 209) 	        }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 210) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 211) 	        // Call the function to get the current location
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 212) 	        getCurrentLocation();
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 213) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 214) 	        // Define a custom legend control
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 215) 	        var legend = L.control({position: 'bottomleft'});
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 216) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 217) 	        legend.onAdd = function (map) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 218) 	            var div = L.DomUtil.create('div', 'info legend');
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 219) 	            div.innerHTML = `
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 220) 	                <h4>Legend</h4>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 221) 	                <ul>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 222) 	                    <li><span class="legend-icon" style="background-color: green;"></span> Current Location</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 223) 	                    <li><span class="legend-icon" style="background-color: blue;"></span> Bus Stops</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 224) 	                    <li><span class="legend-icon" style="background-color: red;"></span> Favorites</li>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 225) 	                </ul>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 226) 	            `;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 227) 	            return div;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 228) 	        };
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 229) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 230) 	        legend.addTo(map);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 231) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 232) 	        // Toggle visibility of bus stops
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 233) 	        $('#toggle-bus-stops').change(function() {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 234) 	            if (this.checked) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 235) 	                map.addLayer(busStopMarkers);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 236) 	            } else {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 237) 	                map.removeLayer(busStopMarkers);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 238) 	            }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 239) 	        });
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 240) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 241) 	        var routeLayerGroup = L.layerGroup().addTo(map); // To hold the route polyline and markers
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 242) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 243) 	        function formatTime(secondsSinceMidnight) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 244) 	            var hours = Math.floor(secondsSinceMidnight / 3600) % 24;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 245) 	            var minutes = Math.floor((secondsSinceMidnight % 3600) / 60);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 246) 	            var seconds = secondsSinceMidnight % 60;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 247) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 248) 	            return [hours, minutes, seconds]
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 249) 	                .map(v => v < 10 ? "0" + v : v)
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 250) 	                .join(":");
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 251) 	        }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 252) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 253) 	        function formatDuration(durationInSeconds) {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 254) 	            const minutes = Math.floor(durationInSeconds / 60);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 255) 	            const seconds = durationInSeconds % 60;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 256) 	            return `${minutes} min ${seconds} sec`;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 257) 	        }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 258) 	    });
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 259) </script>
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 260) {% endblock %}
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v5/app/static/CSS
+
+sprint2.css
+
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   3) 	margin: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   4) 	padding: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   5) 	box-sizing: border-box;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500   8) /* Body and HTML */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  11) 	height: 100%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  15) 	display: flex;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  16) 	flex-direction: column;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  17) 	min-height: 100vh;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  20) /* Main content area */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  22) 	flex: 1;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  25) /* Footer */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  26) footer.footer-banner {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  27) 	background-color: #333;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  28) 	color: white;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  29) 	text-align: center;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  30) 	padding: 15px 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  31) 	width: 100%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  32) 	flex-shrink: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  37) 	position: relative;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  38) 	display: inline-block;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  42) 	background-color: #007bff;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  43) 	color: white;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  44) 	border: none;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  45) 	padding: 10px 20px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  46) 	cursor: pointer;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  47) 	border-radius: 6px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  51) 	position: absolute;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  52) 	top: 100%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  53) 	right: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  54) 	background-color: #ffffff;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  55) 	padding: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  56) 	border: 1px solid #ccc;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  57) 	z-index: 1000;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  61) 	display: block;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  65) 	display: flex;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  66) 	flex-direction: column;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  70) 	margin-bottom: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  71) 	padding: 8px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  72) 	border: 1px solid #ccc;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  73) 	border-radius: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  77) 	background-color: #007bff;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  78) 	color: white;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  79) 	border: none;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  80) 	padding: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  81) 	border-radius: 6px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  82) 	cursor: pointer;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  87) 	padding: 10px 15px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  88) 	margin: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  89) 	background-color: #007bff;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  90) 	color: white;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  91) 	border: none;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  92) 	border-radius: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  93) 	cursor: pointer;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500  97) 	background-color: #0056b3;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 102) 	position: fixed;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 103) 	top: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 104) 	width: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 105) 	height: 100%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 106) 	overflow-x: hidden;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 107) 	transition: width 0.4s;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 108) 	z-index: 999;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 113) 	right: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 114) 	width: 0; /* Start with 0 width */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 115) 	transition: width 0.4s ease; /* Smooth transition */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 116) 	background-color: rgba(0, 123, 255, 0.8);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 117) 	box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 122) 	width: 30%; /* Adjust as needed */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 127) 	right: 0; /* Changed from left: 0 to right: 0 */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 128) 	width: 0; /* Start with 0 width */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 129) 	transition: width 0.4s ease; /* Smooth transition */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 130) 	background-color: rgba(0, 123, 255, 0.8);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 131) 	box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 136) 	width: 30%; /* Adjust as needed */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 142) 	position: relative;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 143) 	border-bottom: 1px dashed #ccc;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 144) 	padding: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 145) 	margin: 5px 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 149) 	position: absolute;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 150) 	right: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 151) 	top: -10%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 152) 	width: 40px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 153) 	height: 40px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 154) 	font-size: 22px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 155) 	color: #555;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 156) 	line-height: 40px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 157) 	text-align: center;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 158) 	border-radius: 50%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 162) 	background: #edeef0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 167) 	background-color: white;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 168) 	padding: 20px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 169) 	margin: 20px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 170) 	border-radius: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 171) 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 172) 	width: 100%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 177) 	background-color: #333;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 178) 	color: #000000;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 179) 	text-align: center;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 180) 	padding: 15px 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 181) 	position: relative;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 182) 	width: 100%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 186) 	margin: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 190) 	position: absolute;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 191) 	bottom: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 192) 	left: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 193) 	padding: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 194) 	background: white;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 195) 	border-radius: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 196) 	box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 200) 	margin: 0 0 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 201) 	font-size: 16px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 205) 	list-style: none;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 206) 	padding: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 207) 	margin: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 211) 	display: flex;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 212) 	align-items: center;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 213) 	font-size: 14px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 214) 	margin-bottom: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 218) 	display: inline-block;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 219) 	width: 12px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 220) 	height: 12px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 221) 	margin-right: 8px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 222) 	border-radius: 50%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 241) 	flex-shrink: 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 242) 	background-color: #333;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 243) 	color: white;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 244) 	text-align: center;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 245) 	padding: 15px 0;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 246) 	position: relative;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 247) 	width: 100%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 250) .ui-autocomplete {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 251) 	position: absolute;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 252) 	z-index: 10000; /* Adjust as necessary */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 255) /* Map Page Styles */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 256) .page-title {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 257) 	margin-bottom: 30px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 258) 	padding-bottom: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 259) 	border-bottom: 2px solid #ddd;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 260) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 261) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 262) .toggle-container {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 263) 	margin-bottom: 20px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 264) 	text-align: center;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 265) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 266) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 267) #favorite-locations-container h5 {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 268) 	margin-top: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 269) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 270) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 271) #favorite-locations-container .favorite-location-btn {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 272) 	margin: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 273) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 274) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 275) #map-container {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 276) 	position: relative;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 277) 	margin-top: 20px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 278) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 279) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 280) #map {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 281) 	width: 100%;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 282) 	height: 600px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 283) 	border: 1px solid #ccc;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 284) 	border-radius: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 285) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 286) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 287) #map-legend {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 288) 	position: absolute;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 289) 	bottom: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 290) 	left: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 291) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 292) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 293) /* Optional: Customize the legend */
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 294) .map-legend {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 295) 	background-color: rgba(255, 255, 255, 0.8);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 296) 	padding: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 297) 	border-radius: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 298) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 299) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 300) .map-legend h4 {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 301) 	margin-bottom: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 302) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 303) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 304) .legend-icon {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 305) 	width: 15px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 306) 	height: 15px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 307) 	display: inline-block;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 308) 	margin-right: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 309) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 310) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 311) .info.legend {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 312) 	background-color: rgba(255, 255, 255, 0.8);
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 313) 	padding: 10px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 314) 	border-radius: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 315) 	line-height: 1.5em;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 316) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 317) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 318) .info.legend h4 {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 319) 	margin-bottom: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 320) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 321) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 322) .legend-icon {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 323) 	width: 15px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 324) 	height: 15px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 325) 	display: inline-block;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 326) 	margin-right: 5px;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 327) 	vertical-align: middle;
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 328) }
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 329) 
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 330) .dropdown-login-form {
+4ce4d864 (anantsahoo03     2024-11-13 21:51:16 -0500 331) 	width: 300px; /* Adjust the width as needed */

@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Map{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.settings') }}">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+    <h1>Plan Your Trip</h1>
+    <form id="find-route-form" class="row g-3">
+        <div class="col-md-5">
+            <label for="start_stop" class="form-label">Start Location:</label>
+            <input type="text" id="start_stop" name="start_stop_name" class="form-control" required>
+            <input type="hidden" id="start_stop_id" name="start_stop_id">
+        </div>
+        <div class="col-md-5">
+            <label for="end_stop" class="form-label">End Location:</label>
+            <input type="text" id="end_stop" name="end_stop_name" class="form-control" required>
+            <input type="hidden" id="end_stop_id" name="end_stop_id">
+        </div>
+        <div class="col-md-2 align-self-end">
+            <button type="submit" class="btn btn-primary">Find Route</button>
+        </div>
+    </form>
+
+    <div id="route-info" class="mt-3"></div>
+
+    {% if current_user.is_authenticated and current_user.favorite_places %}
+    <div class="mt-3">
+        <h5>Your Favorite Locations:</h5>
+        <ul class="list-inline">
+            {% for place in favorite_places %}
+            <li class="list-inline-item">
+                <button class="btn btn-outline-secondary favorite-location-btn" data-stop-name="{{ place }}">{{ place }}</button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div id="map" style="height: 600px;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Initialize the map
+        var map = L.map('map').setView([35.958530, -83.924637], 13); 
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add markers for each stop
+        {% for stop in stops %}
+        L.marker([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}]).addTo(map)
+            .bindPopup("<b>{{ stop['stop_name'] }}</b><br>ID: {{ stop['stop_id'] }}");
+        {% endfor %}
+
+        // Setup autocomplete for start and end locations
+        function setupAutocomplete(inputId, hiddenId) {
+            $("#" + inputId).autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "{{ url_for('main.autocomplete') }}",
+                        dataType: "json",
+                        data: { term: request.term },
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function(event, ui) {
+                    $("#" + inputId).val(ui.item.label);
+                    $("#" + hiddenId).val(ui.item.value);
+                    return false;
+                }
+            });
+        }
+
+        setupAutocomplete("start_stop", "start_stop_id");
+        setupAutocomplete("end_stop", "end_stop_id");
+
+        // Handle favorite location buttons
+        $(".favorite-location-btn").click(function() {
+            var locationName = $(this).data('stop-name');
+            if ($("#start_stop").val() === "") {
+                $("#start_stop").val(locationName);
+            } else if ($("#end_stop").val() === "") {
+                $("#end_stop").val(locationName);
+            } else {
+                $("#end_stop").val(locationName);  // Replace the end location if both are filled
+            }
+            $("#start_stop, #end_stop").autocomplete("search");
+        });
+
+        // Handle form submission for finding a route
+        $("#find-route-form").on("submit", function(event) {
+            event.preventDefault();  // Prevent page reload
+
+            const startStop = $("#start_stop").val();
+            const endStop = $("#end_stop").val();
+
+            $.ajax({
+                url: "{{ url_for('main.find_route') }}",
+                method: "POST",
+                data: {
+                    start_stop: startStop,
+                    end_stop: endStop
+                },
+                success: function(response) {
+                    if (response.error) {
+                        $("#route-info").html(`<div class="alert alert-danger">${response.error}</div>`);
+                    } else {
+                        $("#route-info").html(`
+                            <div class="alert alert-success">
+                                <h5>Route Found:</h5>
+                                <p><strong>Start Stop:</strong> ${response.start_stop} (ID: ${response.start_id})</p>
+                                <p><strong>End Stop:</strong> ${response.end_stop} (ID: ${response.end_id})</p>
+                                <p><strong>Distance:</strong> ${response.distance} </p>
+                                <p><strong>Time:</strong> ${response.time} </p>
+                                <p><strong>Directions:<br></strong> ${response.directions}</p>
+                            </div>
+                        `);
+                    }
+                },
+                error: function(xhr) {
+                    $("#route-info").html(`<div class="alert alert-danger">An error occurred. Please try again.</div>`);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

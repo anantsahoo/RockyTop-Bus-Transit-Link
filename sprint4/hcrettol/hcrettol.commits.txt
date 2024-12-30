@@ -1,0 +1,297 @@
+requirements.txt
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 14) cdifflib==1.2.6
+
+app/graph_utils.py
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  50)     # Define transfer time constraints
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  51)     TRANSFER_TIME = 300     # 5 minutes in seconds
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  52)     MAX_TRANSFER_TIME = 7200  # 2 hours in seconds
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  53) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  54)     # Add transfer edges
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  55)     for stop_id, group in stop_times.groupby('stop_id'):
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  56)         times = group['departure_seconds'].unique()
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  57)         times.sort()
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  58)         for i in range(len(times)):
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  59)             time_i = times[i]
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  60)             for j in range(i + 1, len(times)):
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  61)                 time_j = times[j]
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  62)                 time_diff = time_j - time_i
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  63)                 if time_diff < 0:
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  64)                     time_diff += 24 * 3600  # Handle overnight wrap-around
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  65)                 if time_diff > MAX_TRANSFER_TIME:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  66)                     break  # Exceeds max transfer time, break inner loop
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  67)                 if time_diff >= TRANSFER_TIME:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  68)                     node_from = (stop_id, time_i)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  69)                     node_to = (stop_id, time_j)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  70)                     G.add_edge(node_from, node_to, weight=time_diff, transfer=True)
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  71)     return G
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  72) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  73) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  74) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  75) def find_earliest_path(G, start_stop_id, end_stop_id, current_time_seconds):
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  76)     import networkx as nx
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  77) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  78)     # Find all nodes at the starting stop after the current time
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  79)     start_nodes = [node for node in G.nodes if node[0] == start_stop_id and node[1] >= current_time_seconds]
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  80)     if not start_nodes:
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  81)         # If no nodes after current time, include nodes from the next day
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  82)         start_nodes = [node for node in G.nodes if node[0] == start_stop_id]
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  83) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  84)     # Find all nodes at the ending stop
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  85)     end_nodes = [node for node in G.nodes if node[0] == end_stop_id]
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  86) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  87)     if not start_nodes or not end_nodes:
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  88)         return None  # No available starting or ending nodes
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  89) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  90)     # Create a copy of the graph to avoid modifying the original
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  91)     H = G.copy()
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  92) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  93)     # Create a virtual source node
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  94)     source_node = 'source'
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  95)     H.add_node(source_node)
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  96)     for start_node in start_nodes:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  97)         H.add_edge(source_node, start_node, weight=0)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  98) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  99)     # Create a virtual sink node
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 100)     sink_node = 'sink'
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 101)     H.add_node(sink_node)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 102)     for end_node in end_nodes:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 103)         H.add_edge(end_node, sink_node, weight=0)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 104) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 105)     # Run Dijkstra's algorithm from source_node to sink_node
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 106)     try:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 107)         length, path = nx.single_source_dijkstra(H, source=source_node, target=sink_node, weight='weight')
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 108)     except nx.NetworkXNoPath:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 109)         return None
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 110) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 111)     # Exclude the virtual nodes from the path
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 112)     actual_path = path[1:-1]  # Exclude 'source' and 'sink'
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 113) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 114)     return actual_path
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 115) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 116) def get_nearest_stops(stop_id, stops_df, num_stops=20):
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 117)     # Get the coordinates of the given stop
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 118)     stop = stops_df[stops_df['stop_id'] == stop_id]
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 119)     if stop.empty:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 120)         return []
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 121)     lat1 = stop.iloc[0]['stop_lat']
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 122)     lon1 = stop.iloc[0]['stop_lon']
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 123) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 124)     # Compute distances to all other stops
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 125)     stops_df = stops_df.copy()  # Avoid SettingWithCopyWarning
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 126)     stops_df['distance'] = ((stops_df['stop_lat'] - lat1)**2 + (stops_df['stop_lon'] - lon1)**2)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 127) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 128)     # Exclude the original stop
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 129)     nearby_stops = stops_df[stops_df['stop_id'] != stop_id]
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 130)     # Sort by distance
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 131)     nearby_stops = nearby_stops.sort_values('distance')
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 132)     # Return the stop_ids
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 133)     return nearby_stops['stop_id'].iloc[:num_stops].tolist()
+
+app/routes.py
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500  12) from .graph_utils import build_graph, find_earliest_path, time_to_seconds, get_nearest_stops
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 200) def autocomplete():
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 201)     search = request.args.get('term', '')
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 202)     results = stops[stops['stop_name'].str.contains(search, case=False, na=False)].head(10)
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 203)     suggestions = results['stop_name'].unique().tolist()
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 204)     return jsonify(suggestions)
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 296) @main.route('/find_route', methods=['POST'])
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 297) def find_route():
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 298)     logging.debug("Received request to find route.")
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 299) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 300)     # Get the start and end stop names from the form
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 301)     start_stop_name = request.form['start_stop'].strip()
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 302)     end_stop_name = request.form['end_stop'].strip()
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 303) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 304)     # Prepare a list of all stop names in lowercase
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 305)     stop_names = stops['stop_name'].str.lower().tolist()
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 306) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 307)     # Function to find the best matching stop name
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 308)     def get_best_match(input_name):
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 309)         exact_matches = stops[stops['stop_name'].str.lower() == input_name.lower()]
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 310)         if not exact_matches.empty:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 311)             return exact_matches
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 312)         else:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 313)             close_matches = get_close_matches(input_name.lower(), stop_names, n=1, cutoff=0.7)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 314)             if close_matches:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 315)                 matched_name = close_matches[0]
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 316)                 return stops[stops['stop_name'].str.lower() == matched_name]
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 317)             else:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 318)                 return pd.DataFrame()  # Empty DataFrame
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 319) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 320)     # Get start stop
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 321)     start_stop = get_best_match(start_stop_name)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 322)     if start_stop.empty:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 323)         flash('Start stop not found.', 'danger')
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 324)         return redirect(url_for('main.map_view'))
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 325)     start_stop_id = start_stop['stop_id'].iloc[0]
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 326)     start_stop_name = start_stop['stop_name'].iloc[0]  # Update to matched name
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 327) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 328)     # Get end stop
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 329)     end_stop = get_best_match(end_stop_name)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 330)     if end_stop.empty:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 331)         flash('End stop not found.', 'danger')
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 332)         return redirect(url_for('main.map_view'))
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 333)     end_stop_id = end_stop['stop_id'].iloc[0]
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 334)     end_stop_name = end_stop['stop_name'].iloc[0]  # Update to matched name
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 335) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 336)     # Get current time in seconds since midnight
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 337)     now = datetime.now()
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 338)     current_time_seconds = now.hour * 3600 + now.minute * 60 + now.second
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 339) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 340)     # Access the graph
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 341)     G = current_app.config.get('graph')
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 342)     if G is None:
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 343)         G = build_graph()
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 344)         current_app.config['graph'] = G
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 345) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 346)     # Initialize variables
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 347)     path = None
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 348)     attempts = 0
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 349)     max_attempts = 20
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 350) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 351)     # Get the list of nearest stops to the start_stop_id (excluding the original stop)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 352)     nearest_stops = get_nearest_stops(start_stop_id, stops, num_stops=max_attempts)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 353) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 354)     # Include the original stop at the beginning
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 355)     candidate_start_stops = [start_stop_id] + nearest_stops
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 356) 
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 357)     for candidate_start_stop_id in candidate_start_stops:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 358)         attempts += 1
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 359)         logging.debug(f"Attempt {attempts}: Trying start stop ID {candidate_start_stop_id}.")
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 360)         path = find_earliest_path(G, candidate_start_stop_id, end_stop_id, current_time_seconds)
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 361)         if path is not None:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 362)             logging.debug(f"Path found starting from stop ID {candidate_start_stop_id}.")
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 363)             # Update start_stop_id and start_stop_name to the one we actually used
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 364)             start_stop_id = candidate_start_stop_id
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 365)             start_stop_name = stops[stops['stop_id'] == start_stop_id]['stop_name'].iloc[0]
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 366)             break
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 367)         else:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 368)             logging.debug(f"No path found from stop ID {candidate_start_stop_id}.")
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 369)         if attempts >= max_attempts:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 370)             break
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 371) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 372)     if path is None:
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 373)         logging.debug("No path found after multiple attempts.")
+744815cc (Harrison Crettol 2024-11-12 21:47:46 -0500 374)         flash('No available path found from nearby stops.', 'danger')
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 375)         return redirect(url_for('main.map_view'))
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 376) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 377)     # Save route history if user is logged in
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 378)     if current_user.is_authenticated:
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 379)         new_history = RouteHistory(
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 380)             user_id=current_user.id,
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 381)             start_stop=start_stop_name,
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 382)             end_stop=end_stop_name
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 383)         )
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 384)         db.session.add(new_history)
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 385)         db.session.commit()
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 386) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 387)     # Define helper functions
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 388)     def seconds_to_time_str(seconds):
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 389)         h = int(seconds // 3600) % 24
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 390)         m = int((seconds % 3600) // 60)
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 391)         s = int(seconds % 60)
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 392)         return f"{h:02d}:{m:02d}:{s:02d}"
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 393) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 394)     def format_duration(duration_in_seconds):
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 395)         hours = duration_in_seconds // 3600
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 396)         minutes = (duration_in_seconds % 3600) // 60
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 397)         seconds = duration_in_seconds % 60
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 398)         if hours > 0:
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 399)             return f"{hours} hr {minutes} min {seconds} sec"
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 400)         elif minutes > 0:
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 401)             return f"{minutes} min {seconds} sec"
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 402)         else:
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 403)             return f"{seconds} sec"
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 404) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 405)     # Extract trip segments
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 406)     trip_segments = []
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 407)     total_travel_time = 0
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 408)     for i in range(len(path) - 1):
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 409)         from_node = path[i]
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 410)         to_node = path[i + 1]
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 411) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 412)         from_stop_id, departure_time = from_node
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 413)         to_stop_id, arrival_time = to_node
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 414) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 415)         from_stop_data = stops[stops['stop_id'] == from_stop_id].iloc[0]
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 416)         to_stop_data = stops[stops['stop_id'] == to_stop_id].iloc[0]
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 417) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 418)         # Get edge data
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 419)         edge_data = G.get_edge_data(from_node, to_node)
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 420)         # Since it's a MultiDiGraph, edge_data is a dict
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 421)         edge_attrs = edge_data[list(edge_data.keys())[0]]
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 422) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 423)         segment = {
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 424)             'from_stop_id': str(from_stop_id),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 425)             'to_stop_id': str(to_stop_id),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 426)             'from_stop_name': str(from_stop_data['stop_name']),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 427)             'to_stop_name': str(to_stop_data['stop_name']),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 428)             'departure_time': int(departure_time % (24 * 3600)),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 429)             'arrival_time': int(arrival_time % (24 * 3600)),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 430)             'duration': int((arrival_time - departure_time) % (24 * 3600)),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 431)             'from_stop_lat': float(from_stop_data['stop_lat']),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 432)             'from_stop_lon': float(from_stop_data['stop_lon']),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 433)             'to_stop_lat': float(to_stop_data['stop_lat']),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 434)             'to_stop_lon': float(to_stop_data['stop_lon']),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 435)             'trip_id': str(edge_attrs.get('trip_id')) if edge_attrs.get('trip_id') else None,
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 436)             'transfer': bool(edge_attrs.get('transfer', False)),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 437)             'departure_time_str': seconds_to_time_str(departure_time % (24 * 3600)),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 438)             'arrival_time_str': seconds_to_time_str(arrival_time % (24 * 3600)),
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 439)         }
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 440) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 441)         total_travel_time += segment['duration']
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 442)         trip_segments.append(segment)
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 443) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 444)     # Convert total_travel_time to a string
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 445)     total_travel_time_str = format_duration(total_travel_time)
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 446) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 447)     return render_template('trip_plan.html', trip_segments=trip_segments, total_travel_time=total_travel_time_str)
+
+app/templates/base.html
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500   3) <head>
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500   4)     <!-- Include jQuery -->
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500   5)     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500   6) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500   7)     <!-- Include jQuery UI CSS -->
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500   8)     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500   9) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  10)     <!-- Include jQuery UI JS -->
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  11)     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  12) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  13)     <!-- Include Bootstrap JS -->
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  14)     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  15) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  16)     <!-- Include custom CSS -->
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  17)     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/sprint2.css') }}" />
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  18) 
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  19)     {% block styles %}{% endblock %}
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  20) </head>
+
+app/templates/trip_plan.html
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 42) <!-- Include Leaflet CSS and JS if not already included -->
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 43) <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 44) <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 53)     var latlngs = [
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 54)         {% for segment in trip_segments %}
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 55)         [{{ segment.from_stop_lat }}, {{ segment.from_stop_lon }}],
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 56)         {% endfor %}
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 57)         [{{ trip_segments[-1].to_stop_lat }}, {{ trip_segments[-1].to_stop_lon }}]
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 58)     ];
+
+app/static/CSS/sprint2.css
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 285) .ui-autocomplete {
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 286)     position: absolute;
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 287)     z-index: 10000; /* Adjust as necessary */
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500 288) }
+
+app/static/js/sprint2.js
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  27)     // Setup autocomplete for input fields if they exist
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  28)     if (document.getElementById("input-box")) {
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  29)         setupAutocomplete("input-box"); // For your favorites input
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  30)     }
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  31)     if (document.getElementById("start_stop")) {
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  32)         setupAutocomplete("start_stop"); // For start location
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  33)     }
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  34)     if (document.getElementById("end_stop")) {
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  35)         setupAutocomplete("end_stop");   // For end location
+9da6c514 (Harrison Crettol 2024-11-08 15:07:29 -0500  36)     }

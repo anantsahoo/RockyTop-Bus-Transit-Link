@@ -1,0 +1,602 @@
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/FrontEnd
+
+sprint2.html
+
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   1) <!DOCTYPE html>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   2) <html lang="en">
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   3) 	<head>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   4) 		<meta charset="UTF-8" />
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   5) 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   6) 		<meta
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   7) 			name="description"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   8) 			content="Efficient public transit at your fingertips with Rocky Top Transit Link."
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   9) 		/>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  10) 		<title>Rocky Top Transit Link</title>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  11) 		<link rel="stylesheet" href="./CSS/sprint2.css" />
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  12) 		<link rel="icon" href="path/to/favicon.ico" />
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  13) 		<script defer src="./js/sprint2.js"></script>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  14) 	</head>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  15) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  16) 	<body>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  17) 		<header>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  18) 			<!-- Navbar -->
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  19) 			<nav id="navbar" aria-label="Main Navigation">
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  20) 				<ul>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  21) 					<li><a href="#" aria-label="Home">Home</a></li>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  22) 					<li><a href="#" aria-label="Routes">Routes</a></li>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  23) 					<li>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  24) 						<a href="#" aria-label="Schedules">Schedules</a>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  25) 					</li>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  26) 					<li>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  27) 						<a
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  28) 							href="#"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  29) 							id="favorites-link"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  30) 							onclick="showFavoritesList()"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  31) 							aria-label="Favorites"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  32) 							>Favorites</a
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  33) 						>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  34) 					</li>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  35) 					<li>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  36) 						<a
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  37) 							href="#"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  38) 							id="history-link"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  39) 							onclick="showHistory()"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  40) 							aria-label="History"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  41) 							>History</a
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  42) 						>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  43) 					</li>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  44) 				</ul>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  45) 				<div id="login-container">
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  46) 					<button id="login-button">Login</button>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  47) 					<div id="login-dropdown" class="dropdown">
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  48) 						<form id="login-form">
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  49) 							<label for="username">Username/Email:</label>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  50) 							<input
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  51) 								type="text"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  52) 								id="username"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  53) 								name="username"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  54) 								placeholder="Enter your username or email"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  55) 								required
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  56) 							/>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  57) 							<label for="password">Password:</label>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  58) 							<input
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  59) 								type="password"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  60) 								id="password"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  61) 								name="password"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  62) 								placeholder="Enter your password"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  63) 								required
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  64) 							/>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  65) 							<button type="submit">Login</button>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  66) 						</form>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  67) 					</div>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  68) 				</div>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  69) 			</nav>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  70)
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  76) 		</header>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  77) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  78) 		<!-- Main Content -->
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  79) 		<main>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  80) 			<!-- Journey Planner Section -->
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  81) 			<section id="location-section">
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  82) 				<h2>Plan Your Journey</h2>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  83) 				<form id="location-form">
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  84) 					<label for="current-location">Current Location:</label>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  85) 					<input
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  86) 						type="text"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  87) 						id="current-location"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  88) 						placeholder="Enter your current location"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  89) 					/>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  90) 					<label for="destination">Destination:</label>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  91) 					<input
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  92) 						type="text"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  93) 						id="destination"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  94) 						placeholder="Enter your destination"
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  95) 					/>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  96) 					<button type="submit">Find Routes</button>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  97) 				</form>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  98) 			</section>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  99) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 100) 			<!-- Suggested Routes Section -->
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 101) 			<section id="routes-section">
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 102) 				<h2>Suggested Routes</h2>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 103) 				<ul id="routes-list"></ul>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 104) 			</section>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 105) 		</main>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 134) 	</body>
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 135) </html>
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/FrontEnd/CSS
+
+sprint2.css
+
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   1) /* Reset */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   2) * {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   3) 	margin: 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   4) 	padding: 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   5) 	box-sizing: border-box;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   6) 	font-family: Arial, sans-serif;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   7) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   8) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   9) /* Body Structure */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  10) html,
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  11) body {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  12) 	height: 100%;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  13) 	display: flex;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  14) 	flex-direction: column;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  15) 	background-color: #f9f9f9;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  16) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  17) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  18) body {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  19) 	min-height: 100vh;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  20) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  21) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  22) /* Main content takes full available space */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  23) main {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  24) 	flex-grow: 1;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  25) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  26) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  27) /* Navbar */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  28) #navbar {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  29) 	background-color: #333;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  30) 	padding: 10px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  31) 	display: flex;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  32) 	justify-content: space-between;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  33) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  34) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  35) #navbar ul {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  36) 	display: flex;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  37) 	justify-content: space-around;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  38) 	list-style-type: none;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  39) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  40) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  41) #navbar ul li a {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  42) 	color: white;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  43) 	text-decoration: none;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  44) 	padding: 10px 20px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  45) 	transition: background-color 0.3s ease;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  46) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  47) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  48) #navbar ul li a:hover {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  49) 	background-color: #00e600;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  50) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  51) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  52) /* Add Favorites and History buttons to navbar with differentiated color */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  53) #navbar ul li .nav-button {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  54) 	color: white;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  55) 	text-decoration: none;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  56) 	padding: 10px 20px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  57) 	cursor: pointer;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  58) 	background-color: #ff9800; /* Orange color for differentiation */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  59) 	border: none;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  60) 	border-radius: 5px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  61) 	transition: background-color 0.3s ease;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  62) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  63) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  64) #navbar ul li .nav-button:hover {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  65) 	background-color: #e68a00; /* Darker orange on hover */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  66) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  67) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  68) /* Login Dropdown */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  69) #login-container {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  70) 	position: relative;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  71) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  72) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  73) #login-button {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  74) 	background-color: #007bff;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  75) 	color: white;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  76) 	border: none;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  77) 	padding: 10px 20px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  78) 	cursor: pointer;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  79) 	border-radius: 6px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  80) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  81) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  82) #login-dropdown {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  83) 	display: none;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  84) 	position: absolute;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  85) 	right: 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  86) 	width: 500px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  87) 	background-color: white;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  88) 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  89) 	padding: 20px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  90) 	border-radius: 20px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  91) 	z-index: 1000;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  92) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  93) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  94) #login-container:hover #login-dropdown {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  95) 	display: block;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  96) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  97) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  98) #login-dropdown form {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  99) 	display: flex;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 100) 	flex-direction: column;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 101) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 102) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 103) #login-dropdown input {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 104) 	margin-bottom: 10px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 105) 	padding: 8px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 106) 	border: 1px solid #ccc;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 107) 	border-radius: 5px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 108) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 109) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 110) #login-dropdown button {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 111) 	background-color: #007bff;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 112) 	color: white;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 113) 	border: none;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 114) 	padding: 10px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 115) 	border-radius: 6px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 116) 	cursor: pointer;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 117) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 118) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 119) /* Hero Section */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 120) .hero-section {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 121) 	text-align: center;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 122) 	background-color: #007bff;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 123) 	color: white;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 124) 	padding: 50px 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 125) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 126) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 127) .hero-section h1 {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 128) 	font-size: 3em;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 129) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 130) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 131) .hero-section p {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 132) 	font-size: 1.2em;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 133) 	margin: 10px 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 134) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 135) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 136) /* Location Form Section */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 137) #location-section {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 138) 	padding: 20px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 139) 	background-color: #f1f1f1;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 140) 	margin: 20px auto;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 141) 	border-radius: 8px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 142) 	max-width: 800px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 143) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 144) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 145) #location-section h2 {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 146) 	margin-bottom: 10px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 147) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 148) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 149) #location-form {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 150) 	display: flex;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 151) 	flex-direction: column;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 152) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 153) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 154) #location-form label {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 155) 	margin-bottom: 8px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 156) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 157) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 158) #location-form input {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 159) 	padding: 10px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 160) 	margin-bottom: 15px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 161) 	border: 1px solid #ccc;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 162) 	border-radius: 5px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 163) 	font-size: 1em;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 164) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 165) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 166) #location-form button {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 167) 	padding: 10px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 168) 	background-color: #007bff;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 169) 	color: white;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 170) 	border: none;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 171) 	cursor: pointer;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 172) 	border-radius: 5px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 173) 	font-size: 1em;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 174) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 175) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 176) #location-form button:hover {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 177) 	background-color: #0056b3;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 178) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 179) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 180) /* Button Styling */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 181) button {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 182) 	padding: 10px 15px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 183) 	margin: 10px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 184) 	background-color: #007bff;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 185) 	color: white;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 186) 	border: none;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 187) 	border-radius: 5px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 188) 	cursor: pointer;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 189) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 190) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 191) button:hover {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 192) 	background-color: #0056b3;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 193) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 194) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 195) /* Slide-In Section */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 196) .slide-in-container {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 197) 	position: fixed;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 198) 	top: 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 199) 	width: 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 200) 	height: 100%;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 201) 	overflow-x: hidden;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 202) 	transition: width 0.4s;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 203) 	z-index: 999;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 204) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 205) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 206) /* Favorites List on the Right */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 207) #slide-out-favorite {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 208) 	right: 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 209) 	background-color: rgba(0, 123, 255, 0.8);
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 210) 	box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 211) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 212) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 213) /* History List on the Left */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 214) #slide-out-history {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 215) 	left: 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 216) 	width: 0; /* Start with 0 width */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 217) 	transition: width 0.4s ease; /* Smooth transition */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 218) 	background-color: rgba(0, 123, 255, 0.8);
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 219) 	box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 220) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 221) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 222) /* Ensure width is set properly when active */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 223) #slide-out-history.active {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 224) 	width: 300px; /* Set the width when sliding in */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 225) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 226) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 227) .favorites-list,
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 228) .history {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 229) 	background-color: white;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 230) 	padding: 20px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 231) 	margin: 20px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 232) 	border-radius: 10px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 233) 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 234) 	width: 100%;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 235) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 236) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 237) /* Routes Section */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 238) #routes-section {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 239) 	margin: 20px auto;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 240) 	max-width: 800px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 241) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 242) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 243) #routes-list {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 244) 	list-style-type: none;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 245) 	padding: 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 246) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 247) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 248) #routes-list li {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 249) 	background-color: #f1f1f1;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 250) 	padding: 10px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 251) 	margin-bottom: 10px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 252) 	border-radius: 5px;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 253) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 254) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 255) footer {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 256) 	background-color: #333;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 257) 	color: white;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 258) 	text-align: center;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 259) 	padding: 15px 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 260) 	position: relative;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 261) 	width: 100%;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 262) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 263) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 264) footer p {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 265) 	margin: 0;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 266) }
+
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/FrontEnd/js
+
+sprint2.js
+
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   1) document.addEventListener("DOMContentLoaded", () => {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   2) 	/* Handle form submission and route suggestions */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   3) 	const form = document.getElementById("location-form");
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   4) 	const routesList = document.getElementById("routes-list");
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   5) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   6) 	form.addEventListener("submit", (event) => {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   7) 		event.preventDefault();
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   8) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400   9) 		const currentLocation = document
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  10) 			.getElementById("current-location")
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  11) 			.value.trim();
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  12) 		const destination = document.getElementById("destination").value.trim();
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  15) 		routesList.innerHTML = ""; /* Clear previous routes */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  16) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  17) 		if (!currentLocation || !destination) {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  18) 			alert("Please enter both current location and destination.");
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  19) 			return;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  20) 		}
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  21) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  22) 		const generateRoutes = (from, to) => {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  54) 			return [
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  55) 				`Bus 12: From ${from} to ${to}`,
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  56) 				`Bus 20: From ${from} to ${to}`,
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  57) 				`Bus 7: From ${from} to ${to}`,
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  58) 			];
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  59) 		};
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  60) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  61) 		const suggestedRoutes = generateRoutes(currentLocation, destination);
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  62) 		suggestedRoutes.forEach((route) => {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  63) 			const li = document.createElement("li");
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  64) 			li.textContent = route;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  65) 			routesList.appendChild(li);
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  66) 		});
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  67) 	});
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400  68) });
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 112) /* Slides in the favorites list */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 113) function showFavoritesList() {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 114) 	/* Close history if it's open */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 115) 	const history = document.getElementById("slide-out-history");
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 116) 	if (history.style.width !== "0%") {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 117) 		history.style.width = "0%"; /* Close History */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 118) 	}
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 119) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 120) 	/* Toggle favorites list */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 121) 	favoriteList.style.width = favoriteList.style.width === "0%" ? "30%" : "0%";
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 122) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 123) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 124) /* Slides in the history popup */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 125) function showHistory() {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 126) 	const history = document.getElementById("slide-out-history");
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 127) 	/* Close favorites if it's open */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 128) 	if (favoriteList.style.width !== "0%") {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 129) 		favoriteList.style.width = "0%"; /* Close Favorites */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 130) 	}
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 131) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 132) 	/* Toggle history section */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 133) 	history.style.width = history.style.width === "0%" ? "30%" : "0%";
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 134) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 135) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 136) /* Adds items to the history based on the user's account (for later when we have the functionality) */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 137) function populateHistory(data) {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 138) 	const historyList = document.getElementById("history-link");
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 139) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 140) 	/* Clear placeholder items (if any) */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 141) 	historyList.innerHTML = "";
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 142) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 143) 	/* Loop through the data and append items to the history list */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 144) 	data.forEach((item) => {
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 145) 		const li = document.createElement("li");
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 146) 		li.textContent = item;
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 147) 		historyList.appendChild(li);
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 148) 	});
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 149) }
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 150) 
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 151) /* Load saved tasks after page load */
+ff8231a2 (anantsahoo03 2024-10-16 20:52:31 -0400 152) showTask();
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 219) 
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 220) /* ------------ Login Functionality ------------ */
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 221) document.getElementById("login-form").addEventListener("submit", (event) => {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 222) 	event.preventDefault();
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 223) 
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 224) 	const username = document.getElementById("username").value.trim();
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 225) 	const password = document.getElementById("password").value.trim();
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 226) 
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 227) 	if (!username || !password) {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 228) 		alert("Please enter both username and password.");
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 229) 		return;
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 230) 	}
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 231) 
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 232) 	const loginData = {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 233) 		username: username,
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 234) 		password: password,
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 235) 	};
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 236) 
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 237) 	fetch("http://127.0.0.1:5000/login", {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 238) 		method: "POST",
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 239) 		headers: {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 240) 			"Content-Type": "application/json",
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 241) 		},
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 242) 		body: JSON.stringify(loginData),
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 243) 	})
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 244) 		.then((response) => {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 245) 			if (!response.ok) {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 246) 				throw new Error("Login failed.");
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 247) 			}
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 248) 			return response.json();
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 249) 		})
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 250) 		.then((data) => {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 251) 			if (data.success) {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 252) 				alert("Login successful!");
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 253) 				// Handle successful login, redirect, etc from the backend.
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 254) 			} else {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 255) 				alert("Invalid login credentials.");
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 256) 			}
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 257) 		})
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 258) 		.catch((error) => {
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 259) 			console.error("Error during login:", error);
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 260) 			alert("Login failed.");
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 261) 		});
+d30239c3 (anantsahoo03 2024-10-16 23:12:09 -0400 262) });
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v3/app/templates
+
+trip_plan.html
+
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400  1) {% extends "base.html" %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400  2) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400  3) {% block title %}Trip Plan{% endblock %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400  4) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400  5) {% block navbar %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400  6) <nav class="navbar navbar-expand-lg navbar-light bg-light">
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400  7)     <div class="container-fluid">
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400  8)         <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400  9)         <div class="collapse navbar-collapse justify-content-end">
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 10)             <ul class="navbar-nav">
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 11)                 {% if current_user.is_authenticated %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 12)                     <li class="nav-item">
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 13)                         <a class="nav-link" href="{{ url_for('main.settings') }}">Settings</a>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 14)                     </li>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 15)                     <li class="nav-item">
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 16)                         <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 17)                     </li>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 18)                 {% else %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 19)                     <li class="nav-item">
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 20)                         <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 21)                     </li>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 22)                     <li class="nav-item">
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 23)                         <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 24)                     </li>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 25)                 {% endif %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 26)             </ul>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 27)         </div>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 28)     </div>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 29) </nav>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 30) {% endblock %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 31) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 32) {% block content %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 33) <div class="container mt-3">
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 34)     <h1>Trip Plan</h1>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 35)     <p><strong>Total Estimated Travel Time:</strong> {{ total_travel_time }}</p>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 36) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 37)     <h4>Trip Segments:</h4>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 38)     <table class="table">
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 39)         <thead>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 40)             <tr>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 41)                 <th>From Stop</th>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 42)                 <th>To Stop</th>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 43)                 <th>Departure Time</th>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 44)                 <th>Arrival Time</th>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 45)                 <th>Duration</th>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 46)             </tr>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 47)         </thead>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 48)         <tbody>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 49)             {% for segment in trip_segments %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 50)             <tr>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 51)                 <td>{{ segment.from_stop_name }}</td>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 52)                 <td>{{ segment.to_stop_name }}</td>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 53)                 <td>{{ segment.departure_time_str }}</td>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 54)                 <td>{{ segment.arrival_time_str }}</td>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 55)                 <td>{{ segment.duration | int }} seconds</td>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 56)             </tr>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 57)             {% endfor %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 58)         </tbody>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 59)     </table>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 60) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 61)     <div id="map" style="height: 600px;"></div>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 62) </div>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 63) {% endblock %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 64) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 65) {% block scripts %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 66) <script>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 67)     var map = L.map('map').setView([{{ trip_segments[0].from_stop_lat }}, {{ trip_segments[0].from_stop_lon }}], 13);
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 68) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 69)     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 70)         attribution: '&copy; OpenStreetMap contributors'
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 71)     }).addTo(map);
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 72) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 73)     var latlngs = [
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 74)         {% for segment in trip_segments %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 75)         [{{ segment.from_stop_lat }}, {{ segment.from_stop_lon }}],
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 76)         {% endfor %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 77)         [{{ trip_segments[-1].to_stop_lat }}, {{ trip_segments[-1].to_stop_lon }}]
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 78)     ];
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 79) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 80)     // Draw the route polyline
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 81)     var polyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 82) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 83)     // Fit the map to the polyline
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 84)     map.fitBounds(polyline.getBounds());
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 85) 
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 86)     // Add markers for each stop
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 87)     {% for segment in trip_segments %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 88)     L.marker([{{ segment.from_stop_lat }}, {{ segment.from_stop_lon }}]).addTo(map)
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 89)         .bindPopup("<b>{{ segment.from_stop_name }}</b><br>Departure: {{ segment.departure_time_str }}");
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 90)     {% endfor %}
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 91)     L.marker([{{ trip_segments[-1].to_stop_lat }}, {{ trip_segments[-1].to_stop_lon }}]).addTo(map)
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 92)         .bindPopup("<b>{{ trip_segments[-1].to_stop_name }}</b><br>Arrival: {{ trip_segments[-1].arrival_time_str }}");
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 93) </script>
+b8fa8f73 (anantsahoo03 2024-10-16 21:49:06 -0400 94) {% endblock %}

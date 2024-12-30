@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8" />
+    <title>{% block title %}My Bus App{% endblock %}</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Include custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/sprint2.css') }}" />
+
+    {% block styles %}
+    <!-- Additional styles can be added here -->
+    {% endblock %}
+
+    {% endblock %}
+</head>
+<body>
+    {% block navbar %}
+    <header>
+        <!-- Navbar -->
+        <nav id="navbar" aria-label="Main Navigation">
+            <ul>
+                <li>
+                    <a href="{{ url_for('main.home') }}" aria-label="Home">Home</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.map_view') }}" aria-label="Map">Map</a>
+                </li>
+
+                {% if current_user.is_authenticated %}
+                <li>
+                    <a href="#" id="history-link" aria-label="History">History</a>
+                </li>
+                <li>
+                    <a href="#" id="favorites-link" aria-label="Favorites">Favorites</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.settings') }}" aria-label="Settings">Settings</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{{ url_for('main.register') }}" aria-label="Register Account">Register Account</a>
+                </li>
+                {% endif %}
+            </ul>
+            <div id="login-container">
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('main.logout') }}" class="btn btn-secondary">Logout</a>
+                {% else %}
+                <button id="login-button" class="btn btn-primary">Login</button>
+                <div id="login-dropdown" class="dropdown" style="display: none;">
+                    <form id="login-form" method="POST" action="{{ url_for('main.login') }}">
+                        
+                        <label for="username">Username/Email:</label>
+                        <input type="text" id="username" name="username_or_email" placeholder="Enter your username or email" required />
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </nav>
+        {% block hero %}
+			<!-- Hero section can be overridden in templates if needed -->
+		{% endblock %}
+    </header>
+    {% endblock %}
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="container mt-2">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    <!-- Page content will be injected here -->
+    {% endblock %}
+
+    {% block footer %}
+    <footer class="footer-banner text-center mt-4">
+        <div class="container p-4">
+            <p>&copy; {{ current_year }} Rocky Top Transit Link. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    {% if current_user.is_authenticated %}
+    <!-- Favorites Slide-In Section -->
+    <div class="slide-in-container" id="slide-out-favorite">
+        <div class="favorites-list">
+            <h2>Favorites List</h2>
+            <div class="row">
+                <input type="text" id="input-box" placeholder="Enter a bus stop name" />
+                <button id="add-bus-stop">Add</button>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    setupAutocomplete("input-box");
+                });
+            </script>
+            <ul id="list-container"></ul>
+        </div>
+    </div>
+    <!-- History Slide-In Section -->
+    <div class="slide-in-container" id="slide-out-history">
+        <div class="history">
+            <h2>History</h2>
+            <ul id="history-list"></ul>
+        </div>
+    </div>
+    {% endif %}
+    {% endblock %}
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block script_variables %}
+    <script>
+        var addFavoriteUrl = "{{ url_for('main.add_favorite') }}";
+        var removeFavoriteUrl = "{{ url_for('main.remove_favorite') }}";
+        var favoritePlaces = {{ favorite_places | default([]) | tojson | safe }};
+    </script>
+    {% endblock %}
+
+    <!-- Include custom JS -->
+    <script>
+        const autocompleteUrl = "{{ url_for('main.autocomplete') }}";
+    </script>
+    <script defer src="{{ url_for('static', filename='js/sprint2.js') }}"></script>
+
+    {% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // Toggle login dropdown on button click
+            $("#login-button").on("click", function (event) {
+                event.stopPropagation();
+                $("#login-dropdown").toggle();
+            });
+
+            // Close the dropdown when clicking outside of it
+            $(document).on("click", function (event) {
+                if (!$(event.target).closest("#login-container").length) {
+                    $("#login-dropdown").hide();
+                }
+            });
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>

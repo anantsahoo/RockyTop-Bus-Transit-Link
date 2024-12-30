@@ -1,0 +1,415 @@
+requirements.txt
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 12) logging==0.4.9.6
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 13) Flask-WTF==1.2.2
+
+app/forms.py
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400  1) from flask_wtf import FlaskForm
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400  2) from wtforms import PasswordField, SubmitField
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400  3) from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400  4) import re
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400  5) 
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400  6) def strong_password(form, field):
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400  7)     password = field.data
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400  8)     if len(password) < 8:
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400  9)         raise ValidationError('Password must be at least 8 characters long.')
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 10)     if not re.search(r'[A-Z]', password):
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 11)         raise ValidationError('Password must contain at least one uppercase letter.')
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 12)     if not re.search(r'[a-z]', password):
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 13)         raise ValidationError('Password must contain at least one lowercase letter.')
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 14)     if not re.search(r'\d', password):
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 15)         raise ValidationError('Password must contain at least one number.')
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 16)     if not re.search(r'[^\w\s]', password):
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 17)         raise ValidationError('Password must contain at least one special character.')
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 18) 
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 19) class ChangePasswordForm(FlaskForm):
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 20)     current_password = PasswordField('Current Password', validators=[DataRequired()])
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 21)     new_password = PasswordField('New Password', validators=[
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 22)         DataRequired(),
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 23)         strong_password
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 24)     ])
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 25)     confirm_new_password = PasswordField('Confirm New Password', validators=[
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 26)         DataRequired(),
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 27)         EqualTo('new_password', message='Passwords must match.')
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 28)     ])
+ce97f020 (hcrettol 2024-10-29 10:51:28 -0400 29)     submit = SubmitField('Change Password')
+
+app/graph_utils.py
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400   1) from datetime import datetime, timedelta
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400   2) import math
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400   3) import logging
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400   4) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400   5) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400   6) def time_to_seconds(time_str):
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400   7)     h, m, s = map(int, time_str.split(':'))
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400   8)     return h * 3600 + m * 60 + s
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400   9) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  11) def build_graph():
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  12)     import pandas as pd
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  13)     import networkx as nx
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  14)     # Load GTFS data
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  15)     stops = pd.read_csv('gtfs/stops.txt', dtype={'stop_id': str})
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  16)     stop_times = pd.read_csv('gtfs/stop_times.txt', dtype={'trip_id': str, 'stop_id': str})
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  17)     trips = pd.read_csv('gtfs/trips.txt', dtype={'trip_id': str, 'route_id': str})
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  18)     routes = pd.read_csv('gtfs/routes.txt', dtype={'route_id': str})
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  19) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  20)     # Convert times to seconds since midnight, accounting for times beyond 24:00:00
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  21)     stop_times['arrival_seconds'] = stop_times['arrival_time'].apply(time_to_seconds)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  22)     stop_times['departure_seconds'] = stop_times['departure_time'].apply(time_to_seconds)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  23) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  24)     # Sort stop_times by trip_id and stop_sequence
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  25)     stop_times.sort_values(['trip_id', 'stop_sequence'], inplace=True)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  26) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  27)     # Build the graph as a MultiDiGraph to allow multiple edges
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  28)     G = nx.MultiDiGraph()
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  29) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  30)     # Add edges for trips
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  31)     for trip_id, group in stop_times.groupby('trip_id'):
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  32)         group = group.sort_values('stop_sequence')
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  33)         previous_node = None
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  34)         for idx, row in group.iterrows():
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  35)             stop_id = row['stop_id']
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  36)             arrival_time = row['arrival_seconds']
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  37)             departure_time = row['departure_seconds']
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  38)             node = (stop_id, arrival_time)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  39)             G.add_node(node)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  40) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  41)             if previous_node:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  42)                 # Add edge from previous node to current node
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  43)                 travel_time = arrival_time - previous_node[1]
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  44)                 if travel_time < 0:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  45)                     # Handle overnight trips (time wrap-around)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  46)                     travel_time += 24 * 3600
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  47)                 G.add_edge(previous_node, node, weight=travel_time, trip_id=trip_id)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  48)             previous_node = (stop_id, departure_time)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  49) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  50)     # Define transfer time (e.g., 5 minutes)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  51)     TRANSFER_TIME = 300  # 5 minutes in seconds
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  52) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  53)     # Add transfer edges
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  54)     for stop_id, group in stop_times.groupby('stop_id'):
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  55)         times = group['departure_seconds'].unique()
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  56)         times.sort()
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  57)         for i in range(len(times)):
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  58)             for j in range(len(times)):
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  59)                 time_diff = times[j] - times[i]
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  60)                 if time_diff < 0:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  61)                     time_diff += 24 * 3600  # Handle overnight wrap-around
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  62)                 if TRANSFER_TIME <= time_diff <= (24 * 3600):
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  63)                     node_from = (stop_id, times[i])
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  64)                     node_to = (stop_id, times[j])
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  65)                     if node_from != node_to:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  66)                         G.add_edge(node_from, node_to, weight=time_diff, transfer=True)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  67)                 elif time_diff > (24 * 3600):
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  68)                     break  # No need to check further
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  69)     return G
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  70) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  72) def find_earliest_path(G, start_stop_id, end_stop_id, current_time_seconds):
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  73)     import networkx as nx
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  74) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  75)     # Find all nodes at the starting stop after the current time
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  76)     start_nodes = [node for node in G.nodes if node[0] == start_stop_id and node[1] >= current_time_seconds]
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  77)     if not start_nodes:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  78)         # If no nodes after current time, include nodes from the next day
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  79)         start_nodes = [node for node in G.nodes if node[0] == start_stop_id]
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  80) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  81)     # Find all nodes at the ending stop
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  82)     end_nodes = [node for node in G.nodes if node[0] == end_stop_id]
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  83) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  84)     if not start_nodes or not end_nodes:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  85)         return None  # No available starting or ending nodes
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  86) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  87)     min_arrival_time = None
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  88)     best_path = None
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  89) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  90)     # Use Dijkstra's algorithm for multi-edge graphs
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  91)     for start_node in start_nodes:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  92)         try:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  93)             lengths, paths = nx.multi_source_dijkstra(G, {start_node}, weight='weight')
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  94)             for end_node in end_nodes:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  95)                 if end_node in paths:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  96)                     path = paths[end_node]
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  97)                     arrival_time = end_node[1]
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  98)                     if min_arrival_time is None or arrival_time < min_arrival_time:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  99)                         min_arrival_time = arrival_time
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 100)                         best_path = path
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 101)         except nx.NetworkXNoPath:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 102)             continue  # No path from this start_node
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 103) 
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 104)     return best_path
+
+app/routes.py
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400   4) from werkzeug.security import generate_password_hash, check_password_hash
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  13) from app.forms import ChangePasswordForm
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  70)     if current_user.is_authenticated:
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  71)         return redirect(url_for('main.home'))
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  72)     
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 114) @main.route('/settings', methods=['GET', 'POST'])
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 115) @login_required
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 116) def settings():
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 117)     form = ChangePasswordForm()
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 118)     if form.validate_on_submit():
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 119)         # Verify current password
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 120)         if not check_password_hash(current_user.password_hash, form.current_password.data):
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 121)             flash('Current password is incorrect.', 'danger')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 122)         else:
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 123)             # Update the password
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 124)             current_user.password_hash = generate_password_hash(form.new_password.data)
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 125)             db.session.commit()
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 126)             flash('Your password has been updated successfully.', 'success')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 127)             return redirect(url_for('main.settings'))
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 128)     elif form.errors:
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 129)         flash('Please correct the errors in the form.', 'danger')
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 130)     # Retrieve user's favorite places
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 131)     favorite_places = []
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 132)     if current_user.favorite_places:
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 133)         favorite_places = [place.strip() for place in current_user.favorite_places.split(',')]
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 134) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 135)     return render_template('settings.html', form=form, favorite_places=favorite_places)
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 221)     def seconds_to_time_str(seconds):
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 222)         h = int(seconds // 3600) % 24
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 223)         m = int((seconds % 3600) // 60)
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 224)         s = int(seconds % 60)
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 225)         return f"{h:02d}:{m:02d}:{s:02d}"
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 226)     # Load GTFS data
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 227)     stops = pd.read_csv('gtfs/stops.txt', dtype={'stop_id': str})
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 228)     stop_times = pd.read_csv('gtfs/stop_times.txt', dtype={'trip_id': str, 'stop_id': str})
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 229)     trips = pd.read_csv('gtfs/trips.txt', dtype={'trip_id': str, 'route_id': str})
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 230)     routes = pd.read_csv('gtfs/routes.txt', dtype={'route_id': str})
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 231)     calendar = pd.read_csv('gtfs/calendar.txt', dtype={'service_id': str})
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 232)     calendar_dates = pd.read_csv('gtfs/calendar_dates.txt', dtype={'service_id': str})
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 233) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 234)     # Get stop details
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 235)     stop = stops[stops['stop_id'] == stop_id].iloc[0]
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 236) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 237)     # Get trips that serve this stop
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 238)     stop_trips = stop_times[stop_times['stop_id'] == stop_id]['trip_id'].unique()
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 239)     trips_serving_stop = trips[trips['trip_id'].isin(stop_trips)]
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 240) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 241)     # Get routes serving the stop
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 242)     routes_serving_stop = routes[routes['route_id'].isin(trips_serving_stop['route_id'].unique())].to_dict('records')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 243) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 244)     # Get upcoming arrivals
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 245)     now = datetime.now()
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 246)     current_time_seconds = now.hour * 3600 + now.minute * 60 + now.second
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 247) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 248)     # Convert times to seconds since midnight
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 249)     stop_times['arrival_seconds'] = stop_times['arrival_time'].apply(time_to_seconds)
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 250)     stop_times['departure_seconds'] = stop_times['departure_time'].apply(time_to_seconds)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 251) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 252)     # Filter for the selected stop and times after current time
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 253)     upcoming_arrivals = stop_times[
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 254)         (stop_times['stop_id'] == stop_id) &
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 255)         (stop_times['departure_seconds'] >= current_time_seconds)
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 256)     ].sort_values('departure_seconds')
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 257) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 258)     # Merge with trips to get route information
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 259)     upcoming_arrivals = upcoming_arrivals.merge(trips, on='trip_id')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 260)     upcoming_arrivals = upcoming_arrivals.merge(routes, on='route_id')
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 261) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 262)     # Limit to next 10 arrivals
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 263)     upcoming_arrivals = upcoming_arrivals.head(10)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 264) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 265)     # Format arrival times
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 266)     upcoming_arrivals['formatted_departure'] = upcoming_arrivals['departure_seconds'].apply(seconds_to_time_str)
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 267) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 268)     # Prepare data for template
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 269)     arrivals_list = upcoming_arrivals.to_dict('records')
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 270) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 271)     return render_template(
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 272)         'stop_detail.html',
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 273)         stop=stop,
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 274)         routes=routes_serving_stop,
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 275)         arrivals=arrivals_list
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 276)     )
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 394) @main.route('/change_password', methods=['POST'])
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 395) @login_required
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 396) def change_password():
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 397)     current_password = request.form.get('current_password')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 398)     new_password = request.form.get('new_password')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 399)     confirm_new_password = request.form.get('confirm_new_password')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 400) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 401)     # Verify current password
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 402)     if not check_password_hash(current_user.password_hash, current_password):
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 403)         flash('Current password is incorrect.', 'danger')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 404)         return redirect(url_for('main.settings'))
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 405) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 406)     # Check if new passwords match
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 407)     if new_password != confirm_new_password:
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 408)         flash('New passwords do not match.', 'danger')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 409)         return redirect(url_for('main.settings'))
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 410) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 411)     # Validate new password strength (optional but recommended)
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 412)     if len(new_password) < 8:
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 413)         flash('New password must be at least 8 characters long.', 'danger')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 414)         return redirect(url_for('main.settings'))
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 415)     # Add more password strength validations as needed
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 416) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 417)     # Update the user's password
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 418)     current_user.password_hash = generate_password_hash(new_password)
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 419)     db.session.commit()
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 420) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 421)     flash('Your password has been updated successfully.', 'success')
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 422)     return redirect(url_for('main.settings'))
+
+app/templates/map.html
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400   8)     <!-- Toggle Switches for Pins -->
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400   9)     <div class="mb-3">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  10)         <label class="form-check-label me-3">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  11)             <input type="checkbox" id="toggle-bus-stops" class="form-check-input" checked>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  12)             Show Bus Stops
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  13)         </label>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  14)         <label class="form-check-label me-3">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  15)             <input type="checkbox" id="toggle-favorites" class="form-check-input" checked>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  16)             Show Favorite Locations
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  17)         </label>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  18)         <!-- Add more toggles if needed -->
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  19)     </div>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  67)             // Layer Groups for Markers
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  68)             var busStopMarkers = L.layerGroup().addTo(map);
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  69)             var favoriteMarkers = L.layerGroup().addTo(map);
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  70)             var routeLayerGroup = L.layerGroup().addTo(map); // For route polylines and markers
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  71) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  72)             // Add markers for bus stops
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  73)             {% for stop in stops %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  74)             var marker = L.marker([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}])
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  75)                 .bindPopup(
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  76)                     `<b>{{ stop['stop_name']|escape }}</b><br>
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  77)                     ID: {{ stop['stop_id']|escape }}<br>
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  78)                     <a href="{{ url_for('main.stop_detail', stop_id=stop['stop_id']|urlencode) }}">View Details</a>`
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  79)                 );
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  80)             busStopMarkers.addLayer(marker);
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  81)             {% endfor %}
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  82) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  83)             /* THIS WILL BE USED WHEN WE GET FAV LOCATION LAT AND LON
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  84)             // Add markers for favorite locations (if any)
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  85)             {% if current_user.is_authenticated and current_user.favorite_places %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  86)                 {% for place in favorite_places %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  87)                     // Assuming you have a way to get latitude and longitude for favorite places
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  88)                     var favoriteMarker = L.marker([{{ place.latitude }}, {{ place.longitude }}])
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  89)                         .bindPopup(`<b>{{ place.name }}</b>`);
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  90)                     favoriteMarkers.addLayer(favoriteMarker);
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  91)                 {% endfor %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  92)             {% endif %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  93)             */
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  94) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  95)             // Toggle visibility of bus stops
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  96)             $('#toggle-bus-stops').change(function() {
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  97)                 if (this.checked) {
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  98)                     map.addLayer(busStopMarkers);
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  99)                 } else {
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 100)                     map.removeLayer(busStopMarkers);
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 101)                 }
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 102)             });
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 103) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 104)             // Toggle visibility of favorite locations
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 105)             $('#toggle-favorites').change(function() {
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 106)                 if (this.checked) {
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 107)                     map.addLayer(favoriteMarkers);
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 108)                 } else {
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 109)                     map.removeLayer(favoriteMarkers);
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 110)                 }
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 111)             });
+
+app/templates/settings.html
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  7) 	<!-- Include CSRF token and use WTForms fields -->
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  8) 	<form method="POST" action="{{ url_for('main.settings') }}">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  9) 		{{ form.hidden_tag() }}
+b2b5c170 (harrisoncrettol 2024-10-27 12:58:46 -0400 10) 		<div class="mb-3">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 11) 			{{ form.current_password.label(class="form-label") }}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 12) 			{{ form.current_password(class="form-control") }}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 13) 			{% for error in form.current_password.errors %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 14) 				<div class="text-danger">{{ error }}</div>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 15) 			{% endfor %}
+b2b5c170 (harrisoncrettol 2024-10-27 12:58:46 -0400 16) 		</div>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 17) 		<div class="mb-3">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 18) 			{{ form.new_password.label(class="form-label") }}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 19) 			{{ form.new_password(class="form-control") }}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 20) 			{% for error in form.new_password.errors %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 21) 				<div class="text-danger">{{ error }}</div>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 22) 			{% endfor %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 23) 		</div>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 24) 		<div class="mb-3">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 25) 			{{ form.confirm_new_password.label(class="form-label") }}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 26) 			{{ form.confirm_new_password(class="form-control") }}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 27) 			{% for error in form.confirm_new_password.errors %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 28) 				<div class="text-danger">{{ error }}</div>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 29) 			{% endfor %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 30) 		</div>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 31) 		{{ form.submit(class="btn btn-success") }}
+b2b5c170 (harrisoncrettol 2024-10-27 12:58:46 -0400 32) 	</form>
+
+app/templates/stop_detail.html
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  1) {% extends "base.html" %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  2) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  3) {% block title %}Stop Details{% endblock %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  4) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  5) {% block content %}
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400  6) <div class="container mt-3">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  7)     <h1>{{ stop['stop_name'] }}</h1>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  8)     <p><strong>Stop ID:</strong> {{ stop['stop_id'] }}</p>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400  9)     <p><strong>Latitude:</strong> {{ stop['stop_lat'] }}</p>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 10)     <p><strong>Longitude:</strong> {{ stop['stop_lon'] }}</p>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 11) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 12)     <!-- Map Section -->
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 13)     <h4>Map</h4>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 14)     <div id="map" style="height: 500px;"></div>
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 15) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 16)     <!-- Routes Serving This Stop -->
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 17)     <h4 class="mt-4">Routes Serving This Stop</h4>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 18)     {% if routes %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 19)     <ul class="list-group">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 20)         {% for route in routes %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 21)         <li class="list-group-item">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 22)             <strong>{{ route['route_short_name'] }} - {{ route['route_long_name'] }}</strong><br>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 23)             <em>Route ID:</em> {{ route['route_id'] }}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 24)         </li>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 25)         {% endfor %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 26)     </ul>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 27)     {% else %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 28)     <p>No routes available for this stop.</p>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 29)     {% endif %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 30) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 31)     <!-- Upcoming Arrivals -->
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 32)     <h4 class="mt-4">Upcoming Departures</h4>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 33)     {% if arrivals %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 34)     <table class="table table-striped">
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 35)         <thead>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 36)             <tr>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 37)                 <th>Route</th>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 38)                 <th>Trip ID</th>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 39)                 <th>Departure Time</th>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 40)             </tr>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 41)         </thead>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 42)         <tbody>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 43)             {% for arrival in arrivals %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 44)             <tr>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 45)                 <td>{{ arrival['route_short_name'] }} - {{ arrival['route_long_name'] }}</td>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 46)                 <td>{{ arrival['trip_id'] }}</td>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 47)                 <td>{{ arrival['formatted_departure'] }}</td>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 48)             </tr>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 49)             {% endfor %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 50)         </tbody>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 51)     </table>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 52)     {% else %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 53)     <p>No upcoming departures at this time.</p>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 54)     {% endif %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 55) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 56)     <a href="{{ url_for('main.map_view') }}" class="btn btn-primary mt-3">Back to Map</a>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 57) </div>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 58) {% endblock %}
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 59) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 60) {% block scripts %}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 61)     {{ super() }}
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 62)     <script>
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 63)         var map = L.map('map').setView([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}], 15);
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 64) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 65)         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 66)             attribution: '&copy; OpenStreetMap contributors'
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 67)         }).addTo(map);
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 68) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 69)         // Add marker for the stop
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 70)         L.marker([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}]).addTo(map)
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 71)             .bindPopup("<b>{{ stop['stop_name'] }}</b>").openPopup();
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 72) 
+ce97f020 (hcrettol     2024-10-29 10:51:28 -0400 73)     </script>
+5ee8a181 (harrisoncrettol 2024-10-27 11:53:03 -0400 74) {% endblock %}

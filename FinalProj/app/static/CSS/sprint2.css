@@ -1,0 +1,423 @@
+/* Reset */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* Body and HTML */
+html,
+body {
+	height: 100%;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+/* Main content area */
+main {
+	flex: 1;
+}
+
+/* Footer */
+footer.footer-banner {
+	background-color: #FF8200;
+    color: #FFFFFF;
+	text-align: center;
+	padding: 15px 0;
+	width: 100%;
+	flex-shrink: 0;
+}
+
+/* Login Dropdown */
+#login-container {
+	position: relative;
+	display: inline-block;
+}
+
+#login-button {
+	background-color: #FF8200;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	border-radius: 6px;
+}
+
+#login-dropdown {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	background-color: #ffffff;
+	padding: 10px;
+	border: 1px solid #ccc;
+	z-index: 1000;
+}
+
+#login-container:hover #login-dropdown {
+	display: block;
+}
+
+#login-dropdown form {
+	display: flex;
+	flex-direction: column;
+}
+
+#login-dropdown input {
+	margin-bottom: 10px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+#login-dropdown button {
+	background-color: #FF8200;
+	color: white;
+	border: none;
+	padding: 10px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+/* Button Styling */
+button {
+    padding: 10px 15px;
+    margin: 10px;
+    background-color: #FF8200;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #CC6600; /* Darker shade of orange */
+}
+
+/* Slide-In Section */
+.slide-in-container {
+	position: fixed;
+	top: 0;
+	width: 0;
+	height: 100%;
+	overflow-x: hidden;
+	transition: width 0.4s;
+	z-index: 999;
+}
+
+/* Favorites List on the Right */
+#slide-out-favorite {
+	right: 0;
+	width: 0; /* Start with 0 width */
+	transition: width 0.4s ease; /* Smooth transition */
+	background-color: rgba(77, 77, 77, 0.95);
+	box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Favorites List Active State */
+#slide-out-favorite.active {
+	width: 30%; /* Adjust as needed */
+}
+
+/* History List on the Right */
+#slide-out-history {
+	right: 0; /* Changed from left: 0 to right: 0 */
+	width: 0; /* Start with 0 width */
+	transition: width 0.4s ease; /* Smooth transition */
+	background-color: rgba(77, 77, 77, 0.95);
+	box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* History List Active State */
+#slide-out-history.active {
+	width: 30%; /* Adjust as needed */
+}
+
+/* List Styling */
+#list-container li,
+#history-list li {
+	position: relative;
+	border-bottom: 1px dashed #ccc;
+	padding: 10px;
+	margin: 5px 0;
+}
+
+#list-container li span {
+	position: absolute;
+	right: 0;
+	top: -10%;
+	width: 40px;
+	height: 40px;
+	font-size: 22px;
+	color: #555;
+	line-height: 40px;
+	text-align: center;
+	border-radius: 50%;
+}
+
+ul li span:hover {
+	background: #edeef0;
+}
+
+.favorites-list,
+.history {
+	background-color: white;
+	padding: 20px;
+	margin: 20px;
+	border-radius: 10px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	width: 100%;
+}
+
+/* Footer */
+footer {
+	background-color: #333;
+	color: #000000;
+	text-align: center;
+	padding: 15px 0;
+	position: relative;
+	width: 100%;
+}
+
+footer p {
+	margin: 0;
+}
+
+.map-legend {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	padding: 10px;
+	background: white;
+	border-radius: 5px;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.map-legend h4 {
+	margin: 0 0 5px;
+	font-size: 16px;
+}
+
+.map-legend ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.map-legend li {
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.legend-icon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin-right: 8px;
+	border-radius: 50%;
+}
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    background-color: #FF8200; /* Orange color */
+    color: white;
+    padding: 30px 0; /* Adjust padding as needed */
+}
+
+.hero-section h1 {
+    margin: 0;
+    font-size: 2.5em;
+    border-bottom: none;
+    text-decoration: none;
+}
+
+.hero-section p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+.footer-banner {
+	flex-shrink: 0;
+	background-color: #333;
+	color: white;
+	text-align: center;
+	padding: 15px 0;
+	position: relative;
+	width: 100%;
+}
+
+.ui-autocomplete {
+	position: absolute;
+	z-index: 10000; /* Adjust as necessary */
+}
+
+/* Map Page Styles */
+.page-title {
+	margin-bottom: 30px;
+	padding-bottom: 10px;
+	border-bottom: 2px solid #ddd;
+}
+
+.toggle-container {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+#favorite-locations-container h5 {
+	margin-top: 10px;
+}
+
+#favorite-locations-container .favorite-location-btn {
+	margin: 5px;
+}
+
+#map-container {
+	position: relative;
+	margin-top: 20px;
+}
+
+#map {
+	width: 100%;
+	height: 600px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+
+#map-legend {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+}
+
+/* Optional: Customize the legend */
+.map-legend {
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.map-legend h4 {
+	margin-bottom: 5px;
+}
+
+.legend-icon {
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.info.legend {
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 10px;
+	border-radius: 5px;
+	line-height: 1.5em;
+}
+
+.info.legend h4 {
+	margin-bottom: 5px;
+}
+
+.legend-icon {
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.dropdown-login-form {
+	width: 300px; /* Adjust the width as needed */
+}
+
+
+/* Settings Page Styles */
+.container h1 {
+    margin-bottom: 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+
+/* Legend styling */
+.info.legend {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    line-height: 1.5em;
+}
+
+.info.legend h4 {
+    margin-bottom: 5px;
+}
+
+.legend-icon {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+
+/* History List */
+#history-list li {
+    position: relative;
+    padding: 10px;
+    margin: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+#history-list li .btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.map {
+    height: 400px; /* Adjust the height as needed */
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #4D4D4D !important; /* Gray color */
+}
+
+.navbar .nav-link,
+.navbar .navbar-brand {
+    color: #FFFFFF !important; /* White text color */
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #CCCCCC !important; /* Light gray on hover/active */
+}
+
+/* Style for the x (close) button */
+.close {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}

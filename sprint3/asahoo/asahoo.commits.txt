@@ -1,0 +1,426 @@
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/templates
+
+base.html
+
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400   1) <!DOCTYPE html>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400   2) <html lang="en">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400   3) 	<head>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400   4) 		{% block head %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400   5) 		<meta charset="UTF-8" />
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400   6) 		<title>{% block title %}My Bus App{% endblock %}</title>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400   7) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400   8) 		<style>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400   9) 			/* Ensure the map does not overlap the autocomplete suggestions */
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  10) 			#map-container {
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  11) 				position: relative;
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  12) 			}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  13) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  14) 			#map {
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  15) 				position: relative;
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  16) 				z-index: 1;
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  17) 			}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  18) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  19) 			/* Set a higher z-index for the autocomplete suggestions */
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  20) 			.ui-autocomplete {
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  21) 				z-index: 1000 !important;
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  22) 			}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  23) 		</style>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  24) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  25) 		<!-- Include Bootstrap CSS -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  26) 		<link
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  27) 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  28) 			rel="stylesheet"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  29) 		/>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  30) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  31) 		<!-- Include jQuery UI CSS -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  32) 		<link
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  33) 			rel="stylesheet"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  34) 			href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  35) 		/>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  36) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  37) 		<!-- Include Leaflet CSS -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  38) 		<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  39) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  40) 		<!-- Include custom CSS -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  41) 		<link
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  42) 			rel="stylesheet"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  43) 			href="{{ url_for('static', filename='CSS/sprint2.css') }}"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  44) 		/>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  45) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  46) 		{% endblock %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  47) 	</head>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  48) 	<body>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  49) 		{% block navbar %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  50) 		<header>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  51) 			<!-- Navbar -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  52) 			<nav id="navbar" aria-label="Main Navigation">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  53) 				<ul>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  54) 					<li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  55) 						<a href="{{ url_for('main.home') }}" aria-label="Home">Home</a>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  56) 					</li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  57) 					<li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  58) 						<a href="{{ url_for('main.map_view') }}" aria-label="Map">Map</a>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  59) 					</li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  60) 					<li><a href="#" aria-label="Routes">Routes</a></li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  61) 					<li><a href="#" aria-label="Schedules">Schedules</a></li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  62) 					<li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  63) 						<a
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  64) 							href="#"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  65) 							id="favorites-link"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  66) 							onclick="showFavoritesList()"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  67) 							aria-label="Favorites"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  68) 							>Favorites</a
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  69) 						>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  70) 					</li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  71) 					<li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  72) 						<a
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  73) 							href="#"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  74) 							id="history-link"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  75) 							onclick="showHistory()"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  76) 							aria-label="History"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  77) 							>History</a
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  78) 						>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  79) 					</li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  80) 					{% if current_user.is_authenticated %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  81) 					<li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  82) 						<a href="{{ url_for('main.settings') }}" aria-label="Settings"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  83) 							>Settings</a
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  84) 						>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  85) 					</li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  86) 					{% else %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  87) 					<li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  88) 						<a
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  89) 							href="{{ url_for('main.register') }}"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  90) 							aria-label="Register Account"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  91) 							>Register Account</a
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  92) 						>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  93) 					</li>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  94) 					{% endif %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  95) 				</ul>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  96) 				<div id="login-container">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  97) 					{% if current_user.is_authenticated %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  98) 					<a href="{{ url_for('main.logout') }}" class="btn btn-secondary"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  99) 						>Logout</a
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 100) 					>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 101) 					{% else %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 102) 					<button id="login-button" class="btn btn-primary">Login</button>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 103) 					<div id="login-dropdown" class="dropdown" style="display: none">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 104) 						<form
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 105) 							id="login-form"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 106) 							method="POST"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 107) 							action="{{ url_for('main.login') }}"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 108) 						>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 109) 							<label for="username">Username/Email:</label>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 110) 							<input
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 111) 								type="text"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 112) 								id="username"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 113) 								name="username_or_email"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 114) 								placeholder="Enter your username or email"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 115) 								required
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 116) 							/>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 117) 							<label for="password">Password:</label>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 118) 							<input
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 119) 								type="password"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 120) 								id="password"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 121) 								name="password"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 122) 								placeholder="Enter your password"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 123) 								required
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 124) 							/>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 125) 							<button type="submit">Login</button>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 126) 						</form>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 127) 					</div>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 128) 					{% endif %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 129) 				</div>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 130) 			</nav>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 131) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 132) 			<!-- Hero Section -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 133) 			{% block hero %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 134) 			<!-- Hero section can be overridden in templates if needed -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 135) 			{% endblock %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 136) 		</header>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 137) 		{% endblock %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 138) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 139) 		<!-- Flash Messages -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 140) 		{% with messages = get_flashed_messages(with_categories=true) %} {% if
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 141) 		messages %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 142) 		<div class="container mt-2">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 143) 			{% for category, message in messages %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 144) 			<div class="alert alert-{{ category }}">{{ message }}</div>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 145) 			{% endfor %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 146) 		</div>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 147) 		{% endif %} {% endwith %} {% block content %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 148) 		<!-- Page content will be injected here -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 149) 		{% endblock %} {% block footer %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 150) 		<footer class="bg-light text-center text-lg-start mt-4">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 151) 			<div class="container p-4">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 152) 				<p>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 153) 					&copy; {{ current_year }} Rocky Top Transit Link. All Rights Reserved.
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 154) 				</p>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 155) 			</div>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 156) 		</footer>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 157) 		{% endblock %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 158) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 159) 		<!-- Include jQuery before jQuery UI -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 160) 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 161) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 162) 		<!-- Include jQuery UI after jQuery -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 163) 		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 164) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 165) 		<!-- Include Bootstrap JS -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 166) 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 167) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 168) 		<!-- Include Leaflet JS -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 169) 		<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 170) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 171) 		<!-- Include custom JS -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 172) 		<script
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 173) 			defer
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 174) 			src="{{ url_for('static', filename='js/sprint2.js') }}"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 175) 		></script>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 176) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 177) 		{% block scripts %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 178) 		<script>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 179) 			$(document).ready(function () {
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 180) 				// Toggle login dropdown on button click
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 181) 				$("#login-button").on("click", function (event) {
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 182) 					event.stopPropagation();
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 183) 					$("#login-dropdown").toggle();
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 184) 				});
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 185) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 186) 				// Close the dropdown when clicking outside of it
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 187) 				$(document).on("click", function (event) {
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 188) 					if (!$(event.target).closest("#login-container").length) {
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 189) 						$("#login-dropdown").hide();
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 190) 					}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 191) 				});
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 192) 			});
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 193) 		</script>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 194) 		{% endblock %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 195) 	</body>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 196) </html>
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/templates
+
+home.html
+
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  1) {% extends "base.html" %} {% block title %}Rocky Top Transit Link{% endblock %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  2) {% block head %} {{ super() }}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  3) <meta
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  4) 	name="description"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  5) 	content="Efficient public transit at your fingertips with Rocky Top Transit Link."
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  6) />
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  7) <!-- No need to include sprint2.css or sprint2.js here -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400  8) {% endblock %} {% block hero %}
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  9) <!-- Hero Section -->
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 10) <section class="hero-section">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 11) 	<h1>Rocky Top Transit Link</h1>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 12) 	<p>Efficient Public Transit at Your Fingertips</p>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 13) </section>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 14) {% endblock %} {% block content %}
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 15) <!-- Main Content -->
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 16) <main>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 17) 	<!-- Journey Planner Section -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 18) 	<section id="location-section">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 19) 		<h2>Plan Your Journey</h2>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 20) 		<form
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 21) 			id="location-form"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 22) 			method="POST"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 23) 			action="{{ url_for('main.find_route') }}"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 24) 		>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 25) 			<label for="current-location">Current Location:</label>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 26) 			<input
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 27) 				type="text"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 28) 				id="current-location"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 29) 				name="start_stop"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 30) 				placeholder="Enter your current location"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 31) 			/>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 32) 			<label for="destination">Destination:</label>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 33) 			<input
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 34) 				type="text"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 35) 				id="destination"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 36) 				name="end_stop"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 37) 				placeholder="Enter your destination"
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 38) 			/>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 39) 			<button type="submit">Find Routes</button>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 40) 		</form>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 41) 	</section>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 42) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 43) 	<!-- Suggested Routes Section -->
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 44) 	<section id="routes-section">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 45) 		<h2>Suggested Routes</h2>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 46) 		<ul id="routes-list"></ul>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 47) 	</section>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 48) </main>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 49) 
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 50) <!-- Slide-In Sections -->
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 51) <div class="slide-in-container" id="slide-out-favorite">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 52) 	<div class="favorites-list">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 53) 		<h2>Favorites List</h2>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 54) 		<div class="row">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 55) 			<input type="text" id="input-box" placeholder="Enter a bus stop name" />
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 56) 			<button onclick="addTask()" id="add-bus-stop">Add</button>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 57) 		</div>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 58) 		<ul id="list-container"></ul>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 59) 	</div>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 60) </div>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 61) 
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 62) <div class="slide-in-container" id="slide-out-history">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 63) 	<div class="history">
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 64) 		<h2>History</h2>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 65) 		<ul id="history-list"></ul>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 66) 	</div>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 67) </div>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 68) {% endblock %} {% block scripts %} {{ super() }}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 69) <script>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 70) 	// Expose Flask URLs to JavaScript
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 71) 	var loginUrl = "{{ url_for('main.login') }}";
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 72) 	var findRouteUrl = "{{ url_for('main.find_route') }}";
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 73) 	var sendRealTimeLocationUrl = "{{ url_for('main.send_real_time_location') }}"; // Assuming you have this route
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 74) 	var getHistoryUrl = "{{ url_for('main.get_history') }}"; // Assuming you have this route
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 75) </script>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 76) {% endblock %}
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/templates
+
+stop_detail.html
+
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 32) {% endblock %} {% block scripts %} {{ super() }}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 33) <script>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 34) 	var map = L.map('map').setView([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}], 13);
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 35) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 36) 	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 37) 	    attribution: '&copy; OpenStreetMap contributors'
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 38) 	}).addTo(map);
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 39) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 40) 	// Add marker for the stop
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 41) 	L.marker([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}]).addTo(map)
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 42) 	    .bindPopup("<b>{{ stop['stop_name'] }}</b>");
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 43) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 44) 	// Add the route polyline
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 45) 	var shapeCoords = {{ shape_coords|tojson }};
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 46) 	var latlngs = shapeCoords.map(function(coord) {
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 47) 	    return [coord[0], coord[1]];
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 48) 	});
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 49) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 50) 	var routePolyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 51) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 52) 	// Adjust map view to fit the route
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 53) 	map.fitBounds(routePolyline.getBounds());
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 54) </script>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 55) {% endblock %}
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/templates
+
+trip_plan.html
+
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 33) {% endblock %} {% block scripts %} {{ super() }}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 34) <script>
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 35) 	var map = L.map('map').setView([{{ trip_segments[0].from_stop_lat }}, {{ trip_segments[0].from_stop_lon }}], 13);
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 36) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 37) 	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 38) 	    attribution: '&copy; OpenStreetMap contributors'
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 39) 	}).addTo(map);
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 40) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 41) 	var latlngs = [
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 42) 	    {% for segment in trip_segments %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 43) 	    [{{ segment.from_stop_lat }}, {{ segment.from_stop_lon }}],
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 44) 	    {% endfor %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 45) 	    [{{ trip_segments[-1].to_stop_lat }}, {{ trip_segments[-1].to_stop_lon }}]
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 46) 	];
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 47) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 48) 	// Draw the route polyline
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 49) 	var polyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 50) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 51) 	// Fit the map to the polyline
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 52) 	map.fitBounds(polyline.getBounds());
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 53) 
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 54) 	// Add markers for each stop
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 55) 	{% for segment in trip_segments %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 56) 	L.marker([{{ segment.from_stop_lat }}, {{ segment.from_stop_lon }}]).addTo(map)
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 57) 	    .bindPopup("<b>{{ segment.from_stop_name }}</b><br>Departure: {{ segment.departure_time_str }}");
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 58) 	{% endfor %}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 59) 	L.marker([{{ trip_segments[-1].to_stop_lat }}, {{ trip_segments[-1].to_stop_lon }}]).addTo(map)
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 60) 	    .bindPopup("<b>{{ trip_segments[-1].to_stop_name }}</b><br>Arrival: {{ trip_segments[-1].arrival_time_str }}");
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 61) </script>
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 62) {% endblock %}
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app
+
+__init__.py
+
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 22)         # Context processor to add current_year
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 23)     @app.context_processor
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 24)     def inject_current_year():
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 25)         return {'current_year': datetime.now().year}
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 26)
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app
+
+routes.py
+
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 332) @main.route('/send-route-info', methods=['POST'])
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 333) def send_route_info():
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 334)     # Logic here
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 335)     return jsonify({'success': True})
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 336) 
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 337) @main.route('/get-history')
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 338) def get_history():
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 339)     # Logic here
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 340)     return jsonify({'success': True, 'list': []})
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 341) 
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 342) @main.route('/send-real-time-location', methods=['POST'])
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 343) def send_real_time_location():
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 344)     # Logic here
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 345)     return jsonify({'success': True})
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 346)
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/static/CSS
+
+sprint2.css
+
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  27) /* Navbar */
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  28) #navbar {
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  29) 	background-color: #333;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  30) 	padding: 10px;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  31) 	display: flex;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  32) 	justify-content: space-between;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  33) }
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  34) 
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  35) #navbar ul {
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  36) 	display: flex;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  37) 	justify-content: space-around;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  38) 	list-style-type: none;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  39) }
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  40) 
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  41) #navbar ul li a {
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  42) 	color: white;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  43) 	text-decoration: none;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  44) 	padding: 10px 20px;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  45) 	transition: background-color 0.3s ease;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400  46) }
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 283) footer {
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 284) 	background-color: #333;
+b2b5c170 (anantsahoo03 2024-10-27 12:58:46 -0400 285) 	color: rgb(0, 0, 0);
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 286) 	text-align: center;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 287) 	padding: 15px 0;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 288) 	position: relative;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 289) 	width: 100%;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 290) }
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 291) 
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 292) footer p {
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 293) 	margin: 0;
+5ee8a181 (anantsahoo03 2024-10-27 11:53:03 -0400 294) }
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v4/app/static/js
+
+sprint2.js
+ 
+5ee8a181 (anantsahoo03     2024-10-27 11:53:03 -0400 291) // Make the slide-outs disappear when cursor is no longer pointing at them
+5ee8a181 (anantsahoo03     2024-10-27 11:53:03 -0400 292) const favorites = document.getElementById('slide-out-favorite');
+5ee8a181 (anantsahoo03     2024-10-27 11:53:03 -0400 293) favorites.addEventListener('mouseleave', function() {
+5ee8a181 (anantsahoo03     2024-10-27 11:53:03 -0400 294) 	favorites.style.width = "0";
+5ee8a181 (anantsahoo03     2024-10-27 11:53:03 -0400 295) });
+5ee8a181 (anantsahoo03     2024-10-27 11:53:03 -0400 296) 
+5ee8a181 (anantsahoo03     2024-10-27 11:53:03 -0400 297) const historySlideIn = document.getElementById('slide-out-history');
+5ee8a181 (anantsahoo03     2024-10-27 11:53:03 -0400 298) historySlideIn.addEventListener('mouseleave', function() {
+5ee8a181 (anantsahoo03     2024-10-27 11:53:03 -0400 299) 	historySlideIn.style.width = "0";

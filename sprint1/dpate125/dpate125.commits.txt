@@ -1,0 +1,288 @@
+All of the following files are in the directory RockyTop-Transit-Link/sprint1/dpate125/
+
+index.html
+
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  1) <!DOCTYPE html>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  2) <html lang="en">
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  3) <head>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  4)     <meta charset="UTF-8">
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  5)     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  6)     <title>Favorites List</title>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  7)     <link rel="stylesheet" href="style.css">
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  8) </head>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  9) <body>
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 10) <button onclick="showFavoritesList()", id="open-favorite-list">Favorites List</button>
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 11) <button onclick="showHistory()", id="open-history">History</button>
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 12) 
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 13) <div class="container", id="slide-out-favorite">
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 14)     <div class="favorites-list">
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 15)         <h2>Favorites List </h2> 
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 16)         <div class="row">
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 17)             <input type="text", id="input-box" placeholder="Enter a bus stop name">
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 18)             <button onclick="addTask()", id="add-bus-stop">Add</button>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 19)         </div>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 20)         <ul id="list-container">
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 21)         </ul>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 22)     </div>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 23) </div>
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 24) <div class="history-container", id="slide-out-history">
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 25)     <div class="history">
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 26)         <h2>History</h2>
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 27)         <ul id="history-list">
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 28)             <li class="placeholder">History Item 1</li>
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 29)             <li class="placeholder">History Item 2</li>
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 30)             <li class="placeholder">History Item 3</li>
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 31)             <li class="placeholder">History Item 4</li>
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 32)         </ul>
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 33)     </div>
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 34) </div>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 35) <script src="script.js"></script>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 36) </body>
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 37) </html>
+
+style.css
+
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400   1) *{
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400   2)     margin: 0;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400   3)     padding: 0;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400   4)     font-family: 'Poppins', sans-serif;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400   5)     box-sizing: border-box;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400   6) }
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400   7) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400   8) /* button to open the history*/
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400   9) #open-history{
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  10)     position: absolute;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  11)     margin: 25px 30px 0px 55%;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  12)     border: none;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  13)     outline: none;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  14)     padding: 8px 15px;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  15)     background:#555;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  16)     color: #fff;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  17)     font-size: 16px;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  18)     cursor: pointer;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  19) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  20) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  21) /* button to open the favorites list*/
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  22) #open-favorite-list {
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  23)     position: absolute;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  24)     white-space: nowrap;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  25)     margin: 25px 30px 0px 45%;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  26)     border: none;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  27)     outline: none;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  28)     padding: 8px 15px;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  29)     background:#555;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  30)     color: #fff;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  31)     font-size: 16px;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  32)     cursor: pointer;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  33) }
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  34) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  35) /* layout of the favorites background and the list itself*/
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  36) .container{
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  37)     width: 0%;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  38)     min-height: 100vh;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  39)     background: linear-gradient(135deg, #153677, #4e085f);
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  40)     overflow: hidden;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  41)     transition: 0.4s;
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  42)     padding-top: 10px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  43) }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  44) .favorites-list{
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  45)     width: 100%;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  46)     max-width: 540px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  47)     background: #fff;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  48)     margin: 100px auto 20px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  49)     padding: 40px 30px 70px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  50)     border-radius: 10px
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  51) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  52) 
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  53) .favorites-list h2{
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  54)     color: #002765;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  55)     display: flex;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  56)     align-items: center;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  57)     margin-bottom: 20px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  58) }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  59) 
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  60) .row {
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  61)     display: flex;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  62)     align-items: center;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  63)     justify-content: space-between;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  64)     background: #edeef0;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  65)     border-radius: 30px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  66)     padding-left: 20px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  67)     margin-bottom: 25px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  68) }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  69) input{
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  70)     flex: 1;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  71)     border: none;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  72)     outline: none;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  73)     background: transparent;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  74)     padding: 10px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  75)     font-weight: 14px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  76) }
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  77) #add-bus-stop {
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  78)     border: none;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  79)     outline: none;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  80)     padding: 16px 50px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  81)     background: #ff5945;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  82)     color: #fff;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  83)     font-size: 16px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  84)     cursor: pointer;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  85)     border-radius: 40px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  86) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  87) 
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  88) ul li{
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  89)     list-style: none;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  90)     font-size: 17px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  91)     padding: 12px 8px 12px 50px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  92)     user-select: none;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  93)     position: relative;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  94) }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  95) ul li::before{
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  96)     content: '';
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  97)     position: absolute;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  98)     height: 28px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  99)     width: 28px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 100)     border-radius: 50%;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 101)     background-size: cover;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 102)     background-position: center;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 103)     top: 12px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 104)     left: 8px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 105) }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 106) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 107) 
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 108) ul li span{
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 109)     position: absolute;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 110)     right: 0;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 111)     top: 5px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 112)     width: 40px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 113)     height: 40px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 114)     font-size: 22px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 115)     color: #555;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 116)     line-height: 40px;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 117)     text-align: center;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 118)     border-radius: 50%;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 119) }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 120) 
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 121) ul li span:hover{
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 122)     background: #edeef0;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 123) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 124) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 125) /* styling for the history*/
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 126) .history-container{
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 127)     width: 100%;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 128)     right:0;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 129)     min-height: 100vh;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 130)     max-width: 45vw;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 131)     background: linear-gradient(135deg, #153677, #4e085f);
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 132)     transition: 0.4s;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 133)     padding-top: 10px;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 134) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 135) .history{
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 136)     width: 95%;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 137)     max-width: 540px;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 138)     background: #fff;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 139)     margin: 100px auto 20px;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 140)     padding: 40px 30px 70px;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 141)     border-radius: 10px;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 142) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 143) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 144) .history h2{
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 145)     color: #002765;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 146)     display: flex;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 147)     align-items: center;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 148)     margin-bottom: 20px;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 149) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 150) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 151) /* enables the popup for the history to show up from the right hand side of the screen*/
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 152) #slide-out-history {
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 153)     position: fixed;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 154)     right: 0;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 155)     top: 0;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 156)     width: 0; /* Starts off-screen */
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 157)     height: 100vh;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 158)     background-color: #fff;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 159)     transition: width 0.4s ease;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 160) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 161) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 162) #slide-out-history.open {
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 163)     width: 30%;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 164) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 165) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 166) #history-list .placeholder {
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 167)     color: #ccc1cc; 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 168)     font-style: italic; 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 169)     border-bottom: 1px dashed #ccc; 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 170)     padding: 10px;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 171)     margin: 5px 0;
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 172) }
+
+script.js
+
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  1) const inputBox = document.getElementById("input-box");
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  2) const listContainer = document.getElementById("list-container");
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400  3) const favoriteList = document.getElementById("slide-out-favorite");
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  4) const history = document.getElementById("slide-out-history")
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  5) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400  6) // adds item to favorites list
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  7) function addTask(){
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  8)     if(inputBox.value === ''){
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400  9)         alert("You must write something!");
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 10)     }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 11)     else{
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 12)         let li = document.createElement("li");
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 13)         li.innerHTML = inputBox.value;
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 14)         listContainer.appendChild(li);
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 15)         let span = document.createElement("span");
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 16)         span.innerHTML = "\u00d7";
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 17)         li.appendChild(span);
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 18)     }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 19)     inputBox.value = "";
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 20)     saveData();
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 21) }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 22) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 23) // removes item from the favorites list
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 24) listContainer.addEventListener("click", function(e){
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 25)     if(e.target.tagName === "SPAN"){
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 26)         e.target.parentElement.remove();
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 27)         saveData();
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 28)     }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 29) }, false);
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 30) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 31) // stores user's favoites data on the browser
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 32) function saveData(){
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 33)     localStorage.setItem("data", listContainer.innerHTML);
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 34) }
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 35) function showTask(){
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 36)     listContainer.innerHTML = localStorage.getItem("data");
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 37) }
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 38) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 39) // slides in the favorites list
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 40) function showFavoritesList(){
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 41)     if (favoriteList.style.width === "0%") {
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 42)         favoriteList.style.width = "40%";
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 43)     }
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 44)     else{
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 45)         favoriteList.style.width = "0%";
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 46)     }
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 47) }
+7bad9a36 (Deep0320 2024-10-02 22:35:08 -0400 48) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 49) // slides in the history popup
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 50) function showHistory(){
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 51)     history.classList.toggle("open"); // Toggle open class
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 52) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 53) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 54) // adds items to the history based on the user's account (for later when we have the functionality)
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 55) function populateHistory(data) {
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 56)     const historyList = document.getElementById('history-list');
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 57)     
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 58)     // Clear placeholder items (if any)
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 59)     historyList.innerHTML = '';
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 60) 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 61)     // Loop through the data and append items to the history list
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 62)     data.forEach(item => {
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 63)         const li = document.createElement('li');
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 64)         li.textContent = item; 
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 65)         historyList.appendChild(li);
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 66)     });
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 67) }
+77553b64 (Deep0320 2024-10-02 22:51:52 -0400 68) 
+7594d618 (Deep0320 2024-10-02 22:19:20 -0400 69) showTask();

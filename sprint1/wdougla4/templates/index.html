@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Finder</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+        #directions-panel {
+            margin-top: 10px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Route Finder</h1>
+    
+    <div>
+        <label for="start">Start Address:</label>
+        <input type="text" id="start" placeholder="Enter start address">
+        
+        <label for="end">End Address:</label>
+        <input type="text" id="end" placeholder="Enter destination address">
+        
+        <button onclick="calculateRoute()">Get Directions</button>
+    </div>
+
+    <div id="directions-panel"></div> <!-- Directions will appear here -->
+    
+    <div id="map"></div>
+
+    <!-- Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9xZcHzm8QOnopWvcPuPbdcv5c1yxFcSM&callback=initMap" async defer></script>
+
+    <script>
+        let map;
+        let directionsService;
+        let directionsRenderer;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 7,
+                center: { lat: 39.8283, lng: -98.5795 }  // Centered in the USA
+            });
+            
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+
+            // Set the directions panel where the text instructions will appear
+            directionsRenderer.setPanel(document.getElementById('directions-panel'));
+        }
+
+        function calculateRoute() {
+            const start = document.getElementById('start').value;
+            const end = document.getElementById('end').value;
+
+            if (!start || !end) {
+                alert("Please enter both start and end addresses.");
+                return;
+            }
+
+            const request = {
+                origin: start,
+                destination: end,
+                travelMode: 'DRIVING'
+            };
+
+            directionsService.route(request, function (result, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(result);  // Set directions to the map and panel
+                } else {
+                    alert('Could not calculate route: ' + status);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,858 @@
+All of the following files are in the directory RockyTop-Transit-Link\sprint1\hcrettol\
+
+### sprint1\hcrettol\v2\README.md
+65f88343 (= 2024-10-01 17:49:10 -0400  1) from app import create_app
+65f88343 (= 2024-10-01 17:49:10 -0400  2) 
+65f88343 (= 2024-10-01 17:49:10 -0400  3) app = create_app()
+65f88343 (= 2024-10-01 17:49:10 -0400  4) 
+65f88343 (= 2024-10-01 17:49:10 -0400  5) '''
+65f88343 (= 2024-10-01 17:49:10 -0400  6) with app.app_context():
+65f88343 (= 2024-10-01 17:49:10 -0400  7)     for rule in app.url_map.iter_rules():
+65f88343 (= 2024-10-01 17:49:10 -0400  8)         print(f"{rule.endpoint}: {rule}")
+65f88343 (= 2024-10-01 17:49:10 -0400  9) '''
+65f88343 (= 2024-10-01 17:49:10 -0400 10) 
+65f88343 (= 2024-10-01 17:49:10 -0400 11) if __name__ == '__main__':
+65f88343 (= 2024-10-01 17:49:10 -0400 12)     app.run(debug=True)
+
+
+### sprint1\hcrettol\v2\requirements.txt
+e1e1fb3e sprint1/hcrettol/requirements.txt    (hcrettol 2024-09-26 08:57:50 -0400 1) Flask==3.0.3
+e1e1fb3e sprint1/hcrettol/requirements.txt    (hcrettol 2024-09-26 08:57:50 -0400 2) Flask-Login==0.6.3
+e1e1fb3e sprint1/hcrettol/requirements.txt    (hcrettol 2024-09-26 08:57:50 -0400 3) Flask-SQLAlchemy==3.1.1
+e1e1fb3e sprint1/hcrettol/requirements.txt    (hcrettol 2024-09-26 08:57:50 -0400 4) SQLAlchemy==2.0.35
+e1e1fb3e sprint1/hcrettol/requirements.txt    (hcrettol 2024-09-26 08:57:50 -0400 5) Flask-Migrate==4.0.7
+65f88343 sprint1/hcrettol/v2/requirements.txt (=        2024-10-01 17:49:10 -0400 6) Werkzeug==3.0.4
+65f88343 sprint1/hcrettol/v2/requirements.txt (=        2024-10-01 17:49:10 -0400 7) pandas==2.2.3
+
+
+### sprint1\hcrettol\v2\run.py
+65f88343 (= 2024-10-01 17:49:10 -0400  1) from app import create_app
+65f88343 (= 2024-10-01 17:49:10 -0400  2) 
+65f88343 (= 2024-10-01 17:49:10 -0400  3) app = create_app()
+65f88343 (= 2024-10-01 17:49:10 -0400  4) 
+65f88343 (= 2024-10-01 17:49:10 -0400  5) '''
+65f88343 (= 2024-10-01 17:49:10 -0400  6) with app.app_context():
+65f88343 (= 2024-10-01 17:49:10 -0400  7)     for rule in app.url_map.iter_rules():
+65f88343 (= 2024-10-01 17:49:10 -0400  8)         print(f"{rule.endpoint}: {rule}")
+65f88343 (= 2024-10-01 17:49:10 -0400  9) '''
+65f88343 (= 2024-10-01 17:49:10 -0400 10) 
+65f88343 (= 2024-10-01 17:49:10 -0400 11) if __name__ == '__main__':
+65f88343 (= 2024-10-01 17:49:10 -0400 12)     app.run(debug=True)
+
+
+### sprint1\hcrettol\v2\app\models.py
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  1) from . import db, login_manager
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  2) from flask_login import UserMixin
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  3) from werkzeug.security import generate_password_hash, check_password_hash
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  4) 
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  5) class User(db.Model, UserMixin):
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  6)     id = db.Column(db.Integer, primary_key=True)
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  7)     username = db.Column(db.String(20), unique=True, nullable=False)
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  8)     password_hash = db.Column(db.String(128))
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  9)     favorite_places = db.Column(db.String(255))
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 10) 
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 11)     def set_password(self, password):
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 12)         self.password_hash = generate_password_hash(password)
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 13) 
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 14)     def check_password(self, password):
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 15)         return check_password_hash(self.password_hash, password)
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 16) 
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 17) @login_manager.user_loader
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 18) def load_user(user_id):
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 19)     return User.query.get(int(user_id))
+
+
+### sprint1\hcrettol\v2\app\routes.py
+65f88343 (= 2024-10-01 17:49:10 -0400   1) import pandas as pd
+65f88343 (= 2024-10-01 17:49:10 -0400   2) from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
+65f88343 (= 2024-10-01 17:49:10 -0400   3) from flask_login import login_user, logout_user, login_required, current_user
+65f88343 (= 2024-10-01 17:49:10 -0400   4) from .models import User, db
+65f88343 (= 2024-10-01 17:49:10 -0400   5) 
+65f88343 (= 2024-10-01 17:49:10 -0400   6) main = Blueprint('main', __name__)
+65f88343 (= 2024-10-01 17:49:10 -0400   7) 
+65f88343 (= 2024-10-01 17:49:10 -0400   8) @main.route('/')
+65f88343 (= 2024-10-01 17:49:10 -0400   9) def home():
+65f88343 (= 2024-10-01 17:49:10 -0400  10)     return redirect(url_for('main.map_view'))
+65f88343 (= 2024-10-01 17:49:10 -0400  11) 
+65f88343 (= 2024-10-01 17:49:10 -0400  12) @main.route('/login', methods=['GET', 'POST'])
+65f88343 (= 2024-10-01 17:49:10 -0400  13) def login():
+65f88343 (= 2024-10-01 17:49:10 -0400  14)     if request.method == 'POST':
+65f88343 (= 2024-10-01 17:49:10 -0400  15)         username = request.form['username']
+65f88343 (= 2024-10-01 17:49:10 -0400  16)         password = request.form['password']
+65f88343 (= 2024-10-01 17:49:10 -0400  17)         user = User.query.filter_by(username=username).first()
+65f88343 (= 2024-10-01 17:49:10 -0400  18)         if user and user.check_password(password):
+65f88343 (= 2024-10-01 17:49:10 -0400  19)             login_user(user)
+65f88343 (= 2024-10-01 17:49:10 -0400  20)             return redirect(url_for('main.map_view'))
+65f88343 (= 2024-10-01 17:49:10 -0400  21)         else:
+65f88343 (= 2024-10-01 17:49:10 -0400  22)             # It's a good practice to return to the login page with an error message.
+65f88343 (= 2024-10-01 17:49:10 -0400  23)             flash("Invalid username or password", 'danger')
+65f88343 (= 2024-10-01 17:49:10 -0400  24)             return render_template('login.html', error="Invalid username or password")
+65f88343 (= 2024-10-01 17:49:10 -0400  25)     return render_template('login.html')
+65f88343 (= 2024-10-01 17:49:10 -0400  26) 
+65f88343 (= 2024-10-01 17:49:10 -0400  27) @main.route('/register', methods=['GET', 'POST'])
+65f88343 (= 2024-10-01 17:49:10 -0400  28) def register():
+65f88343 (= 2024-10-01 17:49:10 -0400  29)     if request.method == 'POST':
+65f88343 (= 2024-10-01 17:49:10 -0400  30)         username = request.form['username']
+65f88343 (= 2024-10-01 17:49:10 -0400  31)         password = request.form['password']
+65f88343 (= 2024-10-01 17:49:10 -0400  32)         if User.query.filter_by(username=username).first():
+65f88343 (= 2024-10-01 17:49:10 -0400  33)             return 'Username already taken'
+65f88343 (= 2024-10-01 17:49:10 -0400  34)         new_user = User(username=username)
+65f88343 (= 2024-10-01 17:49:10 -0400  35)         new_user.set_password(password)
+65f88343 (= 2024-10-01 17:49:10 -0400  36)         db.session.add(new_user)
+65f88343 (= 2024-10-01 17:49:10 -0400  37)         db.session.commit()
+65f88343 (= 2024-10-01 17:49:10 -0400  38)         return redirect(url_for('main.login'))
+65f88343 (= 2024-10-01 17:49:10 -0400  39)     return render_template('register.html')
+65f88343 (= 2024-10-01 17:49:10 -0400  40) 
+65f88343 (= 2024-10-01 17:49:10 -0400  41) @main.route('/logout')
+65f88343 (= 2024-10-01 17:49:10 -0400  42) def logout():
+65f88343 (= 2024-10-01 17:49:10 -0400  43)     logout_user()
+65f88343 (= 2024-10-01 17:49:10 -0400  44)     return redirect(url_for('main.home'))
+65f88343 (= 2024-10-01 17:49:10 -0400  45) 
+65f88343 (= 2024-10-01 17:49:10 -0400  46) @main.route('/settings', methods=['GET'])
+65f88343 (= 2024-10-01 17:49:10 -0400  47) @login_required
+65f88343 (= 2024-10-01 17:49:10 -0400  48) def settings():
+65f88343 (= 2024-10-01 17:49:10 -0400  49)     # Retrieve user's favorite places
+65f88343 (= 2024-10-01 17:49:10 -0400  50)     if current_user.favorite_places:
+65f88343 (= 2024-10-01 17:49:10 -0400  51)         favorite_places = [place.strip() for place in current_user.favorite_places.split(',')]
+65f88343 (= 2024-10-01 17:49:10 -0400  52)     else:
+65f88343 (= 2024-10-01 17:49:10 -0400  53)         favorite_places = []
+65f88343 (= 2024-10-01 17:49:10 -0400  54)     return render_template('settings.html', favorite_places=favorite_places)
+65f88343 (= 2024-10-01 17:49:10 -0400  55) 
+65f88343 (= 2024-10-01 17:49:10 -0400  56) @main.route('/add_favorite', methods=['POST'])
+65f88343 (= 2024-10-01 17:49:10 -0400  57) @login_required
+65f88343 (= 2024-10-01 17:49:10 -0400  58) def add_favorite():
+65f88343 (= 2024-10-01 17:49:10 -0400  59)     new_place = request.form['favorite_place'].strip()
+65f88343 (= 2024-10-01 17:49:10 -0400  60)     if new_place:
+65f88343 (= 2024-10-01 17:49:10 -0400  61)         # Add the new place to the user's favorite_places
+65f88343 (= 2024-10-01 17:49:10 -0400  62)         if current_user.favorite_places:
+65f88343 (= 2024-10-01 17:49:10 -0400  63)             places = [place.strip() for place in current_user.favorite_places.split(',')]
+65f88343 (= 2024-10-01 17:49:10 -0400  64)             if new_place not in places:
+65f88343 (= 2024-10-01 17:49:10 -0400  65)                 places.append(new_place)
+65f88343 (= 2024-10-01 17:49:10 -0400  66)                 current_user.favorite_places = ', '.join(places)
+65f88343 (= 2024-10-01 17:49:10 -0400  67)         else:
+65f88343 (= 2024-10-01 17:49:10 -0400  68)             current_user.favorite_places = new_place
+65f88343 (= 2024-10-01 17:49:10 -0400  69)         db.session.commit()
+65f88343 (= 2024-10-01 17:49:10 -0400  70)         flash('Favorite location added.', 'success')
+65f88343 (= 2024-10-01 17:49:10 -0400  71)     else:
+65f88343 (= 2024-10-01 17:49:10 -0400  72)         flash('Please enter a valid location.', 'danger')
+65f88343 (= 2024-10-01 17:49:10 -0400  73)     return redirect(url_for('main.settings'))
+65f88343 (= 2024-10-01 17:49:10 -0400  74) 
+65f88343 (= 2024-10-01 17:49:10 -0400  75) @main.route('/remove_favorite', methods=['POST'])
+65f88343 (= 2024-10-01 17:49:10 -0400  76) @login_required
+65f88343 (= 2024-10-01 17:49:10 -0400  77) def remove_favorite():
+65f88343 (= 2024-10-01 17:49:10 -0400  78)     place_to_remove = request.form['place_to_remove'].strip()
+65f88343 (= 2024-10-01 17:49:10 -0400  79)     if current_user.favorite_places:
+65f88343 (= 2024-10-01 17:49:10 -0400  80)         places = [place.strip() for place in current_user.favorite_places.split(',')]
+65f88343 (= 2024-10-01 17:49:10 -0400  81)         if place_to_remove in places:
+65f88343 (= 2024-10-01 17:49:10 -0400  82)             places.remove(place_to_remove)
+65f88343 (= 2024-10-01 17:49:10 -0400  83)             current_user.favorite_places = ', '.join(places) if places else None
+65f88343 (= 2024-10-01 17:49:10 -0400  84)             db.session.commit()
+65f88343 (= 2024-10-01 17:49:10 -0400  85)             flash('Favorite location removed.', 'success')
+65f88343 (= 2024-10-01 17:49:10 -0400  86)         else:
+65f88343 (= 2024-10-01 17:49:10 -0400  87)             flash('Location not found in your favorites.', 'danger')
+65f88343 (= 2024-10-01 17:49:10 -0400  88)     else:
+65f88343 (= 2024-10-01 17:49:10 -0400  89)         flash('You have no favorite locations to remove.', 'danger')
+65f88343 (= 2024-10-01 17:49:10 -0400  90)     return redirect(url_for('main.settings'))
+65f88343 (= 2024-10-01 17:49:10 -0400  91) 
+65f88343 (= 2024-10-01 17:49:10 -0400  92) @main.route('/delete_account', methods=['POST'])
+65f88343 (= 2024-10-01 17:49:10 -0400  93) @login_required
+65f88343 (= 2024-10-01 17:49:10 -0400  94) def delete_account():
+65f88343 (= 2024-10-01 17:49:10 -0400  95)     user = current_user
+65f88343 (= 2024-10-01 17:49:10 -0400  96)     db.session.delete(user)
+65f88343 (= 2024-10-01 17:49:10 -0400  97)     db.session.commit()
+65f88343 (= 2024-10-01 17:49:10 -0400  98)     logout_user()
+65f88343 (= 2024-10-01 17:49:10 -0400  99)     flash('Your account has been deleted.', 'success')
+65f88343 (= 2024-10-01 17:49:10 -0400 100)     return redirect(url_for('main.home'))
+65f88343 (= 2024-10-01 17:49:10 -0400 101) 
+65f88343 (= 2024-10-01 17:49:10 -0400 102) @main.route('/autocomplete', methods=['GET'])
+65f88343 (= 2024-10-01 17:49:10 -0400 103) def autocomplete():
+65f88343 (= 2024-10-01 17:49:10 -0400 104)     search = request.args.get('term', '')
+65f88343 (= 2024-10-01 17:49:10 -0400 105)     stops = pd.read_csv('gtfs/stops.txt')
+65f88343 (= 2024-10-01 17:49:10 -0400 106)     results = stops[stops['stop_name'].str.contains(search, case=False, na=False)]
+65f88343 (= 2024-10-01 17:49:10 -0400 107)     suggestions = [
+65f88343 (= 2024-10-01 17:49:10 -0400 108)         {'label': row['stop_name'], 'value': row['stop_id']}
+65f88343 (= 2024-10-01 17:49:10 -0400 109)         for idx, row in results.iterrows()
+65f88343 (= 2024-10-01 17:49:10 -0400 110)     ]
+65f88343 (= 2024-10-01 17:49:10 -0400 111)     return jsonify(suggestions)
+65f88343 (= 2024-10-01 17:49:10 -0400 112) 
+65f88343 (= 2024-10-01 17:49:10 -0400 113) @main.route('/map')
+65f88343 (= 2024-10-01 17:49:10 -0400 114) def map_view():
+65f88343 (= 2024-10-01 17:49:10 -0400 115)     # Read stops.txt
+65f88343 (= 2024-10-01 17:49:10 -0400 116)     stops = pd.read_csv('gtfs/stops.txt')
+65f88343 (= 2024-10-01 17:49:10 -0400 117) 
+65f88343 (= 2024-10-01 17:49:10 -0400 118)     # Filter stops within a bounding box or limit to the first N stops
+65f88343 (= 2024-10-01 17:49:10 -0400 119)     # Example: Limit to stops within certain latitude and longitude bounds
+65f88343 (= 2024-10-01 17:49:10 -0400 120)     lat, lon = 35.958530, -83.924637
+65f88343 (= 2024-10-01 17:49:10 -0400 121)     bound = .01
+65f88343 (= 2024-10-01 17:49:10 -0400 122)     lat_min, lat_max = lat-bound, lat+bound
+65f88343 (= 2024-10-01 17:49:10 -0400 123)     lon_min, lon_max = lon-bound, lon+bound
+65f88343 (= 2024-10-01 17:49:10 -0400 124) 
+65f88343 (= 2024-10-01 17:49:10 -0400 125)     filtered_stops = stops[
+65f88343 (= 2024-10-01 17:49:10 -0400 126)         (stops['stop_lat'] >= lat_min) &
+65f88343 (= 2024-10-01 17:49:10 -0400 127)         (stops['stop_lat'] <= lat_max) &
+65f88343 (= 2024-10-01 17:49:10 -0400 128)         (stops['stop_lon'] >= lon_min) &
+65f88343 (= 2024-10-01 17:49:10 -0400 129)         (stops['stop_lon'] <= lon_max)
+65f88343 (= 2024-10-01 17:49:10 -0400 130)     ]
+65f88343 (= 2024-10-01 17:49:10 -0400 131)     print("Stops: " + str(len(stops)))
+65f88343 (= 2024-10-01 17:49:10 -0400 132)     print("Filtered Stops: " + str(len(filtered_stops)))
+65f88343 (= 2024-10-01 17:49:10 -0400 133)     stops_list = filtered_stops.to_dict('records')
+65f88343 (= 2024-10-01 17:49:10 -0400 134) 
+65f88343 (= 2024-10-01 17:49:10 -0400 135)     favorite_places = []
+65f88343 (= 2024-10-01 17:49:10 -0400 136)     if current_user.is_authenticated and current_user.favorite_places:
+65f88343 (= 2024-10-01 17:49:10 -0400 137)         favorite_places = [place.strip() for place in current_user.favorite_places.split(',')]
+65f88343 (= 2024-10-01 17:49:10 -0400 138) 
+65f88343 (= 2024-10-01 17:49:10 -0400 139)     return render_template('map.html', stops=stops_list, favorite_places=favorite_places)
+65f88343 (= 2024-10-01 17:49:10 -0400 140) 
+65f88343 (= 2024-10-01 17:49:10 -0400 141) @main.route('/plan_trip', methods=['POST'])
+65f88343 (= 2024-10-01 17:49:10 -0400 142) def plan_trip():
+65f88343 (= 2024-10-01 17:49:10 -0400 143)     start_stop_name = request.form['start_stop']
+65f88343 (= 2024-10-01 17:49:10 -0400 144)     end_stop_name = request.form['end_stop']
+65f88343 (= 2024-10-01 17:49:10 -0400 145) 
+65f88343 (= 2024-10-01 17:49:10 -0400 146)     # Query the stops to find IDs based on names
+65f88343 (= 2024-10-01 17:49:10 -0400 147)     stops = pd.read_csv('gtfs/stops.txt')
+65f88343 (= 2024-10-01 17:49:10 -0400 148)     start_stop = stops[stops['stop_name'] == start_stop_name].iloc[0]
+65f88343 (= 2024-10-01 17:49:10 -0400 149)     end_stop = stops[stops['stop_name'] == end_stop_name].iloc[0]
+65f88343 (= 2024-10-01 17:49:10 -0400 150) 
+65f88343 (= 2024-10-01 17:49:10 -0400 151)     # For simplicity, we'll just return the IDs
+65f88343 (= 2024-10-01 17:49:10 -0400 152)     return f"Start Stop ID: {start_stop['stop_id']}, End Stop ID: {end_stop['stop_id']}"
+
+
+### sprint1\hcrettol\v2\app\__init__.py
+65f88343 sprint1/hcrettol/v2/app/__init__.py (=        2024-10-01 17:49:10 -0400  1) import os
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400  2) from flask import Flask
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400  3) from flask_sqlalchemy import SQLAlchemy
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400  4) from flask_login import LoginManager
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400  5) from flask_migrate import Migrate
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400  6) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400  7) db = SQLAlchemy()
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400  8) login_manager = LoginManager()
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400  9) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 10) def create_app():
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 11)     app = Flask(__name__)
+65f88343 sprint1/hcrettol/v2/app/__init__.py (=        2024-10-01 17:49:10 -0400 12)     app.config['SECRET_KEY'] = os.urandom(24)
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 13)     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 14)     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 15) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 16)     db.init_app(app)
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 17)     login_manager.init_app(app)
+65f88343 sprint1/hcrettol/v2/app/__init__.py (=        2024-10-01 17:49:10 -0400 18)     login_manager.login_view = 'main.login'  # Ensure this is set
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 19) 
+65f88343 sprint1/hcrettol/v2/app/__init__.py (=        2024-10-01 17:49:10 -0400 20)     migrate = Migrate(app, db)
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 21) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 22)     from .routes import main as main_blueprint
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 23)     app.register_blueprint(main_blueprint)
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 24) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py    (hcrettol 2024-09-26 08:57:50 -0400 25)     return app
+
+
+### sprint1\hcrettol\v2\app\templates\base.html
+65f88343 (= 2024-10-01 17:49:10 -0400  1) <!DOCTYPE html>
+65f88343 (= 2024-10-01 17:49:10 -0400  2) <html lang="en">
+65f88343 (= 2024-10-01 17:49:10 -0400  3) <head>
+65f88343 (= 2024-10-01 17:49:10 -0400  4)     {% block head %}
+65f88343 (= 2024-10-01 17:49:10 -0400  5)     <meta charset="UTF-8">
+65f88343 (= 2024-10-01 17:49:10 -0400  6)     <title>{% block title %}My Bus App{% endblock %}</title>
+65f88343 (= 2024-10-01 17:49:10 -0400  7) 
+65f88343 (= 2024-10-01 17:49:10 -0400  8)     <!-- Include Bootstrap CSS -->
+65f88343 (= 2024-10-01 17:49:10 -0400  9)     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+65f88343 (= 2024-10-01 17:49:10 -0400 10) 
+65f88343 (= 2024-10-01 17:49:10 -0400 11)     <!-- Include jQuery UI CSS -->
+65f88343 (= 2024-10-01 17:49:10 -0400 12)     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+65f88343 (= 2024-10-01 17:49:10 -0400 13) 
+65f88343 (= 2024-10-01 17:49:10 -0400 14)     <!-- Include Leaflet CSS -->
+65f88343 (= 2024-10-01 17:49:10 -0400 15)     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+65f88343 (= 2024-10-01 17:49:10 -0400 16) 
+65f88343 (= 2024-10-01 17:49:10 -0400 17)     {% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400 18) </head>
+65f88343 (= 2024-10-01 17:49:10 -0400 19) <body>
+65f88343 (= 2024-10-01 17:49:10 -0400 20)     {% block navbar %}
+65f88343 (= 2024-10-01 17:49:10 -0400 21)     <!-- Navigation bar will be injected here -->
+65f88343 (= 2024-10-01 17:49:10 -0400 22)     {% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400 23) 
+65f88343 (= 2024-10-01 17:49:10 -0400 24)     <!-- Flash Messages -->
+65f88343 (= 2024-10-01 17:49:10 -0400 25)     {% with messages = get_flashed_messages(with_categories=true) %}
+65f88343 (= 2024-10-01 17:49:10 -0400 26)       {% if messages %}
+65f88343 (= 2024-10-01 17:49:10 -0400 27)       <div class="container mt-2">
+65f88343 (= 2024-10-01 17:49:10 -0400 28)         {% for category, message in messages %}
+65f88343 (= 2024-10-01 17:49:10 -0400 29)           <div class="alert alert-{{ category }}">{{ message }}</div>
+65f88343 (= 2024-10-01 17:49:10 -0400 30)         {% endfor %}
+65f88343 (= 2024-10-01 17:49:10 -0400 31)       </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 32)       {% endif %}
+65f88343 (= 2024-10-01 17:49:10 -0400 33)     {% endwith %}
+65f88343 (= 2024-10-01 17:49:10 -0400 34) 
+65f88343 (= 2024-10-01 17:49:10 -0400 35)     {% block content %}
+65f88343 (= 2024-10-01 17:49:10 -0400 36)     <!-- Page content will be injected here -->
+65f88343 (= 2024-10-01 17:49:10 -0400 37)     {% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400 38) 
+65f88343 (= 2024-10-01 17:49:10 -0400 39)     <!-- Include jQuery before jQuery UI -->
+65f88343 (= 2024-10-01 17:49:10 -0400 40)     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+65f88343 (= 2024-10-01 17:49:10 -0400 41) 
+65f88343 (= 2024-10-01 17:49:10 -0400 42)     <!-- Include jQuery UI after jQuery -->
+65f88343 (= 2024-10-01 17:49:10 -0400 43)     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+65f88343 (= 2024-10-01 17:49:10 -0400 44) 
+65f88343 (= 2024-10-01 17:49:10 -0400 45)     <!-- Include Bootstrap JS -->
+65f88343 (= 2024-10-01 17:49:10 -0400 46)     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+65f88343 (= 2024-10-01 17:49:10 -0400 47) 
+65f88343 (= 2024-10-01 17:49:10 -0400 48)     <!-- Include Leaflet JS -->
+65f88343 (= 2024-10-01 17:49:10 -0400 49)     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+65f88343 (= 2024-10-01 17:49:10 -0400 50) 
+65f88343 (= 2024-10-01 17:49:10 -0400 51)     {% block scripts %}
+65f88343 (= 2024-10-01 17:49:10 -0400 52)     <!-- Additional scripts will be injected here -->
+65f88343 (= 2024-10-01 17:49:10 -0400 53)     {% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400 54) </body>
+65f88343 (= 2024-10-01 17:49:10 -0400 55) </html>
+
+
+### sprint1\hcrettol\v2\app\templates\login.html
+65f88343 (= 2024-10-01 17:49:10 -0400  1) {% extends "base.html" %}
+65f88343 (= 2024-10-01 17:49:10 -0400  2) 
+65f88343 (= 2024-10-01 17:49:10 -0400  3) {% block title %}Login{% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400  4) 
+65f88343 (= 2024-10-01 17:49:10 -0400  5) {% block navbar %}
+65f88343 (= 2024-10-01 17:49:10 -0400  6) <nav class="navbar navbar-expand-lg navbar-light bg-light">
+65f88343 (= 2024-10-01 17:49:10 -0400  7)     <div class="container-fluid">
+65f88343 (= 2024-10-01 17:49:10 -0400  8)         <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+65f88343 (= 2024-10-01 17:49:10 -0400  9)         <div class="collapse navbar-collapse justify-content-end">
+65f88343 (= 2024-10-01 17:49:10 -0400 10)             <ul class="navbar-nav">
+65f88343 (= 2024-10-01 17:49:10 -0400 11)                 <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400 12)                     <a class="nav-link" href="{{ url_for('main.map_view') }}">Home</a>
+65f88343 (= 2024-10-01 17:49:10 -0400 13)                 </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 14)                 {% if not current_user.is_authenticated %}
+65f88343 (= 2024-10-01 17:49:10 -0400 15)                 <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400 16)                     <a class="nav-link active" aria-current="page" href="{{ url_for('main.login') }}">Login</a>
+65f88343 (= 2024-10-01 17:49:10 -0400 17)                 </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 18)                 <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400 19)                     <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+65f88343 (= 2024-10-01 17:49:10 -0400 20)                 </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 21)                 {% endif %}
+65f88343 (= 2024-10-01 17:49:10 -0400 22)             </ul>
+65f88343 (= 2024-10-01 17:49:10 -0400 23)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 24)     </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 25) </nav>
+65f88343 (= 2024-10-01 17:49:10 -0400 26) {% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400 27) 
+65f88343 (= 2024-10-01 17:49:10 -0400 28) {% block content %}
+65f88343 (= 2024-10-01 17:49:10 -0400 29) <div class="container mt-5">
+65f88343 (= 2024-10-01 17:49:10 -0400 30)     <h1>Login</h1>
+65f88343 (= 2024-10-01 17:49:10 -0400 31)     <form method="POST" action="{{ url_for('main.login') }}">
+65f88343 (= 2024-10-01 17:49:10 -0400 32)         <div class="mb-3">
+65f88343 (= 2024-10-01 17:49:10 -0400 33)             <input type="text" name="username" placeholder="Username" required class="form-control">
+65f88343 (= 2024-10-01 17:49:10 -0400 34)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 35)         <div class="mb-3">
+65f88343 (= 2024-10-01 17:49:10 -0400 36)             <input type="password" name="password" placeholder="Password" required class="form-control">
+65f88343 (= 2024-10-01 17:49:10 -0400 37)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 38)         <button type="submit" class="btn btn-primary">Login</button>
+65f88343 (= 2024-10-01 17:49:10 -0400 39)     </form>
+65f88343 (= 2024-10-01 17:49:10 -0400 40) </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 41) {% endblock %}
+
+
+### sprint1\hcrettol\v2\app\templates\map.html
+65f88343 (= 2024-10-01 17:49:10 -0400   1) {% extends "base.html" %}
+65f88343 (= 2024-10-01 17:49:10 -0400   2) 
+65f88343 (= 2024-10-01 17:49:10 -0400   3) {% block title %}Map{% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400   4) 
+65f88343 (= 2024-10-01 17:49:10 -0400   5) {% block navbar %}
+65f88343 (= 2024-10-01 17:49:10 -0400   6) <nav class="navbar navbar-expand-lg navbar-light bg-light">
+65f88343 (= 2024-10-01 17:49:10 -0400   7)     <div class="container-fluid">
+65f88343 (= 2024-10-01 17:49:10 -0400   8)         <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+65f88343 (= 2024-10-01 17:49:10 -0400   9)         <div class="collapse navbar-collapse justify-content-end">
+65f88343 (= 2024-10-01 17:49:10 -0400  10)             <ul class="navbar-nav">
+65f88343 (= 2024-10-01 17:49:10 -0400  11)                 {% if current_user.is_authenticated %}
+65f88343 (= 2024-10-01 17:49:10 -0400  12)                     <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400  13)                         <a class="nav-link" href="{{ url_for('main.settings') }}">Settings</a>
+65f88343 (= 2024-10-01 17:49:10 -0400  14)                     </li>
+65f88343 (= 2024-10-01 17:49:10 -0400  15)                     <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400  16)                         <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
+65f88343 (= 2024-10-01 17:49:10 -0400  17)                     </li>
+65f88343 (= 2024-10-01 17:49:10 -0400  18)                 {% else %}
+65f88343 (= 2024-10-01 17:49:10 -0400  19)                     <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400  20)                         <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+65f88343 (= 2024-10-01 17:49:10 -0400  21)                     </li>
+65f88343 (= 2024-10-01 17:49:10 -0400  22)                     <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400  23)                         <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+65f88343 (= 2024-10-01 17:49:10 -0400  24)                     </li>
+65f88343 (= 2024-10-01 17:49:10 -0400  25)                 {% endif %}
+65f88343 (= 2024-10-01 17:49:10 -0400  26)             </ul>
+65f88343 (= 2024-10-01 17:49:10 -0400  27)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400  28)     </div>
+65f88343 (= 2024-10-01 17:49:10 -0400  29) </nav>
+65f88343 (= 2024-10-01 17:49:10 -0400  30) {% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400  31) 
+65f88343 (= 2024-10-01 17:49:10 -0400  32) {% block content %}
+65f88343 (= 2024-10-01 17:49:10 -0400  33) <div class="container-fluid mt-3">
+65f88343 (= 2024-10-01 17:49:10 -0400  34)     <h1>Plan Your Trip</h1>
+65f88343 (= 2024-10-01 17:49:10 -0400  35)     <form method="POST" action="#" class="row g-3">
+65f88343 (= 2024-10-01 17:49:10 -0400  36)         <div class="col-md-5">
+65f88343 (= 2024-10-01 17:49:10 -0400  37)             <label for="start_stop" class="form-label">Start Location:</label>
+65f88343 (= 2024-10-01 17:49:10 -0400  38)             <input type="text" id="start_stop" name="start_stop_name" class="form-control" required>
+65f88343 (= 2024-10-01 17:49:10 -0400  39)             <input type="hidden" id="start_stop_id" name="start_stop_id">
+65f88343 (= 2024-10-01 17:49:10 -0400  40)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400  41)         <div class="col-md-5">
+65f88343 (= 2024-10-01 17:49:10 -0400  42)             <label for="end_stop" class="form-label">End Location:</label>
+65f88343 (= 2024-10-01 17:49:10 -0400  43)             <input type="text" id="end_stop" name="end_stop_name" class="form-control" required>
+65f88343 (= 2024-10-01 17:49:10 -0400  44)             <input type="hidden" id="end_stop_id" name="end_stop_id">
+65f88343 (= 2024-10-01 17:49:10 -0400  45)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400  46)         <div class="col-md-2 align-self-end">
+65f88343 (= 2024-10-01 17:49:10 -0400  47)             <button type="submit" class="btn btn-primary">Find Route</button>
+65f88343 (= 2024-10-01 17:49:10 -0400  48)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400  49)     </form>
+65f88343 (= 2024-10-01 17:49:10 -0400  50) 
+65f88343 (= 2024-10-01 17:49:10 -0400  51)     {% if current_user.is_authenticated and current_user.favorite_places %}
+65f88343 (= 2024-10-01 17:49:10 -0400  52)     <div class="mt-3">
+65f88343 (= 2024-10-01 17:49:10 -0400  53)         <h5>Your Favorite Locations:</h5>
+65f88343 (= 2024-10-01 17:49:10 -0400  54)         <ul class="list-inline">
+65f88343 (= 2024-10-01 17:49:10 -0400  55)             {% for place in favorite_places %}
+65f88343 (= 2024-10-01 17:49:10 -0400  56)             <li class="list-inline-item">
+65f88343 (= 2024-10-01 17:49:10 -0400  57)                 <button class="btn btn-outline-secondary favorite-location-btn" data-stop-name="{{ place }}">{{ place }}</button>
+65f88343 (= 2024-10-01 17:49:10 -0400  58)             </li>
+65f88343 (= 2024-10-01 17:49:10 -0400  59)             {% endfor %}
+65f88343 (= 2024-10-01 17:49:10 -0400  60)         </ul>
+65f88343 (= 2024-10-01 17:49:10 -0400  61)     </div>
+65f88343 (= 2024-10-01 17:49:10 -0400  62)     {% endif %}
+65f88343 (= 2024-10-01 17:49:10 -0400  63) 
+65f88343 (= 2024-10-01 17:49:10 -0400  64)     <div id="map" style="height: 600px;"></div>
+65f88343 (= 2024-10-01 17:49:10 -0400  65) </div>
+65f88343 (= 2024-10-01 17:49:10 -0400  66) {% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400  67) 
+65f88343 (= 2024-10-01 17:49:10 -0400  68) {% block scripts %}
+65f88343 (= 2024-10-01 17:49:10 -0400  69) 
+65f88343 (= 2024-10-01 17:49:10 -0400  70) <script>
+65f88343 (= 2024-10-01 17:49:10 -0400  71)     var map = L.map('map').setView([35.958530, -83.924637], 13); 
+65f88343 (= 2024-10-01 17:49:10 -0400  72)     
+65f88343 (= 2024-10-01 17:49:10 -0400  73)     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+65f88343 (= 2024-10-01 17:49:10 -0400  74)         attribution: '&copy; OpenStreetMap contributors'
+65f88343 (= 2024-10-01 17:49:10 -0400  75)     }).addTo(map);
+65f88343 (= 2024-10-01 17:49:10 -0400  76) 
+65f88343 (= 2024-10-01 17:49:10 -0400  77)     // Add markers for each stop
+65f88343 (= 2024-10-01 17:49:10 -0400  78)     {% for stop in stops %}
+65f88343 (= 2024-10-01 17:49:10 -0400  79)     L.marker([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}]).addTo(map)
+65f88343 (= 2024-10-01 17:49:10 -0400  80)         .bindPopup("<b>{{ stop['stop_name'] }}</b><br>ID: {{ stop['stop_id'] }}");
+65f88343 (= 2024-10-01 17:49:10 -0400  81)     {% endfor %}
+65f88343 (= 2024-10-01 17:49:10 -0400  82) 
+65f88343 (= 2024-10-01 17:49:10 -0400  83)     // Setup autocomplete for start and end locations
+65f88343 (= 2024-10-01 17:49:10 -0400  84)     function setupAutocomplete(inputId, hiddenId) {
+65f88343 (= 2024-10-01 17:49:10 -0400  85)         $("#" + inputId).autocomplete({
+65f88343 (= 2024-10-01 17:49:10 -0400  86)             source: function(request, response) {
+65f88343 (= 2024-10-01 17:49:10 -0400  87)                 $.ajax({
+65f88343 (= 2024-10-01 17:49:10 -0400  88)                     url: "{{ url_for('main.autocomplete') }}",
+65f88343 (= 2024-10-01 17:49:10 -0400  89)                     dataType: "json",
+65f88343 (= 2024-10-01 17:49:10 -0400  90)                     data: { term: request.term },
+65f88343 (= 2024-10-01 17:49:10 -0400  91)                     success: function(data) {
+65f88343 (= 2024-10-01 17:49:10 -0400  92)                         response(data);
+65f88343 (= 2024-10-01 17:49:10 -0400  93)                     }
+65f88343 (= 2024-10-01 17:49:10 -0400  94)                 });
+65f88343 (= 2024-10-01 17:49:10 -0400  95)             },
+65f88343 (= 2024-10-01 17:49:10 -0400  96)             minLength: 2,
+65f88343 (= 2024-10-01 17:49:10 -0400  97)             select: function(event, ui) {
+65f88343 (= 2024-10-01 17:49:10 -0400  98)                 $("#" + inputId).val(ui.item.label);
+65f88343 (= 2024-10-01 17:49:10 -0400  99)                 $("#" + hiddenId).val(ui.item.value);
+65f88343 (= 2024-10-01 17:49:10 -0400 100)                 return false;
+65f88343 (= 2024-10-01 17:49:10 -0400 101)             }
+65f88343 (= 2024-10-01 17:49:10 -0400 102)         });
+65f88343 (= 2024-10-01 17:49:10 -0400 103)     }
+65f88343 (= 2024-10-01 17:49:10 -0400 104) 
+65f88343 (= 2024-10-01 17:49:10 -0400 105)     setupAutocomplete("start_stop", "start_stop_id");
+65f88343 (= 2024-10-01 17:49:10 -0400 106)     setupAutocomplete("end_stop", "end_stop_id");
+65f88343 (= 2024-10-01 17:49:10 -0400 107) 
+65f88343 (= 2024-10-01 17:49:10 -0400 108)     // Handle favorite location buttons
+65f88343 (= 2024-10-01 17:49:10 -0400 109)     $(".favorite-location-btn").click(function() {
+65f88343 (= 2024-10-01 17:49:10 -0400 110)         var locationName = $(this).data('stop-name');
+65f88343 (= 2024-10-01 17:49:10 -0400 111)         if ($("#start_stop").val() === "") {
+65f88343 (= 2024-10-01 17:49:10 -0400 112)             $("#start_stop").val(locationName);
+65f88343 (= 2024-10-01 17:49:10 -0400 113)         } else if ($("#end_stop").val() === "") {
+65f88343 (= 2024-10-01 17:49:10 -0400 114)             $("#end_stop").val(locationName);
+65f88343 (= 2024-10-01 17:49:10 -0400 115)         } else {
+65f88343 (= 2024-10-01 17:49:10 -0400 116)             // Both fields are filled; replace the end location
+65f88343 (= 2024-10-01 17:49:10 -0400 117)             $("#end_stop").val(locationName);
+65f88343 (= 2024-10-01 17:49:10 -0400 118)         }
+65f88343 (= 2024-10-01 17:49:10 -0400 119)         // Optionally trigger autocomplete to fill in hidden stop IDs
+65f88343 (= 2024-10-01 17:49:10 -0400 120)         $("#start_stop, #end_stop").autocomplete("search");
+65f88343 (= 2024-10-01 17:49:10 -0400 121)     });
+65f88343 (= 2024-10-01 17:49:10 -0400 122) </script>
+65f88343 (= 2024-10-01 17:49:10 -0400 123) {% endblock %}
+
+
+### sprint1\hcrettol\v2\app\templates\register.html
+65f88343 (= 2024-10-01 17:49:10 -0400  1) {% extends "base.html" %}
+65f88343 (= 2024-10-01 17:49:10 -0400  2) 
+65f88343 (= 2024-10-01 17:49:10 -0400  3) {% block title %}Register{% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400  4) 
+65f88343 (= 2024-10-01 17:49:10 -0400  5) {% block navbar %}
+65f88343 (= 2024-10-01 17:49:10 -0400  6) <nav class="navbar navbar-expand-lg navbar-light bg-light">
+65f88343 (= 2024-10-01 17:49:10 -0400  7)     <div class="container-fluid">
+65f88343 (= 2024-10-01 17:49:10 -0400  8)         <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+65f88343 (= 2024-10-01 17:49:10 -0400  9)         <div class="collapse navbar-collapse justify-content-end">
+65f88343 (= 2024-10-01 17:49:10 -0400 10)             <ul class="navbar-nav">
+65f88343 (= 2024-10-01 17:49:10 -0400 11)                 <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400 12)                     <a class="nav-link" href="{{ url_for('main.map_view') }}">Home</a>
+65f88343 (= 2024-10-01 17:49:10 -0400 13)                 </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 14)                 {% if not current_user.is_authenticated %}
+65f88343 (= 2024-10-01 17:49:10 -0400 15)                 <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400 16)                     <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+65f88343 (= 2024-10-01 17:49:10 -0400 17)                 </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 18)                 <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400 19)                     <a class="nav-link active" aria-current="page" href="{{ url_for('main.register') }}">Register</a>
+65f88343 (= 2024-10-01 17:49:10 -0400 20)                 </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 21)                 {% endif %}
+65f88343 (= 2024-10-01 17:49:10 -0400 22)             </ul>
+65f88343 (= 2024-10-01 17:49:10 -0400 23)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 24)     </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 25) </nav>
+65f88343 (= 2024-10-01 17:49:10 -0400 26) {% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400 27) 
+65f88343 (= 2024-10-01 17:49:10 -0400 28) {% block content %}
+65f88343 (= 2024-10-01 17:49:10 -0400 29) <div class="container mt-5">
+65f88343 (= 2024-10-01 17:49:10 -0400 30)     <h1>Register</h1>
+65f88343 (= 2024-10-01 17:49:10 -0400 31)     <form method="POST" action="{{ url_for('main.register') }}">
+65f88343 (= 2024-10-01 17:49:10 -0400 32)         <div class="mb-3">
+65f88343 (= 2024-10-01 17:49:10 -0400 33)             <input type="text" name="username" placeholder="Username" required class="form-control">
+65f88343 (= 2024-10-01 17:49:10 -0400 34)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 35)         <div class="mb-3">
+65f88343 (= 2024-10-01 17:49:10 -0400 36)             <input type="password" name="password" placeholder="Password" required class="form-control">
+65f88343 (= 2024-10-01 17:49:10 -0400 37)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 38)         <button type="submit" class="btn btn-secondary">Register</button>
+65f88343 (= 2024-10-01 17:49:10 -0400 39)     </form>
+65f88343 (= 2024-10-01 17:49:10 -0400 40) </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 41) {% endblock %}
+
+
+### sprint1\hcrettol\v2\app\templates\settings.html
+65f88343 (= 2024-10-01 17:49:10 -0400  1) {% extends "base.html" %}
+65f88343 (= 2024-10-01 17:49:10 -0400  2) 
+65f88343 (= 2024-10-01 17:49:10 -0400  3) {% block title %}Settings{% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400  4) 
+65f88343 (= 2024-10-01 17:49:10 -0400  5) {% block navbar %}
+65f88343 (= 2024-10-01 17:49:10 -0400  6) <nav class="navbar navbar-expand-lg navbar-light bg-light">
+65f88343 (= 2024-10-01 17:49:10 -0400  7)     <div class="container-fluid">
+65f88343 (= 2024-10-01 17:49:10 -0400  8)         <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+65f88343 (= 2024-10-01 17:49:10 -0400  9)         <div class="collapse navbar-collapse justify-content-end">
+65f88343 (= 2024-10-01 17:49:10 -0400 10)             <ul class="navbar-nav">
+65f88343 (= 2024-10-01 17:49:10 -0400 11)                 {% if current_user.is_authenticated %}
+65f88343 (= 2024-10-01 17:49:10 -0400 12)                     <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400 13)                         <a class="nav-link" href="{{ url_for('main.map_view') }}">Home</a>
+65f88343 (= 2024-10-01 17:49:10 -0400 14)                     </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 15)                     <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400 16)                         <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
+65f88343 (= 2024-10-01 17:49:10 -0400 17)                     </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 18)                 {% else %}
+65f88343 (= 2024-10-01 17:49:10 -0400 19)                     <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400 20)                         <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+65f88343 (= 2024-10-01 17:49:10 -0400 21)                     </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 22)                     <li class="nav-item">
+65f88343 (= 2024-10-01 17:49:10 -0400 23)                         <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+65f88343 (= 2024-10-01 17:49:10 -0400 24)                     </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 25)                 {% endif %}
+65f88343 (= 2024-10-01 17:49:10 -0400 26)             </ul>
+65f88343 (= 2024-10-01 17:49:10 -0400 27)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 28)     </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 29) </nav>
+65f88343 (= 2024-10-01 17:49:10 -0400 30) {% endblock %}
+65f88343 (= 2024-10-01 17:49:10 -0400 31) 
+65f88343 (= 2024-10-01 17:49:10 -0400 32) {% block content %}
+65f88343 (= 2024-10-01 17:49:10 -0400 33) <div class="container mt-5">
+65f88343 (= 2024-10-01 17:49:10 -0400 34)     <h1>Settings</h1>
+65f88343 (= 2024-10-01 17:49:10 -0400 35)     <p>Manage your account settings here.</p>
+65f88343 (= 2024-10-01 17:49:10 -0400 36) 
+65f88343 (= 2024-10-01 17:49:10 -0400 37)     <!-- Add Favorite Location Form -->
+65f88343 (= 2024-10-01 17:49:10 -0400 38)     <h3>Add a Favorite Location</h3>
+65f88343 (= 2024-10-01 17:49:10 -0400 39)     <form method="POST" action="{{ url_for('main.add_favorite') }}">
+65f88343 (= 2024-10-01 17:49:10 -0400 40)         <div class="mb-3">
+65f88343 (= 2024-10-01 17:49:10 -0400 41)             <input type="text" name="favorite_place" placeholder="Enter location name" required class="form-control">
+65f88343 (= 2024-10-01 17:49:10 -0400 42)         </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 43)         <button type="submit" class="btn btn-primary">Add Favorite</button>
+65f88343 (= 2024-10-01 17:49:10 -0400 44)     </form>
+65f88343 (= 2024-10-01 17:49:10 -0400 45) 
+65f88343 (= 2024-10-01 17:49:10 -0400 46)     <!-- List of Favorite Locations -->
+65f88343 (= 2024-10-01 17:49:10 -0400 47)     {% if favorite_places %}
+65f88343 (= 2024-10-01 17:49:10 -0400 48)     <h3 class="mt-4">Your Favorite Locations</h3>
+65f88343 (= 2024-10-01 17:49:10 -0400 49)     <ul class="list-group">
+65f88343 (= 2024-10-01 17:49:10 -0400 50)         {% for place in favorite_places %}
+65f88343 (= 2024-10-01 17:49:10 -0400 51)         <li class="list-group-item d-flex justify-content-between align-items-center">
+65f88343 (= 2024-10-01 17:49:10 -0400 52)             {{ place }}
+65f88343 (= 2024-10-01 17:49:10 -0400 53)             <form method="POST" action="{{ url_for('main.remove_favorite') }}" class="mb-0">
+65f88343 (= 2024-10-01 17:49:10 -0400 54)                 <input type="hidden" name="place_to_remove" value="{{ place }}">
+65f88343 (= 2024-10-01 17:49:10 -0400 55)                 <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+65f88343 (= 2024-10-01 17:49:10 -0400 56)             </form>
+65f88343 (= 2024-10-01 17:49:10 -0400 57)         </li>
+65f88343 (= 2024-10-01 17:49:10 -0400 58)         {% endfor %}
+65f88343 (= 2024-10-01 17:49:10 -0400 59)     </ul>
+65f88343 (= 2024-10-01 17:49:10 -0400 60)     {% endif %}
+65f88343 (= 2024-10-01 17:49:10 -0400 61) 
+65f88343 (= 2024-10-01 17:49:10 -0400 62)     <!-- Delete Account Form -->
+65f88343 (= 2024-10-01 17:49:10 -0400 63)     <h3 class="mt-4">Account Actions</h3>
+65f88343 (= 2024-10-01 17:49:10 -0400 64)     <form action="{{ url_for('main.delete_account') }}" method="POST">
+65f88343 (= 2024-10-01 17:49:10 -0400 65)         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">Delete My Account</button>
+65f88343 (= 2024-10-01 17:49:10 -0400 66)     </form>
+65f88343 (= 2024-10-01 17:49:10 -0400 67) </div>
+65f88343 (= 2024-10-01 17:49:10 -0400 68) {% endblock %}
+
+
+### sprint1\hcrettol\v1\README.md
+65f88343 sprint1/hcrettol/v1/README.md (=        2024-10-01 17:49:10 -0400  1) # Rocky Top Transit Link Version 1.0 - Sprint 1 Update
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400  2) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400  3) ## Project Overview
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400  4) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400  5) This Flask application is a simple user management system designed to demonstrate the basics of web application development using Flask, SQLAlchemy, and Flask-Login. It includes functionalities for user registration, login, and logout, along with a personal dashboard where a user can save favorite locations upon successful login.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400  6) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400  7) ## Technologies Used
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400  8) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400  9) - **Flask**: A micro web framework written in Python.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 10) - **SQLAlchemy**: SQL toolkit and Object-Relational Mapping (ORM) system for Python.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 11) - **Flask-Login**: Provides user session management for Flask.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 12) - **SQLite**: Lightweight disk-based database that doesn’t require a separate server process.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 13) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 14) ## Features
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 15) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 16) - **User Registration**: Allows new users to register.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 17) - **User Login**: Existing users can log in using their credentials.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 18) - **User Logout**: Logged-in users can safely log out.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 19) - **Protected Dashboard**: Displays a personal dashboard that only authenticated users can access.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 20) - **Add Favorite Locations**: Allows users to save favorite locations for future use.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 21) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 22) ## Setup and Installation
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 23) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 24) ### Prerequisites
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 25) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 26) - Python 3.12.6
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 27) - pip (Python package installer)
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 28) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 29) ### Installing Dependencies
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 30) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 31) To install the required packages, run the following command in your terminal:
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 32) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 33) ```bash
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 34) pip install -r requirements.txt 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 35) ```
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 36) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 37) ### Running the Application
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 38) 
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 39) To run the program, run the following command in your terminal:
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 40) ```bash
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 41) python run.py
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 42) ```
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 43) The application will be available at http://127.0.0.1:5000/ on your web browser.
+e1e1fb3e sprint1/hcrettol/README.md    (hcrettol 2024-09-26 08:57:50 -0400 44) 
+
+
+### sprint1\hcrettol\v1\requirements.txt
+e1e1fb3e sprint1/hcrettol/requirements.txt (hcrettol 2024-09-26 08:57:50 -0400 1) Flask==3.0.3
+e1e1fb3e sprint1/hcrettol/requirements.txt (hcrettol 2024-09-26 08:57:50 -0400 2) Flask-Login==0.6.3
+e1e1fb3e sprint1/hcrettol/requirements.txt (hcrettol 2024-09-26 08:57:50 -0400 3) Flask-SQLAlchemy==3.1.1
+e1e1fb3e sprint1/hcrettol/requirements.txt (hcrettol 2024-09-26 08:57:50 -0400 4) SQLAlchemy==2.0.35
+e1e1fb3e sprint1/hcrettol/requirements.txt (hcrettol 2024-09-26 08:57:50 -0400 5) Flask-Migrate==4.0.7
+e1e1fb3e sprint1/hcrettol/requirements.txt (hcrettol 2024-09-26 08:57:50 -0400 6) Werkzeug==3.0.4
+
+
+### sprint1\hcrettol\v1\run.py
+e1e1fb3e sprint1/hcrettol/run.py (hcrettol 2024-09-26 08:57:50 -0400 1) from app import create_app
+e1e1fb3e sprint1/hcrettol/run.py (hcrettol 2024-09-26 08:57:50 -0400 2) 
+e1e1fb3e sprint1/hcrettol/run.py (hcrettol 2024-09-26 08:57:50 -0400 3) app = create_app()
+e1e1fb3e sprint1/hcrettol/run.py (hcrettol 2024-09-26 08:57:50 -0400 4) 
+e1e1fb3e sprint1/hcrettol/run.py (hcrettol 2024-09-26 08:57:50 -0400 5) if __name__ == '__main__':
+e1e1fb3e sprint1/hcrettol/run.py (hcrettol 2024-09-26 08:57:50 -0400 6)     app.run(debug=True)
+
+
+### sprint1\hcrettol\v1\app\config.py
+e1e1fb3e sprint1/hcrettol/app/config.py (hcrettol 2024-09-26 08:57:50 -0400 1) class Config:
+e1e1fb3e sprint1/hcrettol/app/config.py (hcrettol 2024-09-26 08:57:50 -0400 2)     SECRET_KEY = 'test'
+e1e1fb3e sprint1/hcrettol/app/config.py (hcrettol 2024-09-26 08:57:50 -0400 3)     SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
+e1e1fb3e sprint1/hcrettol/app/config.py (hcrettol 2024-09-26 08:57:50 -0400 4)     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+### sprint1\hcrettol\v1\app\models.py
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  1) from . import db, login_manager
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  2) from flask_login import UserMixin
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  3) from werkzeug.security import generate_password_hash, check_password_hash
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  4) 
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  5) class User(db.Model, UserMixin):
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  6)     id = db.Column(db.Integer, primary_key=True)
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  7)     username = db.Column(db.String(20), unique=True, nullable=False)
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  8)     password_hash = db.Column(db.String(128))
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400  9)     favorite_places = db.Column(db.String(255))
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 10) 
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 11)     def set_password(self, password):
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 12)         self.password_hash = generate_password_hash(password)
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 13) 
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 14)     def check_password(self, password):
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 15)         return check_password_hash(self.password_hash, password)
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 16) 
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 17) @login_manager.user_loader
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 18) def load_user(user_id):
+e1e1fb3e sprint1/hcrettol/app/models.py (hcrettol 2024-09-26 08:57:50 -0400 19)     return User.query.get(int(user_id))
+
+
+### sprint1\hcrettol\v1\app\routes.py
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400  1) from flask import Blueprint, render_template, redirect, url_for, request
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400  2) from flask_login import login_user, logout_user, login_required, current_user
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400  3) from .models import User, db
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400  4) 
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400  5) main = Blueprint('main', __name__)
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400  6) 
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400  7) @main.route('/')
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400  8) def welcome():
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400  9)     if current_user.is_authenticated:
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 10)         return redirect(url_for('main.home'))  # Assuming 'main.home' is your authenticated homepage
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 11)     return render_template('welcome.html')
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 12) 
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 13) @main.route('/home')
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 14) @login_required
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 15) def home():
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 16)     return render_template('home.html')
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 17) 
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 18) @main.route('/login', methods=['GET', 'POST'])
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 19) def login():
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 20)     if request.method == 'POST':
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 21)         username = request.form['username']
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 22)         password = request.form['password']
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 23)         user = User.query.filter_by(username=username).first()
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 24)         if user and user.check_password(password):
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 25)             login_user(user)
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 26)             return redirect(url_for('main.home'))
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 27)         else:
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 28)             # It's a good practice to return to the login page with an error message.
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 29)             return render_template('login.html', error="Invalid username or password")
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 30)     return render_template('login.html')
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 31) 
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 32) 
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 33) @main.route('/register', methods=['GET', 'POST'])
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 34) def register():
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 35)     if request.method == 'POST':
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 36)         username = request.form['username']
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 37)         password = request.form['password']
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 38)         if User.query.filter_by(username=username).first():
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 39)             return 'Username already taken'
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 40)         new_user = User(username=username)
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 41)         new_user.set_password(password)
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 42)         db.session.add(new_user)
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 43)         db.session.commit()
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 44)         return redirect(url_for('main.login'))
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 45)     return render_template('register.html')
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 46) 
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 47) @main.route('/logout')
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 48) def logout():
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 49)     logout_user()
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 50)     return redirect(url_for('main.welcome'))
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 51) 
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 52) @main.route('/update_favorites', methods=['POST'])
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 53) @login_required
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 54) def update_favorites():
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 55)     user = current_user
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 56)     new_favorite = request.form['favorite']
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 57)     if user.favorite_places:
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 58)         user.favorite_places += ", " + new_favorite  # Append new favorite place
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 59)     else:
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 60)         user.favorite_places = new_favorite  # Initialize if empty
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 61)     db.session.commit()
+e1e1fb3e sprint1/hcrettol/app/routes.py (hcrettol 2024-09-26 08:57:50 -0400 62)     return redirect(url_for('main.home'))
+
+
+### sprint1\hcrettol\v1\app\__init__.py
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400  1) from flask import Flask
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400  2) from flask_sqlalchemy import SQLAlchemy
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400  3) from flask_login import LoginManager
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400  4) from flask_migrate import Migrate
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400  5) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400  6) db = SQLAlchemy()
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400  7) login_manager = LoginManager()
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400  8) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400  9) def create_app():
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 10)     app = Flask(__name__)
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 11)     app.config['SECRET_KEY'] = 'test'
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 12)     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 13)     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 14) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 15)     db.init_app(app)
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 16)     login_manager.init_app(app)
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 17) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 18)     migrate = Migrate(app, db)  # Ensure Migrate is instantiated with app and db
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 19) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 20)     from .routes import main as main_blueprint
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 21)     app.register_blueprint(main_blueprint)
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 22) 
+e1e1fb3e sprint1/hcrettol/app/__init__.py (hcrettol 2024-09-26 08:57:50 -0400 23)     return app
+
+
+### sprint1\hcrettol\v1\app\templates\home.html
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400  1) <!DOCTYPE html>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400  2) <html lang="en">
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400  3) <head>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400  4)     <meta charset="UTF-8">
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400  5)     <title>Home Page</title>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400  6) </head>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400  7) <body>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400  8)     <h1>Welcome, {{ current_user.username }}!</h1>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400  9) 
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 10)     <form action="{{ url_for('main.update_favorites') }}" method="post">
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 11)         <label for="favorite">Add a Favorite Place:</label>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 12)         <input type="text" id="favorite" name="favorite" required>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 13)         <button type="submit">Save Favorite</button>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 14)     </form>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 15)     
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 16)     <!-- List existing favorite places if any -->
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 17)     {% if current_user.favorite_places %}
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 18)         <h3>Your Favorite Places:</h3>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 19)         <p>{{ current_user.favorite_places }}</p>  <!-- Display as a simple paragraph -->
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 20)     {% endif %}
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 21)     
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 22)     <a href="{{ url_for('main.logout') }}">Logout</a>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 23) </body>
+e1e1fb3e sprint1/hcrettol/app/templates/home.html (hcrettol 2024-09-26 08:57:50 -0400 24) </html>
+
+
+### sprint1\hcrettol\v1\app\templates\login.html
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400  1) <!DOCTYPE html>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400  2) <html lang="en">
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400  3) <head>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400  4)     <meta charset="UTF-8">
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400  5)     <title>Login</title>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400  6) </head>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400  7) <body>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400  8)     <h1>Login</h1>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400  9)     <form method="POST" action="{{ url_for('main.login') }}">
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400 10)         <input type="text" name="username" placeholder="Username" required>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400 11)         <input type="password" name="password" placeholder="Password" required>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400 12)         <button type="submit">Login</button>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400 13)     </form>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400 14) </body>
+e1e1fb3e sprint1/hcrettol/app/templates/login.html (hcrettol 2024-09-26 08:57:50 -0400 15) </html>
+
+
+### sprint1\hcrettol\v1\app\templates\register.html
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400  1) <!DOCTYPE html>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400  2) <html lang="en">
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400  3) <head>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400  4)     <meta charset="UTF-8">
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400  5)     <title>Register</title>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400  6) </head>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400  7) <body>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400  8)     <h1>Register</h1>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400  9)     <form method="POST" action="{{ url_for('main.register') }}">
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400 10)         <input type="text" name="username" placeholder="Username" required>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400 11)         <input type="password" name="password" placeholder="Password" required>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400 12)         <button type="submit">Register</button>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400 13)     </form>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400 14) </body>
+e1e1fb3e sprint1/hcrettol/app/templates/register.html (hcrettol 2024-09-26 08:57:50 -0400 15) </html>
+
+
+### sprint1\hcrettol\v1\app\templates\welcome.html
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400  1) <!DOCTYPE html>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400  2) <html lang="en">
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400  3) <head>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400  4)     <meta charset="UTF-8">
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400  5)     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400  6)     <title>Welcome</title>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400  7)     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400  8) </head>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400  9) <body>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400 10)     <div class="container mt-5">
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400 11)         <h1>Welcome to Our Site!</h1>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400 12)         <p>Get started by logging in or registering a new account.</p>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400 13)         <div class="mt-4">
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400 14)             <a href="{{ url_for('main.login') }}" class="btn btn-primary">Login</a>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400 15)             <a href="{{ url_for('main.register') }}" class="btn btn-secondary">Register</a>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400 16)         </div>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400 17)     </div>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400 18) </body>
+e1e1fb3e sprint1/hcrettol/app/templates/welcome.html (hcrettol 2024-09-26 08:57:50 -0400 19) </html>

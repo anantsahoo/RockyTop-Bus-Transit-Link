@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Stop Details{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1>{{ stop['stop_name'] }}</h1>
+    <p><strong>Stop ID:</strong> {{ stop['stop_id'] }}</p>
+    <p><strong>Latitude:</strong> {{ stop['stop_lat'] }}</p>
+    <p><strong>Longitude:</strong> {{ stop['stop_lon'] }}</p>
+
+    <!-- Map Section -->
+    <h4>Map</h4>
+    <div id="map" style="height: 500px;"></div>
+
+    <!-- Routes Serving This Stop -->
+    <h4 class="mt-4">Routes Serving This Stop</h4>
+    {% if routes %}
+    <ul class="list-group">
+        {% for route in routes %}
+        <li class="list-group-item">
+            <strong>{{ route['route_short_name'] }} - {{ route['route_long_name'] }}</strong><br>
+            <em>Route ID:</em> {{ route['route_id'] }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No routes available for this stop.</p>
+    {% endif %}
+
+    <!-- Upcoming Arrivals -->
+    <h4 class="mt-4">Upcoming Departures</h4>
+    {% if arrivals %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Route</th>
+                <th>Trip ID</th>
+                <th>Departure Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for arrival in arrivals %}
+            <tr>
+                <td>{{ arrival['route_short_name'] }} - {{ arrival['route_long_name'] }}</td>
+                <td>{{ arrival['trip_id'] }}</td>
+                <td>{{ arrival['formatted_departure'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No upcoming departures at this time.</p>
+    {% endif %}
+
+    <a href="{{ url_for('main.map_view') }}" class="btn btn-primary mt-3">Back to Map</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        var map = L.map('map').setView([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}], 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add marker for the stop
+        L.marker([{{ stop['stop_lat'] }}, {{ stop['stop_lon'] }}]).addTo(map)
+            .bindPopup("<b>{{ stop['stop_name'] }}</b>").openPopup();
+
+    </script>
+{% endblock %}

@@ -1,0 +1,283 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body Structure */
+html,
+body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+}
+
+body {
+    min-height: 100vh;
+}
+
+/* Main content takes full available space */
+main {
+    flex-grow: 1;
+}
+
+/* Navbar */
+#navbar {
+    background-color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#navbar ul {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+}
+
+#navbar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+#navbar ul li a:hover {
+    background-color: #00e600;
+}
+
+/* Add Favorites and History buttons to navbar with differentiated color */
+#navbar ul li .nav-button {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #ff9800; /* Orange color for differentiation */
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#navbar ul li .nav-button:hover {
+    background-color: #e68a00; /* Darker orange on hover */
+}
+
+/* Login Dropdown */
+#login-container {
+    position: relative;
+    display: inline-block;
+}
+
+#login-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+#login-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    z-index: 1000;
+}
+
+#login-container:hover #login-dropdown {
+    display: block;
+}
+
+#login-dropdown form {
+    display: flex;
+    flex-direction: column;
+}
+
+#login-dropdown input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#login-dropdown button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Button Styling */
+button {
+    padding: 10px 15px;
+    margin: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Slide-In Section */
+.slide-in-container {
+    position: fixed;
+    top: 0;
+    width: 0;
+    height: 100%;
+    overflow-x: hidden;
+    transition: width 0.4s;
+    z-index: 999;
+}
+
+/* Favorites List on the Right */
+#slide-out-favorite {
+    right: 0;
+    width: 0; /* Start with 0 width */
+    transition: width 0.4s ease; /* Smooth transition */
+    background-color: rgba(0, 123, 255, 0.8);
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Favorites List Active State */
+#slide-out-favorite.active {
+    width: 30%; /* Adjust as needed */
+}
+
+/* History List on the Right */
+#slide-out-history {
+    right: 0; /* Changed from left: 0 to right: 0 */
+    width: 0; /* Start with 0 width */
+    transition: width 0.4s ease; /* Smooth transition */
+    background-color: rgba(0, 123, 255, 0.8);
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* History List Active State */
+#slide-out-history.active {
+    width: 30%; /* Adjust as needed */
+}
+
+/* List Styling */
+#list-container li,
+#history-list li {
+    position: relative;
+    border-bottom: 1px dashed #ccc;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+#list-container li span {
+    position: absolute;
+    right: 0;
+    top: -10%;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    color: #555;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+ul li span:hover {
+    background: #edeef0;
+}
+
+.favorites-list,
+.history {
+    background-color: white;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #000000;
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+.map-legend {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.map-legend h4 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.map-legend ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.map-legend li {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.legend-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    border-radius: 50%;
+}
+/* Hero Section */
+.hero-section {
+	text-align: center;
+	background-color: #007bff;
+	color: white;
+	padding: 50px 0;
+}
+
+.hero-section h1 {
+	font-size: 3em;
+}
+
+.hero-section p {
+	font-size: 1.2em;
+	margin: 10px 0;
+}
+.footer-banner {
+    text-align: center;
+    background-color: #333; /* Dark gray background */
+    color: white;
+    padding: 20px 0; /* Adjust padding as needed */
+}
+
+.footer-banner p {
+    font-size: 1.1em;
+    margin: 0;
+}

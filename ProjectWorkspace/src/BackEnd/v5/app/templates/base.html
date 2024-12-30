@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{% block head %}
+		<meta charset="UTF-8" />
+		<title>{% block title %}Home{% endblock %}</title>
+		{% endblock %}
+		<!-- Include Bootstrap CSS -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<!-- Include jQuery -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+		<!-- Include jQuery UI CSS -->
+		<link
+			rel="stylesheet"
+			href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+		/>
+
+		<!-- Include jQuery UI JS -->
+		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+		<!-- Include Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+		<!-- Include custom CSS -->
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='CSS/sprint2.css') }}"
+		/>
+
+		{% block styles %}{% endblock %}
+	</head>
+	<body>
+		{% block navbar %}
+		<header>
+			<!-- Navbar -->
+			<nav
+				class="navbar navbar-expand-lg navbar-dark bg-dark"
+				aria-label="Main Navigation"
+			>
+				<div class="container-fluid">
+					<a class="navbar-brand" href="{{ url_for('main.home') }}"
+						>Rocky Top Transit Link</a
+					>
+					<button
+						class="navbar-toggler"
+						type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarContent"
+						aria-controls="navbarContent"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
+
+					<div class="collapse navbar-collapse" id="navbarContent">
+						<!-- Left side navbar items -->
+						<ul class="navbar-nav me-auto">
+							<li class="nav-item">
+								<a
+									class="nav-link"
+									href="{{ url_for('main.home') }}"
+									aria-label="Home"
+									>Home</a
+								>
+							</li>
+							<li class="nav-item">
+								<a
+									class="nav-link"
+									href="{{ url_for('main.map_view') }}"
+									aria-label="Map"
+									>Map</a
+								>
+							</li>
+							{% if current_user.is_authenticated %}
+							<li class="nav-item">
+								<a
+									class="nav-link"
+									href="#"
+									id="history-link"
+									aria-label="History"
+									>History</a
+								>
+							</li>
+							<li class="nav-item">
+								<a
+									class="nav-link"
+									href="#"
+									id="favorites-link"
+									aria-label="Favorites"
+									>Favorites</a
+								>
+							</li>
+							<li class="nav-item">
+								<a
+									class="nav-link"
+									href="{{ url_for('main.settings') }}"
+									aria-label="Settings"
+									>Settings</a
+								>
+							</li>
+							{% endif %}
+						</ul>
+
+						<!-- Right side navbar items -->
+						<ul class="navbar-nav ms-auto">
+							{% if current_user.is_authenticated %}
+							<li class="nav-item">
+								<a
+									class="btn btn-danger nav-link text-white"
+									href="{{ url_for('main.logout') }}"
+									aria-label="Logout"
+									>Logout</a
+								>
+							</li>
+							{% else %}
+							<li class="nav-item">
+								<a
+									class="nav-link"
+									href="{{ url_for('main.register') }}"
+									aria-label="Register Account"
+									>Register Account</a
+								>
+							</li>
+							<li class="nav-item dropdown">
+								<a
+									class="nav-link dropdown-toggle"
+									href="#"
+									id="login-button"
+									role="button"
+									data-bs-toggle="dropdown"
+									aria-expanded="false"
+								>
+									Login
+								</a>
+								<div
+									class="dropdown-menu dropdown-menu-end p-3 dropdown-login-form"
+								>
+									<form
+										id="login-form"
+										method="POST"
+										action="{{ url_for('main.login') }}"
+									>
+										<div class="mb-3">
+											<label for="username" class="form-label"
+												>Username/Email:</label
+											>
+											<input
+												type="text"
+												id="username"
+												name="username_or_email"
+												placeholder="Enter your username or email"
+												required
+												class="form-control"
+											/>
+										</div>
+										<div class="mb-3">
+											<label for="password" class="form-label">Password:</label>
+											<input
+												type="password"
+												id="password"
+												name="password"
+												placeholder="Enter your password"
+												required
+												class="form-control"
+											/>
+										</div>
+										<button type="submit" class="btn btn-primary w-100">
+											Login
+										</button>
+									</form>
+								</div>
+							</li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</nav>
+			{% block hero %}
+			<!-- Hero section can be overridden in templates if needed -->
+			{% endblock %}
+		</header>
+		{% endblock %}
+
+		<!-- Flash Messages -->
+		{% with messages = get_flashed_messages(with_categories=true) %} {% if
+		messages %}
+		<div class="container mt-2">
+			{% for category, message in messages %}
+			<div class="alert alert-{{ category }}">{{ message }}</div>
+			{% endfor %}
+		</div>
+		{% endif %} {% endwith %}
+		<main class="flex-grow-1">
+			{% block content %}
+			<!-- Page content will be injected here -->
+			{% endblock %}
+		</main>
+
+		{% block footer %}
+		<footer class="footer-banner text-center mt-4">
+			<div class="container p-4">
+				<p>
+					&copy; {{ current_year }} Rocky Top Transit Link. All Rights Reserved.
+				</p>
+			</div>
+		</footer>
+
+		{% if current_user.is_authenticated %}
+		<!-- Favorites Slide-In Section -->
+		<div class="slide-in-container" id="slide-out-favorite">
+			<div class="favorites-list">
+				<h2>Favorites List</h2>
+				<div class="row">
+					<input
+						type="text"
+						id="input-box"
+						placeholder="Enter a bus stop name"
+					/>
+					<button id="add-bus-stop">Add</button>
+				</div>
+				<script>
+					$(document).ready(function () {
+						setupAutocomplete("input-box");
+					});
+				</script>
+				<ul id="list-container"></ul>
+			</div>
+		</div>
+		<!-- History Slide-In Section -->
+		<div class="slide-in-container" id="slide-out-history">
+			<div class="history">
+				<h2>History</h2>
+				<ul id="history-list" class="list-group"></ul>
+			</div>
+		</div>
+		{% endif %} {% endblock %}
+
+		<!-- Define JavaScript variables before including scripts -->
+		{% block script_variables %}
+		<script>
+			var addFavoriteUrl = "{{ url_for('main.add_favorite') }}";
+			var removeFavoriteUrl = "{{ url_for('main.remove_favorite') }}";
+			var favoritePlaces = {{ favorite_places | default([]) | tojson | safe }};
+			const autocompleteUrl = "{{ url_for('main.autocomplete') }}";
+		</script>
+		{% endblock %}
+
+		<!-- Include custom JS (without defer) -->
+		<script src="{{ url_for('static', filename='js/sprint2.js') }}"></script>
+
+		{% block scripts %}
+		<script>
+			$(document).ready(function () {
+				// Toggle login dropdown on button click
+				$("#login-button").on("click", function (event) {
+					event.stopPropagation();
+					$("#login-dropdown").toggle();
+				});
+
+				// Close the dropdown when clicking outside of it
+				$(document).on("click", function (event) {
+					if (!$(event.target).closest("#login-container").length) {
+						$("#login-dropdown").hide();
+					}
+				});
+			});
+		</script>
+		{% endblock %}
+	</body>
+</html>

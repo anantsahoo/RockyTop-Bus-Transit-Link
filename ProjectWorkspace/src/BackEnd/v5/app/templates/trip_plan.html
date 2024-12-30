@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Trip Plan{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1>Trip Plan</h1>
+    <p><strong>Total Estimated Travel Time:</strong> {{ total_travel_time }}</p>
+
+    <h4>Trip Segments:</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>From Stop</th>
+                <th>To Stop</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for segment in trip_segments %}
+            <tr>
+                <td>{{ segment.from_stop_name }}</td>
+                <td>{{ segment.to_stop_name }}</td>
+                <td>{{ segment.departure_time_str }}</td>
+                <td>{{ segment.arrival_time_str }}</td>
+                <td>{{ segment.duration }} seconds</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Map to display the route -->
+    <div id="map" style="height: 600px"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<!-- Include Leaflet CSS and JS if not already included -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    var map = L.map('map').setView([{{ trip_segments[0].from_stop_lat }}, {{ trip_segments[0].from_stop_lon }}], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var latlngs = [
+        {% for segment in trip_segments %}
+        [{{ segment.from_stop_lat }}, {{ segment.from_stop_lon }}],
+        {% endfor %}
+        [{{ trip_segments[-1].to_stop_lat }}, {{ trip_segments[-1].to_stop_lon }}]
+    ];
+
+    // Draw the route polyline
+    var polyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+
+    // Fit the map to the polyline
+    map.fitBounds(polyline.getBounds());
+
+    // Add markers for each stop
+    {% for segment in trip_segments %}
+    L.marker([{{ segment.from_stop_lat }}, {{ segment.from_stop_lon }}]).addTo(map)
+        .bindPopup("<b>{{ segment.from_stop_name }}</b><br>Departure: {{ segment.departure_time_str }}");
+    {% endfor %}
+    // Add marker for the last stop
+    L.marker([{{ trip_segments[-1].to_stop_lat }}, {{ trip_segments[-1].to_stop_lon }}]).addTo(map)
+        .bindPopup("<b>{{ trip_segments[-1].to_stop_name }}</b><br>Arrival: {{ trip_segments[-1].arrival_time_str }}");
+</script>
+{% endblock %}

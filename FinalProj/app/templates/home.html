@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block hero %}
+<!-- Hero Section -->
+<section class="hero-section">
+	<h1>Rocky Top Transit Link</h1>
+	<p>Efficient Public Transit at Your Fingertips</p>
+    <h1>Welcome{% if current_user.is_authenticated %}, {{ current_user.username }}{% endif %}!</h1>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div id="home-map" style="height: 800px; "></div> 
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }} <!-- Ensures any scripts from base.html are included -->
+
+<!-- Include Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<!-- Include Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialize the map centered at the given coordinates with a zoom level of 13
+        var map = L.map('home-map').setView([35.958530, -83.924637], 13);
+
+        // Add a tile layer (OpenStreetMap) to display map tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+    });
+</script>
+{% endblock %}
+

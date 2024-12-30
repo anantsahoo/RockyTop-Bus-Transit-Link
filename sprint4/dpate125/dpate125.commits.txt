@@ -1,0 +1,380 @@
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v5/app/templates
+
+base.html
+
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500   4) 		{% block head %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500   5) 		<meta charset="UTF-8" />
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500   6) 		<title>{% block title %}Home{% endblock %}</title>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500   7) 		{% endblock %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 238) 				<ul id="history-list" class="list-group"></ul>
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v5/app/templates
+
+map.html
+
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 135) 			/*
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 149) 			*/
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 176) 	                                        iconSize: [40, 40],
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 194) 	                }, {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 195) 						enableHighAccuracy: true,
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 196) 						timeout: 10000,
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 197) 						maximumAge: 0
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 198) 					});
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v5/app/templates
+
+settings.html
+
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  1) {% extends "base.html" %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  2) {% block title %}Settings{% endblock %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  3) {% block content %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  5)     <h1 class="mb-4">Settings</h1>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  6)     <p>Manage your account settings here.</p>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  8)     <!-- Change Password Form -->
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  9)     <div class="card mb-4">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 10)         <div class="card-header">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 11)             <h5>Change Password</h5>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 12)         </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 13)         <div class="card-body">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 14)             <form method="POST" action="{{ url_for('main.settings') }}">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 15)                 {{ form.hidden_tag() }}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 16)                 <div class="mb-3">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 17)                     {{ form.current_password.label(class="form-label") }}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 18)                     {{ form.current_password(class="form-control") }}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 19)                     {% for error in form.current_password.errors %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 20)                         <div class="text-danger">{{ error }}</div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 21)                     {% endfor %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 22)                 </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 23)                 <div class="mb-3">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 24)                     {{ form.new_password.label(class="form-label") }}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 25)                     {{ form.new_password(class="form-control") }}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 26)                     {% for error in form.new_password.errors %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 27)                         <div class="text-danger">{{ error }}</div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 28)                     {% endfor %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 29)                 </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 30)                 <div class="mb-3">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 31)                     {{ form.confirm_new_password.label(class="form-label") }}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 32)                     {{ form.confirm_new_password(class="form-control") }}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 33)                     {% for error in form.confirm_new_password.errors %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 34)                         <div class="text-danger">{{ error }}</div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 35)                     {% endfor %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 36)                 </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 37)                 {{ form.submit(class="btn btn-success") }}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 38)             </form>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 39)         </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 40)     </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 42)     <!-- Account Actions -->
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 43)     <div class="card">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 44)         <div class="card-header">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 45)             <h5>Account Actions</h5>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 46)         </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 47)         <div class="card-body">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 48)             <!-- Delete Account Form -->
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 49)             <form action="{{ url_for('main.delete_account') }}" method="POST">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 50)                 <button
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 51)                     type="submit"
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 52)                     class="btn btn-danger"
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 53)                     onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');"
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 54)                 >
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 55)                     Delete My Account
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 56)                 </button>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 57)             </form>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 58)         </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 59)     </div>
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v5/app/templates
+
+stop_detail.html
+
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  1) <!-- templates/stop_detail.html -->
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  4) {% block title %}{{ bus_stop.stop_name }} - Details{% endblock %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  6) {% block styles %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  7) <!-- Include Leaflet CSS -->
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  8) <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  9) {% endblock %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 11) {% block content %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 12) <div class="container mt-5">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 13)     <h1>{{ bus_stop.stop_name }} (ID: {{ bus_stop.stop_id }})</h1>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 14)     
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 15)     <!-- Embedded Map -->
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 16)     <div id="map" class="map mb-4" style="height: 400px;"></div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 17)     
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 18)     <!-- Bus Stop Details -->
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 19)     <div class="details mb-4">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 20)         <h3>Bus Stop Details</h3>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 21)         <p><strong>Location:</strong> Latitude: {{ bus_stop.location.latitude }}, Longitude: {{ bus_stop.location.longitude }}</p>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 22)         <p><strong>Nearby Landmarks:</strong> 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 23)             {% if bus_stop.nearby_landmarks %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 24)                 {{ bus_stop.nearby_landmarks | join(', ') }}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 25)             {% else %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 26)                 N/A
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 27)             {% endif %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 28)         </p>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 29)         <p><strong>Accessibility:</strong> {{ bus_stop.accessibility }}</p>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 30)         <p><strong>Shelter Availability:</strong> {{ bus_stop.shelter_availability }}</p>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 31)         <p><strong>Recent Notices:</strong> {{ bus_stop.recent_notices }}</p>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 32)     </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 33)     
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 35)     <div class="arrivals mb-4">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 36)         <h3>Upcoming Arrivals</h3>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 37)         {% if bus_stop.upcoming_arrivals %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 38)             <ul class="list-group">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 39)                 {% for arrival in bus_stop.upcoming_arrivals %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 40)                     <li class="list-group-item">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 41)                         <strong>Bus {{ arrival.bus_number }}</strong> to {{ arrival.destination }} arriving at {{ arrival.arrival_time }}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 42)                     </li>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 43)                 {% endfor %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 44)             </ul>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 45)         {% else %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 46)             <p>No upcoming arrivals at this time.</p>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 47)         {% endif %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 48)     </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 49)     
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 50)     <!-- Bus Routes -->
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 51)     <div class="routes mb-4">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 52)         <h3>Bus Routes Serving This Stop</h3>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 53)         <ul class="list-group">
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 54)             {% for route in bus_stop.bus_routes %}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 55)                 <li class="list-group-item">Route {{ route }}</li>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 57)         </ul>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 58)     </div>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 59)     
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 60)     <a href="{{ url_for('main.map_view') }}" class="btn btn-secondary">Back to Map</a>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 65) <!-- Leaflet JS -->
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 66) <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 67) <script>
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 68)     // Initialize the map
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 69)     var map = L.map('map').setView([{{ bus_stop.location.latitude }}, {{ bus_stop.location.longitude }}], 15);
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 70)     
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 71)     // Add OpenStreetMap tiles
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 72)     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 73)         attribution: '&copy; OpenStreetMap contributors'
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 74)     }).addTo(map);
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 75)     
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 76)     // Add a marker for the bus stop
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 77)     var marker = L.marker([{{ bus_stop.location.latitude }}, {{ bus_stop.location.longitude }}]).addTo(map);
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 78)     marker.bindPopup("<b>{{ bus_stop.stop_name }}</b><br>ID: {{ bus_stop.stop_id }}").openPopup();
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 79) </script>
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v5/app/static/CSS
+
+sprint2.css
+
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 333) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 334) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 335) /* Settings Page Styles */
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 336) .container h1 {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 337)     margin-bottom: 20px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 338) }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 339) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 340) .card {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 341)     margin-bottom: 20px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 342) }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 343) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 344) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 345) /* Legend styling */
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 346) .info.legend {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 347)     background-color: rgba(255, 255, 255, 0.8);
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 348)     padding: 10px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 349)     border-radius: 5px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 350)     line-height: 1.5em;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 351) }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 352) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 353) .info.legend h4 {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 354)     margin-bottom: 5px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 355) }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 356) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 357) .legend-icon {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 358)     width: 15px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 359)     height: 15px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 360)     display: inline-block;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 361)     margin-right: 5px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 362)     vertical-align: middle;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 363) }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 364) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 365) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 366) /* History List */
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 367) #history-list li {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 368)     position: relative;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 369)     padding: 10px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 370)     margin: 5px 0;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 371)     border-bottom: 1px solid #ddd;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 372) }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 373) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 374) #history-list li .btn {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 375)     position: absolute;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 376)     right: 10px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 377)     top: 50%;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 378)     transform: translateY(-50%);
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 379) }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 380) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 381) .map {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 382)     height: 400px; /* Adjust the height as needed */
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 383)     width: 100%;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 384)     margin-bottom: 20px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 385) }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 386) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 387) #map {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 388)     height: 400px;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 389)     width: 100%;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 390) }
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v5/app/static/js
+
+sprint2.js
+
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 176)                     li.classList.add("list-group-item");
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 178) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 179)                     // Create delete button
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 180)                     const deleteButton = document.createElement("button");
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 181)                     deleteButton.textContent = "Delete";
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 182)                     deleteButton.classList.add("btn", "btn-sm", "btn-danger", "float-end");
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 183)                     deleteButton.onclick = function () {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 184)                         deleteHistoryItem(item.id, li);
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 185)                     };
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 186) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 187)                     li.appendChild(deleteButton);
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 209)     // Function to delete a history item
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 210)     function deleteHistoryItem(historyId, listItem) {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 211)         fetch('/delete_history_item', {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 212)             method: 'POST',
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 213)             headers: {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 214)                 'Content-Type': 'application/json'
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 215)             },
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 216)             body: JSON.stringify({ 'history_id': historyId })
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 217)         })
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 218)         .then(response => response.json())
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 219)         .then(data => {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 220)             if (data.success) {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 221)                 // Remove the history item from the UI
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 222)                 listItem.remove();
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 223)             } else {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 224)                 alert(data.message);
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 225)             }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 226)         })
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 227)         .catch(error => {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 228)             console.error('Error deleting history item:', error);
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 229)             alert('An error occurred while deleting the history item.');
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 230)         });
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 231)     }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 232) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 250) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 272) }
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v5/app
+
+routes.py
+
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500  16) import requests
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 239)     import pandas as pd
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 240)     import logging
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 241) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 242)     # Configure logging
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 243)     logging.basicConfig(level=logging.DEBUG)
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 244) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 245)     # Ensure stop_id is a string and strip any whitespace
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 246)     stop_id = str(stop_id).strip()
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 247)     logging.debug(f"Received stop_id: '{stop_id}'")
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 248) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 249)     # Load stops data with stop_id as string
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 250)     try:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 251)         stops = pd.read_csv('gtfs/stops.txt', dtype={'stop_id': str})
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 252)         logging.debug(f"Loaded stops data with {len(stops)} stops.")
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 253)     except FileNotFoundError:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 254)         flash('Stops data not found.', 'danger')
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 255)         logging.error("gtfs/stops.txt not found.")
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 256)         return redirect(url_for('main.map_view'))
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 257)     except Exception as e:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 258)         flash(f'Error reading stops data: {e}', 'danger')
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 259)         logging.error(f"Error reading stops.txt: {e}")
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 260)         return redirect(url_for('main.map_view'))
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 262)     # Find the specific stop
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 263)     bus_stop = stops[stops['stop_id'] == stop_id]
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 264)     logging.debug(f"Found {len(bus_stop)} stops with stop_id '{stop_id}'.")
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 266)     if bus_stop.empty:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 267)         flash('Bus stop not found.', 'danger')
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 268)         logging.warning(f"Bus stop with stop_id '{stop_id}' not found.")
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 269)         return redirect(url_for('main.map_view'))
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 271)     bus_stop = bus_stop.iloc[0].to_dict()
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 272)     logging.debug(f"Bus Stop Details: {bus_stop}")
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 273) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 274)     # For simplicity, we'll skip fetching nearby landmarks and use placeholders
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 275)     detailed_stop = {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 276)         "stop_id": bus_stop['stop_id'],
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 277)         "stop_name": bus_stop['stop_name'],
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 278)         "location": {
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 279)             "latitude": bus_stop['stop_lat'],
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 280)             "longitude": bus_stop['stop_lon']
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 281)         },
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 282)         "nearby_landmarks": ["N/A"],  # Simplified
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 283)         "accessibility": "Wheelchair accessible",
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 284)         "shelter_availability": "Available",
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 285)         "recent_notices": "Construction on nearby roads until May.",
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 286)         "upcoming_arrivals": [
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 287)             {"bus_number": "5A", "destination": "Downtown", "arrival_time": "10:15 AM"},
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 288)             {"bus_number": "12B", "destination": "Uptown", "arrival_time": "10:20 AM"}
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 289)         ],
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 290)         "bus_routes": ["5A", "12B", "7C"]
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 291)     }
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 292) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 293)     logging.debug(f"Rendering template with bus_stop: {detailed_stop}")
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 294) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 295)     return render_template('stop_detail.html', bus_stop=detailed_stop)
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 296) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 297) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 298) @main.route('/list_stops')
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 299) def list_stops():
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 300)     import pandas as pd
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 301)     try:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 302)         stops = pd.read_csv('gtfs/stops.txt', dtype={'stop_id': str})
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 303)         stop_ids = stops['stop_id'].unique().tolist()
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 304)         return jsonify({'stop_ids': stop_ids})
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 305)     except Exception as e:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 306)         return jsonify({'error': str(e)}), 500
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 307) 
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 308) def get_nearby_landmarks(latitude, longitude, radius=500):
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 309)     """
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 310)     Fetch nearby landmarks using OpenStreetMap's Overpass API.
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 311)     :param latitude: Latitude of the bus stop
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 312)     :param longitude: Longitude of the bus stop
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 313)     :param radius: Search radius in meters
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 314)     :return: List of landmark names
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 315)     """
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 316)     overpass_url = "http://overpass-api.de/api/interpreter"
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 317)     overpass_query = f"""
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 318)     [out:json];
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 319)     (
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 320)       node(around:{radius},{latitude},{longitude})["tourism"~"museum|park|attraction"];
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 321)       way(around:{radius},{latitude},{longitude})["tourism"~"museum|park|attraction"];
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 322)       relation(around:{radius},{latitude},{longitude})["tourism"~"museum|park|attraction"];
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 323)     );
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 324)     out center;
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 325)     """
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 326)     response = requests.get(overpass_url, params={'data': overpass_query})
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 327)     if response.status_code != 200:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 328)         print("Error fetching landmarks:", response.status_code)
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 329)         return []
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 330)     
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 331)     data = response.json()
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 332)     landmarks = set()
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 333)     for element in data['elements']:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 334)         if 'tags' in element and 'name' in element['tags']:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 335)             landmarks.add(element['tags']['name'])
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 336)     return list(landmarks)[:5]  # Limit to top 5 landmarks
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 521)             'id': history.id,  # Include the ID
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 528) @main.route('/delete_history_item', methods=['POST'])
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 529) @login_required
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 530) def delete_history_item():
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 531)     data = request.get_json()
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 532)     if not data or 'history_id' not in data:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 533)         return jsonify({'success': False, 'message': 'No history ID provided'}), 400
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 534)     
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 535)     history_id = data['history_id']
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 536)     history_item = RouteHistory.query.filter_by(id=history_id, user_id=current_user.id).first()
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 537)     if history_item:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 538)         db.session.delete(history_item)
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 539)         db.session.commit()
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 540)         return jsonify({'success': True})
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 541)     else:
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 542)         return jsonify({'success': False, 'message': 'History item not found.'}), 404
+8df6b5f0 (Deep0320         2024-11-14 18:59:14 -0500 543) 

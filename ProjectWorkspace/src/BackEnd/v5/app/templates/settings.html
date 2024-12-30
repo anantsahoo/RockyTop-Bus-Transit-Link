@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Settings</h1>
+    <p>Manage your account settings here.</p>
+
+    <!-- Change Password Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Change Password</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('main.settings') }}">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ form.current_password.label(class="form-label") }}
+                    {{ form.current_password(class="form-control") }}
+                    {% for error in form.current_password.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="mb-3">
+                    {{ form.new_password.label(class="form-label") }}
+                    {{ form.new_password(class="form-control") }}
+                    {% for error in form.new_password.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="mb-3">
+                    {{ form.confirm_new_password.label(class="form-label") }}
+                    {{ form.confirm_new_password(class="form-control") }}
+                    {% for error in form.confirm_new_password.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {{ form.submit(class="btn btn-success") }}
+            </form>
+        </div>
+    </div>
+
+    <!-- Account Actions -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Account Actions</h5>
+        </div>
+        <div class="card-body">
+            <!-- Delete Account Form -->
+            <form action="{{ url_for('main.delete_account') }}" method="POST">
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                    onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');"
+                >
+                    Delete My Account
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

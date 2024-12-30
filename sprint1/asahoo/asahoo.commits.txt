@@ -1,0 +1,339 @@
+All of the following files are in the directory RockyTop-Transit-Link/sprint1/asahoo/
+
+asahooHTML.html 
+
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   1) <!DOCTYPE html>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   2) <html lang="en">
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   3) 	<head>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   4) 		<meta charset="UTF-8" />
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   5) 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400   6) 		<meta
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400   7) 			name="description"
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400   8) 			content="Efficient public transit at your fingertips with Rocky Top Transit Link."
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400   9) 		/>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  10) 		<title>Rocky Top Transit Link</title>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  11) 		<link rel="stylesheet" href="asahooCSS.css" />
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  12) 		<link rel="icon" href="path/to/favicon.ico" />
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  13) 		<!-- Add a favicon -->
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  14) 		<script defer src="asahooscripts.js"></script>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  15) 	</head>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  16) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  17) 	<body>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  18) 		<header>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  19) 			<!-- Navbar -->
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  20) 			<nav id="navbar" aria-label="Main Navigation">
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  21) 				<ul>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  22) 					<li><a href="#" aria-label="Home">Home</a></li>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  23) 					<li><a href="#" aria-label="Routes">Routes</a></li>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  24) 					<li><a href="#" aria-label="Schedules">Schedules</a></li>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  25) 					<li><a href="#" aria-label="About">About</a></li>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  26) 					<li><a href="#" aria-label="Contact">Contact</a></li>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  27) 				</ul>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  28) 			</nav>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  29) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  30) 			<!-- Basic Header Section -->
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  31) 			<header class="hero-section">
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  32) 				<h1>Rocky Top Transit Link</h1>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  33) 				<p>Efficient Public Transit at Your Fingertips</p>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  34) 			</header>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  35) 		</header>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  36) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  37) 		<!-- Main content -->
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  38) 		<main>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  39) 			<!-- Login Section -->
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  40) 			<section id="login-section">
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  41) 				<h2>Login</h2>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  42) 				<form id="login-form">
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  43) 					<label for="username">Username/Email:</label>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  44) 					<input
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  45) 						type="text"
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  46) 						id="username"
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  47) 						name="username"
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  48) 						placeholder="Enter your username or email"
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  49) 						required
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  50) 					/>
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  51) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  52) 					<label for="password">Password:</label>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  53) 					<input
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  54) 						type="password"
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  55) 						id="password"
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  56) 						name="password"
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  57) 						placeholder="Enter your password"
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  58) 						required
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  59) 					/>
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  60) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  61) 					<button type="submit">Login</button>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  62) 				</form>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  63) 			</section>
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  64) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  65) 			<!-- Location Input Section -->
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  66) 			<section id="location-section">
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  67) 				<h2>Plan Your Journey</h2>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  68) 				<form id="location-form">
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  69) 					<label for="current-location">Current Location:</label>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  70) 					<input
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  71) 						type="text"
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  72) 						id="current-location"
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  73) 						placeholder="Enter your current location"
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  74) 					/>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  75) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  76) 					<label for="destination">Destination:</label>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  77) 					<input
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  78) 						type="text"
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  79) 						id="destination"
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  80) 						placeholder="Enter your destination"
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  81) 					/>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  82) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  83) 					<button type="submit">Find Routes</button>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  84) 				</form>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  85) 			</section>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  86) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  87) 			<!-- Suggested Routes Section -->
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  88) 			<section id="routes-section">
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  89) 				<h2>Suggested Routes</h2>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  90) 				<ul id="routes-list">
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  91) 					<!-- Routes will be dynamically inserted here via JavaScript -->
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  92) 				</ul>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  93) 			</section>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  94) 		</main>
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  95) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  96) 		<!-- Footer -->
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  97) 		<footer>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  98) 			<p>&copy; 2024 Rocky Top Transit Link. All Rights Reserved.</p>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  99) 		</footer>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 100) 	</body>
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 101) </html>
+
+asahooCSS.css
+
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   1) /* Basic Structure */
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   2) html,
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   3) body {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   4) 	height: 100%;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   5) 	margin: 0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   6) 	padding: 0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   7) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   8) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400   9) body {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  10) 	font-family: Arial, sans-serif;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  11) 	background-color: #f9f9f9;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  12) 	display: flex;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  13) 	flex-direction: column; /* Prevents shrinking */
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  14) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  15) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  16) /* Navbar */
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  17) #navbar {
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  18) 	background-color: #333;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  19) 	padding: 10px;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  20) }
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  21) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  22) #navbar ul {
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  23) 	list-style-type: none;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  24) 	margin: 0;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  25) 	padding: 0;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  26) 	display: flex;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  27) 	justify-content: space-around;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  28) }
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  29) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  30) #navbar ul li a {
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  31) 	color: white;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  32) 	text-decoration: none;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  33) 	padding: 10px 20px;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  34) 	display: block;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  35) 	transition: background-color 0.3s ease;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  36) }
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  37) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  38) #navbar ul li a:hover {
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  39) 	background-color: #575757;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  40) }
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  41) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  42) /* Hero Section */
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  43) .hero-section {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  44) 	text-align: center;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  45) 	background-color: #007bff;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  46) 	color: white;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  47) 	padding: 50px 0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  48) 	flex-shrink: 0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  49) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  50) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  51) .hero-section h1 {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  52) 	margin: 0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  53) 	font-size: 3em;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  54) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  55) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  56) .hero-section p {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  57) 	margin: 10px 0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  58) 	font-size: 1.2em;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  59) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  60) 
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  61) /* Login Section */
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  62) #login-section {
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  63) 	margin: 40px auto;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  64) 	width: 300px;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  65) 	padding: 30px;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  66) 	background-color: #fff;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  67) 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  68) 	border-radius: 10px;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  69) }
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  70) 
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  71) #login-form {
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  72) 	display: flex;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  73) 	flex-direction: column;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  74) }
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  75) 
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  76) #login-form label,
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  77) #login-form input {
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  78) 	margin-bottom: 10px;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  79) }
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  80) 
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  81) #login-form button {
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  82) 	padding: 12px 25px;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  83) 	background-color: #007bff;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  84) 	color: white;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  85) 	border: none;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  86) 	cursor: pointer;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  87) 	border-radius: 6px;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  88) 	box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  89) 	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  90) }
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  91) 
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  92) #login-form button:hover {
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  93) 	background-color: #0056b3;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  94) 	box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  95) }
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400  96) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  97) /* Main Content */
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  98) main {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400  99) 	flex-grow: 1; /* Ensure main section takes up remaining space */
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 100) 	display: flex;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 101) 	flex-direction: column;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 102) 	justify-content: center; /* Centers content vertically */
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 103) }
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 104) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 105) /* Location Input Section */
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 106) #location-section {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 107) 	padding: 20px;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 108) 	text-align: center;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 109) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 110) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 111) #location-section h2 {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 112) 	margin-bottom: 20px;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 113) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 114) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 115) #location-form {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 116) 	display: flex;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 117) 	flex-direction: column;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 118) 	align-items: center;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 119) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 120) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 121) #location-form input {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 122) 	margin: 10px 0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 123) 	padding: 10px;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 124) 	width: 80%;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 125) 	max-width: 400px;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 126) 	border: 1px solid #ccc;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 127) 	border-radius: 5px;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 128) 	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 129) }
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 130) 
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 131) #location-form input:focus {
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 132) 	border-color: #007bff;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 133) 	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 134) 	outline: none;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 135) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 136) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 137) #location-form button {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 138) 	padding: 10px 20px;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 139) 	background-color: #007bff;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 140) 	color: white;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 141) 	border: none;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 142) 	border-radius: 6px;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 143) 	cursor: pointer;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 144) 	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 145) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 146) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 147) #location-form button:hover {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 148) 	background-color: #0056b3;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 149) 	box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 150) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 151) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 152) /* Suggested Routes Section */
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 153) #routes-section {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 154) 	padding: 20px;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 155) 	text-align: center;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 156) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 157) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 158) #routes-list {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 159) 	list-style-type: none;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 160) 	padding: 0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 161) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 162) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 163) #routes-list li {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 164) 	background-color: #fff;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 165) 	margin: 10px 0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 166) 	padding: 15px;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 167) 	border: 1px solid #ddd;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 168) 	border-radius: 5px;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 169) 	transition: background-color 0.3s ease;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 170) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 171) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 172) #routes-list li:hover {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 173) 	background-color: #f0f0f0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 174) }
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 175) 
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 176) /* Footer */
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 177) footer {
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 178) 	text-align: center;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 179) 	padding: 30px;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 180) 	width: 100%;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 181) 	background-color: #333;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 182) 	color: white;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 183) 	position: relative;
+6f199659 (anantsahoo03 2024-10-02 20:59:43 -0400 184) 	bottom: 0;
+a5512f0c (anantsahoo03 2024-10-02 20:34:31 -0400 185) }
+
+asahooscripts.js
+
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  1) document.addEventListener("DOMContentLoaded", () => {
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  2) 	/* Get references to the form and routes list */
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  3) 	const form = document.getElementById("location-form");
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  4) 	const routesList = document.getElementById("routes-list");
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  5) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  6) 	form.addEventListener("submit", (event) => {
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  7) 		event.preventDefault();
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  8) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400  9) 		/* Get the current location and destination inputs */
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 10) 		const currentLocation = document
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 11) 			.getElementById("current-location")
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 12) 			.value.trim();
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 13) 		const destination = document.getElementById("destination").value.trim();
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 14) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 15) 		/* Clear previous routes */
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 16) 		routesList.innerHTML = "";
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 17) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 18) 		/* Check if inputs are valid else stop execution if inputs are invalid */
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 19) 		if (!currentLocation || !destination) {
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 20) 			alert("Please enter both current location and destination.");
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 21) 			return;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 22) 		}
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 23) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 24) 		/* Mock function to generate suggested routes based on input */
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 25) 		const generateRoutes = (from, to) => {
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 26) 			return [
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 27) 				`Bus 12: From ${from} to ${to}`,
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 28) 				`Bus 20: From ${from} to ${to}`,
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 29) 				`Bus 7: From ${from} to ${to}`,
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 30) 			];
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 31) 		};
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 32) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 33) 		/* Get suggested routes */
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 34) 		const suggestedRoutes = generateRoutes(currentLocation, destination);
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 35) 
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 36) 		/* Display suggested routes */
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 37) 		suggestedRoutes.forEach((route) => {
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 38) 			const li = document.createElement("li");
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 39) 			li.textContent = route;
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 40) 			routesList.appendChild(li);
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 41) 		});
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 42) 	});
+fc3e53a9 (anantsahoo03 2024-10-02 21:59:11 -0400 43) });

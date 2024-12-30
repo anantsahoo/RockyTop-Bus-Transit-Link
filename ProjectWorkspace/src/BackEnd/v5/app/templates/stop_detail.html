@@ -1,0 +1,80 @@
+<!-- templates/stop_detail.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ bus_stop.stop_name }} - Details{% endblock %}
+
+{% block styles %}
+<!-- Include Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ bus_stop.stop_name }} (ID: {{ bus_stop.stop_id }})</h1>
+    
+    <!-- Embedded Map -->
+    <div id="map" class="map mb-4" style="height: 400px;"></div>
+    
+    <!-- Bus Stop Details -->
+    <div class="details mb-4">
+        <h3>Bus Stop Details</h3>
+        <p><strong>Location:</strong> Latitude: {{ bus_stop.location.latitude }}, Longitude: {{ bus_stop.location.longitude }}</p>
+        <p><strong>Nearby Landmarks:</strong> 
+            {% if bus_stop.nearby_landmarks %}
+                {{ bus_stop.nearby_landmarks | join(', ') }}
+            {% else %}
+                N/A
+            {% endif %}
+        </p>
+        <p><strong>Accessibility:</strong> {{ bus_stop.accessibility }}</p>
+        <p><strong>Shelter Availability:</strong> {{ bus_stop.shelter_availability }}</p>
+        <p><strong>Recent Notices:</strong> {{ bus_stop.recent_notices }}</p>
+    </div>
+    
+    <!-- Upcoming Arrivals -->
+    <div class="arrivals mb-4">
+        <h3>Upcoming Arrivals</h3>
+        {% if bus_stop.upcoming_arrivals %}
+            <ul class="list-group">
+                {% for arrival in bus_stop.upcoming_arrivals %}
+                    <li class="list-group-item">
+                        <strong>Bus {{ arrival.bus_number }}</strong> to {{ arrival.destination }} arriving at {{ arrival.arrival_time }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No upcoming arrivals at this time.</p>
+        {% endif %}
+    </div>
+    
+    <!-- Bus Routes -->
+    <div class="routes mb-4">
+        <h3>Bus Routes Serving This Stop</h3>
+        <ul class="list-group">
+            {% for route in bus_stop.bus_routes %}
+                <li class="list-group-item">Route {{ route }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <a href="{{ url_for('main.map_view') }}" class="btn btn-secondary">Back to Map</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Initialize the map
+    var map = L.map('map').setView([{{ bus_stop.location.latitude }}, {{ bus_stop.location.longitude }}], 15);
+    
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    
+    // Add a marker for the bus stop
+    var marker = L.marker([{{ bus_stop.location.latitude }}, {{ bus_stop.location.longitude }}]).addTo(map);
+    marker.bindPopup("<b>{{ bus_stop.stop_name }}</b><br>ID: {{ bus_stop.stop_id }}").openPopup();
+</script>
+{% endblock %}

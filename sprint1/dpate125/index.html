@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<button onclick="showFavoritesList()", id="open-favorite-list">Favorites List</button>
+<button onclick="showHistory()", id="open-history">History</button>
+
+<div class="container", id="slide-out-favorite">
+    <div class="favorites-list">
+        <h2>Favorites List </h2> 
+        <div class="row">
+            <input type="text", id="input-box" placeholder="Enter a bus stop name">
+            <button onclick="addTask()", id="add-bus-stop">Add</button>
+        </div>
+        <ul id="list-container">
+        </ul>
+    </div>
+</div>
+<div class="history-container", id="slide-out-history">
+    <div class="history">
+        <h2>History</h2>
+        <ul id="history-list">
+            <li class="placeholder">History Item 1</li>
+            <li class="placeholder">History Item 2</li>
+            <li class="placeholder">History Item 3</li>
+            <li class="placeholder">History Item 4</li>
+        </ul>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

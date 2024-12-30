@@ -1,0 +1,244 @@
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/FrontEnd/CSS
+
+sprint2.css
+
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 226) #list-container li{
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 227) 	position: relative;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 228) 	/* color: #ccc1cc;   */
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 229)     border-bottom: 1px dashed #ccc; 
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 230)     padding: 10px;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 231)     margin: 5px 0;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 232) }
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 233) #history-list li {
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 234)     /* color: #ccc1cc;  */
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 235)     border-bottom: 1px dashed #ccc; 
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 236)     padding: 10px;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 237)     margin: 5px 0;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 238) }
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 239) #list-container li span{
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 240)     position: absolute;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 241)     right: 0;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 242)     top: -10%;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 243)     width: 40px;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 244)     height: 40px;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 245)     font-size: 22px;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 246)     color: #555;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 247)     line-height: 40px;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 248)     text-align: center;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 249)     border-radius: 50%;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 250) }
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 251) 
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 252) ul li span:hover{
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 253)     background: #edeef0;
+1a591657 (Deep0320     2024-10-17 18:40:27 -0400 254) }
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/FrontEnd/js
+
+sprint2.js
+
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  13) 		document.getElementById("current-location").value = ""
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  14) 		document.getElementById("destination").value = "";
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400  22) 		// send routing information to the backend
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  24) 			const dataToSend = {
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  25) 				locationToSend : from,
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  26) 				destinationToSend: to
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  27) 			}
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  28) 			
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  29) 			url = 'http://127.0.0.1:5000/send-route-info'
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  30) 			fetch(url, {
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  31) 				method: 'POST', 
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  32) 				headers: {
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  33) 				'Content-Type': 'application/json', 
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  34) 				},
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  35) 				body: JSON.stringify(dataToSend) 
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  36) 			})
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  37) 			.then(response => {
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  38) 				if (!response.ok) {
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  39) 				throw new Error('Network response was not ok');
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  40) 				}
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  41) 				return response.json(); 
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  42) 			})
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  43) 			.then(data => {
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  44) 				if (data.success){
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  45) 					// need to work with backend to figure out what is needed to be returned
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  46) 					console.log('Success'); 
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  47) 				}
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  48) 				else{
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  49) 					console.log('Error');
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  50) 				}
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  51) 			})
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  52) 			.catch(error => {
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  53) 				console.error('There was a problem with the fetch operation:', error); 
+068fc523 (Deep0320     2024-10-16 22:34:06 -0400  54) 			});
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 137) /* Adds items to the history based on the user's account*/
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 139) 	const historyList = document.getElementById("history-list");
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 143) 	url = 'http://127.0.0.1:5000/get-history'
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 144) 	fetch(url)
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 145) 	.then(response => {
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 146) 		if (!response.ok) {
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 147) 		throw new Error('Network response was not ok');
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 148) 		}
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 149) 		return response.json(); 
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 150) 	})
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 151) 	.then(data => {
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 152) 		if (data.success){
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 153) 			console.log('Success'); 
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 154) 			/* Loop through the data and append items to the history list */
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 155) 			data.list.forEach((item) => {
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 156) 				const li = document.createElement("li");
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 157) 				li.textContent = item;
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 158) 				historyList.appendChild(li);
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 159) 			});
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 160) 		}
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 161) 		else{
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 162) 			console.log('No History Found');
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 163) 			for (let i = 1; i < 5; i++){
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 164) 				const li = document.createElement("li");
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 165) 				li.textContent = "Placeholder " + i;
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 166) 				historyList.appendChild(li);
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 167) 			}
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 168) 		}
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 169) 	})
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 170) 	.catch(error) => {
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 171) 		console.error('There was a problem with the fetch operation:', error); 
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 177) }
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 178) let latitude
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 179) let longitude
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 180) let id
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 181) // if location was found, then send it to the backend
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 182) const location_success = (position)=> {
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 183)     console.log(position);
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 184)     latitude = position.coords.latitude
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 185)     longitude = position.coords.longitude
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 186)     const dataToSend = {
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 187)         latitude: latitude,
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 188)         longitude: longitude
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 189)     };
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 190) 	url = 'http://127.0.0.1:5000/send-real-time-location'
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 191) 	fetch(url, {
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 192) 		method: 'POST', // Send a POST request
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 193) 		headers: {
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 194) 		  'Content-Type': 'application/json', // Specify that we are sending JSON
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 195) 		},
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 196) 		body: JSON.stringify(dataToSend) // Convert JavaScript object to JSON
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 197) 	  })
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 198) 	  .then(response => {
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 199) 		if (!response.ok) {
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 200) 		  throw new Error('Network response was not ok');
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 201) 		}
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 202) 		return response.json(); // Parse JSON from the response
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 203) 	  })
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 204) 	  .then(data => {
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 205) 		// Handle the JSON response from Flask
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 206) 		if (data.success){
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 207) 			// need to work with backend to figure out what is needed to be returned
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 208) 			console.log('Success'); 
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 209) 		}
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 210) 		else{
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 211) 			console.log('Error');
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 212) 		}
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 213) 	  })
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 214) 	  .catch(error => {
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 215) 		console.error('There was a problem with the fetch operation:', error); 
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 216) 	  });
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 217) };
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 218) // if location couldn't be found then give reason why
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 219) const location_error = (error) => {
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 220)     console.log(error);
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 221)     if (error.code === 1){
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 222)         alert("Please enable location permissions to allow real-time location access")
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 223)     }
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 224)     else if(error.code === 2){
+4166b64c (Deep0320     2024-10-16 21:46:28 -0400 225)         alert("Unknown error occurred while getting location")
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 226)     }
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 227)     else if (error.code === 3){
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 228)         alert("Timeout occured while getting location, please reload")
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 229)     }
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 230) }
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 231) const location_options = {
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 232)     enableHighAccuracy: true,
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 233)     timeout: 2000
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 234) }
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 235) // get the user's location
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 236) if (navigator.geolocation){
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 237)     id = navigator.geolocation.watchPosition(location_success, location_error, location_options);
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 238) 	// use when switching off of the map page
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 239) 	// navigator.geolocation.clearWatch(id);
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 240) }
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 241) else{
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 242)     console.log("Geolocation is not supported by this browser.");
+fb96e880 (Deep0320     2024-10-16 21:04:23 -0400 243) }
+6cc7ca61 (Deep0320     2024-10-16 23:47:25 -0400 288) 
+bf3d3f68 (Deep0320     2024-10-17 17:42:20 -0400 289) // Make the slide-outs disappear when cursor is no longer pointing at them
+6cc7ca61 (Deep0320     2024-10-16 23:47:25 -0400 290) const favorites = document.getElementById('slide-out-favorite');
+6cc7ca61 (Deep0320     2024-10-16 23:47:25 -0400 291) favorites.addEventListener('mouseleave', function() {
+6cc7ca61 (Deep0320     2024-10-16 23:47:25 -0400 292) 	favorites.style.width = "0";
+6cc7ca61 (Deep0320     2024-10-16 23:47:25 -0400 293) });
+6cc7ca61 (Deep0320     2024-10-16 23:47:25 -0400 294) 
+6cc7ca61 (Deep0320     2024-10-16 23:47:25 -0400 295) const historySlideIn = document.getElementById('slide-out-history');
+6cc7ca61 (Deep0320     2024-10-16 23:47:25 -0400 296) historySlideIn.addEventListener('mouseleave', function() {
+6cc7ca61 (Deep0320     2024-10-16 23:47:25 -0400 297) 	historySlideIn.style.width = "0";
+6cc7ca61 (Deep0320     2024-10-16 23:47:25 -0400 298) });
+
+
+This file is in the directory RockyTop-Transit-Link/ProjectWorkspace/src/BackEnd/v3/app/templates
+
+stop_detail.html
+
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400  1) {% extends "base.html" %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400  2) 
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400  3) {% block title %}Stop Details{% endblock %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400  4) 
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400  5) {% block navbar %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400  6) <nav class="navbar navbar-expand-lg navbar-light bg-light">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400  7)     <div class="container-fluid">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400  8)         <a class="navbar-brand" href="{{ url_for('main.map_view') }}">My Bus App</a>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400  9)         <div class="collapse navbar-collapse justify-content-end">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 10)             <ul class="navbar-nav">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 11)                 {% if current_user.is_authenticated %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 12)                     <li class="nav-item">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 13)                         <a class="nav-link" href="{{ url_for('main.settings') }}">Settings</a>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 14)                     </li>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 15)                     <li class="nav-item">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 16)                         <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 17)                     </li>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 18)                 {% else %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 19)                     <li class="nav-item">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 20)                         <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 21)                     </li>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 22)                     <li class="nav-item">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 23)                         <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 24)                     </li>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 25)                 {% endif %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 26)             </ul>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 27)         </div>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 28)     </div>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 29) </nav>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 30) {% endblock %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 31) 
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 32) {% block content %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 33) <div class="container mt-3">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 34)     <h1>Stop Details</h1>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 35)     <h3>{{ stop['stop_name'] }}</h3>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 36)     <p><strong>Stop ID:</strong> {{ stop['stop_id'] }}</p>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 37)     <p><strong>Latitude:</strong> {{ stop['stop_lat'] }}</p>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 38)     <p><strong>Longitude:</strong> {{ stop['stop_lon'] }}</p>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 39) 
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 40)     <h4>Routes Serving This Stop</h4>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 41)     {% if routes %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 42)     <ul class="list-group">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 43)         {% for route in routes %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 44)         <li class="list-group-item">
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 45)             <strong>Route ID:</strong> {{ route['route_id'] }}<br>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 46)             <strong>Short Name:</strong> {{ route['route_short_name'] }}<br>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 47)             <strong>Long Name:</strong> {{ route['route_long_name'] }}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 48)         </li>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 49)         {% endfor %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 50)     </ul>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 51)     {% else %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 52)     <p>No routes available for this stop.</p>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 53)     {% endif %}
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 54) 
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 55)     <a href="{{ url_for('main.map_view') }}" class="btn btn-primary mt-3">Back to Map</a>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 56) </div>
+899d0b71 (Deep0320 2024-10-16 20:20:03 -0400 57) {% endblock %}
